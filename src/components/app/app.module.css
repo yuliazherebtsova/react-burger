@@ -1,0 +1,6 @@
+.main {
+  margin: 0 auto;
+  max-width: 1240px;
+  background-color: var(--main-background);
+  color: aliceblue;
+}

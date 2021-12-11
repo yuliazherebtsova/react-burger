@@ -1,0 +1,41 @@
+.header {
+  margin: 0 auto;
+  max-width: var(--max-width-desktop);
+  background-color: var(--header-background);
+}
+
+.headerContainer {
+  margin: 0 auto;
+  width: 100%;
+  max-width: var(--max-width-header-desktop);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.navigationList {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+}
+
+.navigationButton {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.navigationButton:hover {
+  opacity: 0.8;
+}
+
+.logo {
+  margin: 0 190px 0 112px;
+}

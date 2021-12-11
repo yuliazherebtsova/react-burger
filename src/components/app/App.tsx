@@ -7,12 +7,16 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import data from "../../utils/data";
 
 function App() {
   return (
     <>
       <AppHeader />
-      <main className={appStyles.main}>Hello React Burgers</main>
+      <main className={appStyles.main}>
+        <BurgerIngredients data={data} />
+      </main>
     </>
   );
 }

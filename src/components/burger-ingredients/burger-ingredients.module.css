@@ -1,4 +1,17 @@
 .ingredientsContainer {
   width: 50%;
-  border: 1px solid wheat;
+  border: 1px solid blueviolet;
+}
+
+.tabContainer {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+}
+
+.ingredientsList {
+  max-height: 50vh;
+  overflow: auto;
 }

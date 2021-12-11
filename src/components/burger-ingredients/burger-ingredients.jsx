@@ -27,12 +27,12 @@ function BurgerIngredients({ data }) {
   const ingredientsByType = getIngredientsByType();
 
   return (
-    <section className={ingredientsStyles.ingredientsContainer}>
+    <section className={ingredientsStyles.ingredients__container}>
       <h1 className={"text text_type_main-large mt-10 mb-5"}>
         Соберите бургер
       </h1>
       <nav>
-        <ul className={ingredientsStyles.tabContainer}>
+        <ul className={ingredientsStyles.tab__container}>
           {Object.values(ingredientTypes).map((tab, index) => (
             <li key={index}>
               <Tab
@@ -46,13 +46,20 @@ function BurgerIngredients({ data }) {
           ))}
         </ul>
       </nav>
-      <section className={ingredientsStyles.ingredientsList}>
-        {ingredientsByType.map(({name, items}) => (
+      <section className={`${ingredientsStyles.ingredients__list} pr-4 pl-4`}>
+        {ingredientsByType.map(({ name, items }, index) => (
           <>
-            <h2 className="text text_type_main-medium">{name}</h2>
-            <ul>
+            <h2 className="text text_type_main-medium mt-10 mb-6" key={index}>
+              {name}
+            </h2>
+            <ul className={`${ingredientsStyles.ingredient__category} pr-4 pl-4`}>
               {items.map((item) => (
-                <BurgerIngredient data={item} />
+                <BurgerIngredient
+                  id={item._id}
+                  name={item.name}
+                  price={item.price}
+                  image={item.image}
+                />
               ))}
             </ul>
           </>

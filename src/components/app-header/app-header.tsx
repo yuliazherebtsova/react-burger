@@ -10,12 +10,12 @@ import {
 function AppHeader() {
   return (
     <header className={headerStyles.header}>
-      <div className={`${headerStyles.headerContainer} pt-4 pb-4`}>
+      <div className={`${headerStyles.header__container} pt-4 pb-4`}>
         <nav>
-          <ul className={headerStyles.navigationList}>
+          <ul className={headerStyles.navigation__list}>
             <li>
               <button
-                className={`${headerStyles.navigationButton} pt-4 pr-5 pb-4 pl-5`}
+                className={`${headerStyles.navigation__button} pt-4 pr-5 pb-4 pl-5`}
               >
                 <BurgerIcon type="primary" />
                 <p className="text text text_type_main-default ml-2">
@@ -25,7 +25,7 @@ function AppHeader() {
             </li>
             <li>
               <button
-                className={`${headerStyles.navigationButton} pt-4 pr-5 pb-4 pl-5`}
+                className={`${headerStyles.navigation__button} pt-4 pr-5 pb-4 pl-5`}
               >
                 <ListIcon type="secondary" />
                 <p className="text text text_type_main-default text_color_inactive ml-2">
@@ -40,7 +40,7 @@ function AppHeader() {
             </li>
             <li>
               <button
-                className={`${headerStyles.navigationButton} pt-4 pr-5 pb-4 pl-5`}
+                className={`${headerStyles.navigation__button} pt-4 pr-5 pb-4 pl-5`}
               >
                 <ProfileIcon type="secondary" />
                 <p className="text text text_type_main-default text_color_inactive ml-2">

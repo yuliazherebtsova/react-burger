@@ -7,14 +7,20 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function BurgerIngredient({ id, image, price, name }) {
+  console.log({ id, image, price, name });
   return (
-    <li className={ingredientStyles.ingredient} key={id}>
+    <li className={`${ingredientStyles.ingredient__сard} mb-8`} key={id}>
       <img src={image} alt={name} />
       <Counter count={1} size="default" />
-      <span>
-        {price} <CurrencyIcon />
-      </span>
-      <p>{name}</p>
+      <div className={`${ingredientStyles.price__сontainer} mt-2 mb-2`}>
+        <p className={"text text_type_digits-default mr-2"}>{price}</p>
+        <CurrencyIcon />
+      </div>
+      <p
+        className={`${ingredientStyles.name} text text text_type_main-default`}
+      >
+        {name}
+      </p>
     </li>
   );
 }

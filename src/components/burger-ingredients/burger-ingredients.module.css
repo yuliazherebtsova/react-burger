@@ -1,17 +1,26 @@
-.ingredientsContainer {
+.ingredients__container {
   width: 50%;
   border: 1px solid blueviolet;
 }
 
-.tabContainer {
+.tab__container {
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   list-style: none;
 }
 
-.ingredientsList {
-  max-height: 50vh;
+.ingredients__list {
+  max-height: 80vh;
   overflow: auto;
+}
+
+.ingredient__category {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
 }

@@ -4,7 +4,7 @@
   background-color: var(--header-background);
 }
 
-.headerContainer {
+.header__container {
   margin: 0 auto;
   width: 100%;
   max-width: var(--max-header-width-desktop);
@@ -13,7 +13,7 @@
   justify-content: space-between;
 }
 
-.navigationList {
+.navigation__list {
   margin: 0;
   padding: 0;
   display: flex;
@@ -21,7 +21,7 @@
   list-style: none;
 }
 
-.navigationButton {
+.navigation__button {
   display: flex;
   padding: 0;
   margin: 0;
@@ -32,7 +32,7 @@
   font: inherit;
 }
 
-.navigationButton:hover {
+.navigation__button:hover {
   opacity: 0.8;
 }
 

@@ -1,4 +1,5 @@
 .header {
+  margin: 0 auto;
   max-width: var(--max-width-desktop);
   background-color: var(--header-background);
 }

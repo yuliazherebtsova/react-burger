@@ -1,9 +1,3 @@
-/***
- * * TODO:
- * * 1. Скроллбар стилизовать
- * * 2. BurgerConstructor
- */
-
 import appStyles from "./app.module.css";
 import data from "../../utils/data";
 import AppHeader from "../app-header/app-header";

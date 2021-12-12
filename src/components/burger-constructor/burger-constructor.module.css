@@ -1,21 +1,26 @@
 .constructor__container {
-  border: 1px solid blueviolet;
   display: flex;
   flex-direction: column;
 }
 
-.constructor__bun {
+.constructor__bunTop {
   display: flex;
   justify-content: flex-end;
   margin-bottom: auto;
   cursor: pointer;
 }
 
+.constructor__bunBottom {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  cursor: pointer;
+}
+
 .constructor__fillerList {
   margin: 0;
   padding: 0;
-  list-style: none;
-  max-height: calc(100vh - 550px);
+  max-height: calc(100vh - 520px);
   overflow-y: scroll;
   overflow-x: hidden;
 }

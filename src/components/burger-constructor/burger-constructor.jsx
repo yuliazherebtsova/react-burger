@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
+import appStyles from "../app/app.module.css";
 import {
   ConstructorElement,
   DragIcon,
@@ -9,20 +10,19 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function BurgerConstructor({ data }) {
-  const [isLocked, setIsLocked] = React.useState(false);
 
   const getBun = (type, { name, price, image }) => {
     return (
       <div
         className={
           type === "top"
-            ? `${constructorStyles.constructor__bun} mr-2 pb-4`
-            : `${constructorStyles.constructor__bun} mr-2 pt-4`
+            ? `${constructorStyles.constructor__bunTop} mr-4`
+            : `${constructorStyles.constructor__bunBottom} mr-4`
         }
       >
         <ConstructorElement
           type={type}
-          isLocked={isLocked}
+          isLocked={true}
           text={name}
           price={price}
           thumbnail={image}
@@ -39,7 +39,6 @@ function BurgerConstructor({ data }) {
       >
         <DragIcon type={"primary"} />
         <ConstructorElement
-          isLocked={isLocked}
           text={name}
           price={price}
           thumbnail={image}
@@ -58,20 +57,19 @@ function BurgerConstructor({ data }) {
       className={`${constructorStyles.constructor__container} pt-25 pb-10 pl-4`}
     >
       {getBun("top", demoBun)}
-      <ul className={constructorStyles.constructor__fillerList}>
+      <ul
+        className={`${constructorStyles.constructor__fillerList} ${appStyles.scroll}`}
+      >
         {demoFillers.map((filler) => getFilling(filler))}
       </ul>
       {getBun("bottom", demoBun)}
-      <div className={`${constructorStyles.constructor__totalContainer} mt-10 mr-2`}>
+      <div
+        className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
+      >
         <div className={`${constructorStyles.constructor__totalPrice} mr-10`}>
-          <p
-            className="text text_type_digits-medium mr-2"
-          >
-            610
-          </p>
+          <p className="text text_type_digits-medium mr-2">610</p>
           <CurrencyIcon />
         </div>
-
         <Button type="primary" size="medium">
           Оформить заказ
         </Button>

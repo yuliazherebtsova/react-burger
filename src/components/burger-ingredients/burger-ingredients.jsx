@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ingredientsStyles from "./burger-ingredients.module.css";
+import appStyles from "../app/app.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
@@ -46,7 +47,9 @@ function BurgerIngredients({ data }) {
           ))}
         </ul>
       </nav>
-      <section className={`${ingredientsStyles.ingredients__list} pr-4 pl-4`}>
+      <section
+        className={`${ingredientsStyles.ingredients__list} ${appStyles.scroll} pr-4 pl-4`}
+      >
         {ingredientsByType.map(({ name, items }, index) => (
           <>
             <h2 className="text text_type_main-medium mt-10 mb-6" key={index}>

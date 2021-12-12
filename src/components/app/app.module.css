@@ -6,3 +6,12 @@
   grid-template-columns: 1fr 1fr;
   column-gap: 40px;
 }
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
+}

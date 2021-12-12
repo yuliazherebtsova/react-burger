@@ -6,14 +6,7 @@
  * * 4. Навигация по табам скроллом
  */
 
-import React from "react";
 import appStyles from "./app.module.css";
-import {
-  Logo,
-  BurgerIcon,
-  ListIcon,
-  ProfileIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import data from "../../utils/data";

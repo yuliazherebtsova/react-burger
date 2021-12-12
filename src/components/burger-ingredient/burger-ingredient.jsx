@@ -6,7 +6,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function BurgerIngredient({ id, image, price, name }) {
-  console.log({ id, image, price, name });
   return (
     <li className={`${ingredientStyles.ingredient__сard} mb-8`} key={id}>
       <img src={image} alt={name} />

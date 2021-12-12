@@ -8,7 +8,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function AppHeader() {
-
   return (
     <header className={headerStyles.header}>
       <div className={`${headerStyles.header__container} pt-4 pb-4`}>

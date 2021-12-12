@@ -1,3 +1,11 @@
+/***
+ * * TODO:
+ * * 1. Скроллбар
+ * * 2. BurgerConstructor
+ * * 3. Навигация по табам
+ * * 4. Навигация по табам скроллом
+ */
+
 import React from "react";
 import appStyles from "./app.module.css";
 import {

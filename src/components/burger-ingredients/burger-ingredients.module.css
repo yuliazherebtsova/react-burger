@@ -3,7 +3,7 @@
   border: 1px solid blueviolet;
 }
 
-.tab__container {
+.ingredients__tabContainer {
   margin: 0;
   padding: 0;
   display: flex;
@@ -14,7 +14,8 @@
 
 .ingredients__list {
   max-height: calc(100vh - 250px) !important;
-  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .ingredient__category {

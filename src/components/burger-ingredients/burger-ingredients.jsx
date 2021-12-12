@@ -32,7 +32,7 @@ function BurgerIngredients({ data }) {
         Соберите бургер
       </h1>
       <nav>
-        <ul className={ingredientsStyles.tab__container}>
+        <ul className={ingredientsStyles.ingredients__tabContainer}>
           {Object.values(ingredientTypes).map((tab, index) => (
             <li key={index}>
               <Tab
@@ -52,7 +52,9 @@ function BurgerIngredients({ data }) {
             <h2 className="text text_type_main-medium mt-10 mb-6" key={index}>
               {name}
             </h2>
-            <ul className={`${ingredientsStyles.ingredient__category} pr-4 pl-4`}>
+            <ul
+              className={`${ingredientsStyles.ingredient__category} pr-4 pl-4`}
+            >
               {items.map((item) => (
                 <BurgerIngredient
                   id={item._id}

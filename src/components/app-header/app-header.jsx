@@ -1,3 +1,4 @@
+import React from "react";
 import headerStyles from "./app-header.module.css";
 import {
   Logo,
@@ -7,6 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function AppHeader() {
+
   return (
     <header className={headerStyles.header}>
       <div className={`${headerStyles.header__container} pt-4 pb-4`}>
@@ -32,8 +34,8 @@ function AppHeader() {
                 </p>
               </button>
             </li>
-            <li>
-              <a href="#" className={headerStyles.logo}>
+            <li className={headerStyles.header__logo}>
+              <a href="#">
                 <Logo />
               </a>
             </li>

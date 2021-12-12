@@ -4,13 +4,19 @@
   flex-direction: column;
   align-items: center;
   list-style: none;
+  cursor: pointer;
 }
 
-.price__сontainer {
+.ingredient__сontainer {
   display: flex;
   justify-content: center;
 }
 
-.name {
+.ingredient__price {
+  display: flex;
+  flex-direction: row;
+}
+
+.ingredient__name {
   text-align: center;
 }

@@ -54,7 +54,7 @@ function BurgerConstructor({ data }) {
 
   return (
     <section
-      className={`${constructorStyles.constructor__container} pt-25 pb-10 pl-4`}
+      className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
     >
       {getBun("top", demoBun)}
       <ul

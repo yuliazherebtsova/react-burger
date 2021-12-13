@@ -31,7 +31,7 @@ function BurgerConstructor({ data }) {
     );
   };
 
-  const getFilling = ({ _id, name, price, image }) => {
+  const getFiller = ({ _id, name, price, image }) => {
     return (
       <li
         className={`${constructorStyles.constructor__filler} mb-4 mr-2`}
@@ -60,7 +60,7 @@ function BurgerConstructor({ data }) {
       <ul
         className={`${constructorStyles.constructor__fillerList} ${appStyles.scroll}`}
       >
-        {demoFillers.map((filler) => getFilling(filler))}
+        {demoFillers.map((filler) => getFiller(filler))}
       </ul>
       {getBun("bottom", demoBun)}
       <div

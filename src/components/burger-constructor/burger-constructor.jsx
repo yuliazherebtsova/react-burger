@@ -11,7 +11,7 @@ import {
 
 function BurgerConstructor({ data }) {
 
-  const getBun = (type, { name, price, image }) => {
+  const createBunElement = (type, { name, price, image }) => {
     return (
       <div
         className={
@@ -31,7 +31,7 @@ function BurgerConstructor({ data }) {
     );
   };
 
-  const getFiller = ({ _id, name, price, image }) => {
+  const createFillerElement = ({ _id, name, price, image }) => {
     return (
       <li
         className={`${constructorStyles.constructor__filler} mb-4 mr-2`}
@@ -56,13 +56,13 @@ function BurgerConstructor({ data }) {
     <section
       className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
     >
-      {getBun("top", demoBun)}
+      {createBunElement("top", demoBun)}
       <ul
         className={`${constructorStyles.constructor__fillerList} ${appStyles.scroll}`}
       >
-        {demoFillers.map((filler) => getFiller(filler))}
+        {demoFillers.map((filler) => createFillerElement(filler))}
       </ul>
-      {getBun("bottom", demoBun)}
+      {createBunElement("bottom", demoBun)}
       <div
         className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
       >

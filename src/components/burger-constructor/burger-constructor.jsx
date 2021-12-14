@@ -10,7 +10,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function BurgerConstructor({ data, onOpen }) {
-
   const createBunElement = (type, { name, price, image }) => {
     return (
       <div
@@ -38,11 +37,7 @@ function BurgerConstructor({ data, onOpen }) {
         key={_id}
       >
         <DragIcon type={"primary"} />
-        <ConstructorElement
-          text={name}
-          price={price}
-          thumbnail={image}
-        />
+        <ConstructorElement text={name} price={price} thumbnail={image} />
       </li>
     );
   };
@@ -79,6 +74,7 @@ function BurgerConstructor({ data, onOpen }) {
 }
 
 const constructorPropTypes = PropTypes.shape({
+  onOpen: PropTypes.func.isRequired,
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,

@@ -3,6 +3,7 @@
  ** 2. Правки ревью
  ** 3. Наполнение модальных окон
  ** 4. Загрузка данных
+ ** 5. Анимация всплывающего окна
  */
 
 import React, { useState } from "react";
@@ -12,13 +13,19 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
+import OrderSummary from "../order-summary/order-summary";
 
 function App() {
   const [modalVisibility, setModaVisibility] = useState(true);
   const modalRef = React.createRef(); // forwardRef?
   const closeIconRef = React.createRef();
+  const [modalData, setModalData] = useState({ type: null, data: null });
 
-  const handleModalOpen = () => {
+  const handleModalOpen = ({ type, itemId }) => {
+    const modalData = null;
+    if (type === "ingredient")
+      itemData = data.find((item) => item._id === itemId);
+    setModalData({ type, itemData });
     setModaVisibility(true);
   };
 
@@ -35,14 +42,20 @@ function App() {
     <>
       <AppHeader />
       <main className={appStyles.main}>
-        <BurgerIngredients data={data} />
+        <BurgerIngredients data={data} onOpen={handleModalOpen} />
         <BurgerConstructor data={data} onOpen={handleModalOpen} />
         {modalVisibility && (
           <Modal
             modalRef={modalRef}
             closeIconRef={closeIconRef}
             onClose={handleModalClose}
-          ></Modal>
+          >
+            {modalData.type === "ingredient" ? (
+              IngredientInfo
+            ) : (
+              <OrderSummary />
+            )}
+          </Modal>
         )}
       </main>
     </>

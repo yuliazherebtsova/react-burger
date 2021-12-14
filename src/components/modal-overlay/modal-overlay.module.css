@@ -8,5 +8,4 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
-  transition: visibility 0.3s 0s, opacity 0.3s 0s linear;
 }

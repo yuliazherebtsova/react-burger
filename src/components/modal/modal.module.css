@@ -1,0 +1,22 @@
+.modal {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  width: 720px;
+  height: 718px;
+  background: var(--main-background);
+  box-shadow: rgba(76, 76, 255, 0.5) -5px 5px 250px 90px;
+  border: 2px solid #4c4cff;
+  border-radius: 40px;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+  transform: translate(-40px, 60px);
+  cursor: pointer;
+}

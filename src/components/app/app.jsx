@@ -14,6 +14,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import OrderSummary from "../order-summary/order-summary";
+import IngredientInfo from "../ingredient-info/ingredient-info";
 
 function App() {
   const [modalVisibility, setModaVisibility] = useState(true);
@@ -22,7 +23,7 @@ function App() {
   const [modalData, setModalData] = useState({ type: null, data: null });
 
   const handleModalOpen = ({ type, itemId }) => {
-    const modalData = null;
+    let itemData = null;
     if (type === "ingredient")
       itemData = data.find((item) => item._id === itemId);
     setModalData({ type, itemData });
@@ -51,7 +52,7 @@ function App() {
             onClose={handleModalClose}
           >
             {modalData.type === "ingredient" ? (
-              IngredientInfo
+              <IngredientInfo />
             ) : (
               <OrderSummary />
             )}

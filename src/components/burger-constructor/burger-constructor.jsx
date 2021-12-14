@@ -9,7 +9,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerConstructor({ data }) {
+function BurgerConstructor({ data, onOpen }) {
 
   const createBunElement = (type, { name, price, image }) => {
     return (
@@ -70,7 +70,7 @@ function BurgerConstructor({ data }) {
           <p className="text text_type_digits-medium mr-2">610</p>
           <CurrencyIcon />
         </div>
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={onOpen}>
           Оформить заказ
         </Button>
       </div>

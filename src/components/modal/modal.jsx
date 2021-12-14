@@ -6,10 +6,11 @@ import modalStyles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function Modal({ children, onClose, modalRef, closeIconRef }) {
-  const modal = document.getElementById("modal");
+  const portal = document.getElementById("react-portal");
 
   return ReactDOM.createPortal(
-    <ModalOverlay onClose={onClose}>
+    <>
+      <ModalOverlay onClose={onClose} />
       <div
         className={`${modalStyles.modal} pt-15 pr-10 pb-15 pl-10`}
         ref={modalRef}
@@ -19,8 +20,8 @@ function Modal({ children, onClose, modalRef, closeIconRef }) {
         </div>
         {children}
       </div>
-    </ModalOverlay>,
-    modal
+    </>,
+    portal
   );
 }
 

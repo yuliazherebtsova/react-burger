@@ -1,6 +1,11 @@
 .modal {
-  position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 720px;
   height: 718px;

@@ -3,15 +3,9 @@ import PropTypes from "prop-types";
 import overlayStyles from "./modal-overlay.module.css";
 
 function ModalOverlay({ children, onClose }) {
-  console.log("useEffectOverlay");
-
   useEffect(() => {
     const handleEscPress = (evt) => {
-      if (evt.key === "Escape") {
-        console.log(evt);
-        onClose(evt);
-        console.log("Ecs pressed");
-      }
+      if (evt.key === "Escape") onClose(evt);
     };
     document.addEventListener("keydown", handleEscPress);
     return () => document.removeEventListener("keydown", handleEscPress);

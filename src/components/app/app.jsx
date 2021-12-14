@@ -1,3 +1,10 @@
+/**
+ ** 1. Переключение вкладок
+ ** 2. Правки ревью
+ ** 3. Наполнение модальных окон
+ ** 4. Загрузка данных
+ */
+
 import React, { useState } from "react";
 import appStyles from "./app.module.css";
 import data from "../../utils/data";

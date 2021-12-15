@@ -17,16 +17,21 @@ import OrderSummary from "../order-summary/order-summary";
 import IngredientInfo from "../ingredient-info/ingredient-info";
 
 function App() {
-  const [modalVisibility, setModaVisibility] = useState(true);
+  const [modalVisibility, setModaVisibility] = useState(false);
   const modalRef = React.createRef(); // forwardRef?
   const closeIconRef = React.createRef();
   const [modalData, setModalData] = useState({ type: null, data: null });
+  const [orderNumber, setNumber] = useState("034536");
 
-  const handleModalOpen = ({ type, itemId }) => {
-    let itemData = null;
-    if (type === "ingredient")
-      itemData = data.find((item) => item._id === itemId);
-    setModalData({ type, itemData });
+  const handleModalOpen = ({ modalType, itemId }) => {
+    let modalData = null;
+    if (modalType === "ingredientInfo")
+      modalData = data.find((item) => item._id === itemId);
+    else {
+      if (modalType === "orderSummary") modalData = orderNumber;
+    }
+
+    setModalData({ type: modalType, data: modalData });
     setModaVisibility(true);
   };
 
@@ -51,10 +56,10 @@ function App() {
             closeIconRef={closeIconRef}
             onClose={handleModalClose}
           >
-            {modalData.type === "ingredient" ? (
+            {modalData.type === "ingredientInfo" ? (
               <IngredientInfo />
             ) : (
-              <OrderSummary />
+              <OrderSummary orderNumber={orderNumber} />
             )}
           </Modal>
         )}

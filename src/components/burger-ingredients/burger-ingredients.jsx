@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import PropTypes from "prop-types";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import appStyles from "../app/app.module.css";
@@ -12,7 +12,7 @@ function BurgerIngredients({ data, onOpen}) {
     main: "Начинки",
   };
 
-  const [currentTab, setCurrentTab] = React.useState("Булки");
+  const [currentTab, setCurrentTab] = useState("Булки");
 
   const handleTabClick = (value) => setCurrentTab(value);
 

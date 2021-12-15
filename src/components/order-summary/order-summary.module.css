@@ -5,20 +5,7 @@
   align-items: center;
 }
 
-.orderNumber {
-}
-
-.title {
-}
-
-.subtitle {
-}
-
-.image {
+.order__image {
   width: 120px;
   height: 120px;
-}
-
-.description {
-
 }

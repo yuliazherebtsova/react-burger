@@ -6,11 +6,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function BurgerIngredient({ id, image, price, name, onOpen }) {
+  const onOpenModal = () => {
+    onOpen({ modalType: "ingredientInfo", itemId: id });
+  };
+
   return (
     <li
       className={`${ingredientStyles.ingredient__сard} mb-8`}
       key={id}
-      onClick={onOpen}
+      onClick={onOpenModal}
     >
       <img src={image} alt={name} />
       <Counter count={1} size="default" />

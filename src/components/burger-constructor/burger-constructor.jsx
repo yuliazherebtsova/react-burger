@@ -10,6 +10,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function BurgerConstructor({ data, onOpen }) {
+  const onOpenModal = () => {
+    onOpen({modalType: "orderSummary"});
+  };
+
   const createBunElement = (type, { name, price, image }) => {
     return (
       <div
@@ -65,7 +69,7 @@ function BurgerConstructor({ data, onOpen }) {
           <p className="text text_type_digits-medium mr-2">610</p>
           <CurrencyIcon />
         </div>
-        <Button type="primary" size="medium" onClick={onOpen}>
+        <Button type="primary" size="medium" onClick={onOpenModal}>
           Оформить заказ
         </Button>
       </div>

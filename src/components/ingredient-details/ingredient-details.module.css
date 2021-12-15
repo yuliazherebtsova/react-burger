@@ -1,0 +1,34 @@
+.ingredient {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ingredient__modalTitle {
+  align-self: flex-start;
+}
+
+.ingredient__name {
+  text-align: center;
+}
+
+.ingredient__image {
+  width: 520px;
+  height: 240px;
+}
+
+.ingredient__compounds {
+  max-width: 520px;
+  display: grid;
+  gap: 20px;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(4, auto);
+}
+
+.ingredient__compound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

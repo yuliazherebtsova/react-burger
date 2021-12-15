@@ -12,6 +12,7 @@ function OrderDetails({ orderNumber }) {
       <img
         className={`${orderStyles.order__image} pt-15 pb-15`}
         src={doneImage}
+        alt="заказ сформирован"
       ></img>
       <p className="text text_type_main-default">Ваш заказ начали готовить</p>
       <p className="text text_type_main-default text_color_inactive pt-2 pb-15">

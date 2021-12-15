@@ -28,11 +28,12 @@ function App() {
     if (modalType === "ingredientInfo")
       modalData = data.find((item) => item._id === itemId);
     else {
-      if (modalType === "orderSummary") modalData = orderNumber;
+      if (modalType === "orderSummary") modalData = {orderNumber: orderNumber};
     }
 
     setModalData({ type: modalType, data: modalData });
     setModaVisibility(true);
+    console.log(modalData);
   };
 
   const handleModalClose = (evt) => {
@@ -57,9 +58,16 @@ function App() {
             onClose={handleModalClose}
           >
             {modalData.type === "ingredientInfo" ? (
-              <IngredientDetails />
+              <IngredientDetails
+                image={modalData.data.image}
+                name={modalData.data.name}
+                fat={modalData.data.fat}
+                carbohydrates={modalData.data.carbohydrates}
+                calories={modalData.data.calories}
+                proteins={modalData.data.proteins}
+              />
             ) : (
-              <OrderDetails orderNumber={orderNumber} />
+              <OrderDetails orderNumber={modalData.data.orderNumber} />
             )}
           </Modal>
         )}

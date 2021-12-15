@@ -22,6 +22,6 @@ const modalOverlayPropTypes = PropTypes.shape({
   onClose: PropTypes.func.isRequired,
 });
 
-ModalOverlay.propTypes = PropTypes.arrayOf(modalOverlayPropTypes).isRequired;
+ModalOverlay.propTypes = modalOverlayPropTypes.isRequired;
 
 export default ModalOverlay;

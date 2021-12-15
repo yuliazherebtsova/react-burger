@@ -65,12 +65,14 @@ function IngredientDetails({
 }
 
 const ingredientDetailsPropTypes = PropTypes.shape({
-  children: PropTypes.element.isRequired,
-  onClose: PropTypes.func.isRequired,
+  image: PropTypes.string.isRequired,
+  name: PropTypes.number.isRequired,
+  fat: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
+  calories: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
 });
 
-IngredientDetails.propTypes = PropTypes.arrayOf(
-  ingredientDetailsPropTypes
-).isRequired;
+IngredientDetails.propTypes = ingredientDetailsPropTypes.isRequired;
 
 export default IngredientDetails;

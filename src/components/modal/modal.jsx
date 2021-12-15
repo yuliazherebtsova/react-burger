@@ -28,8 +28,10 @@ function Modal({ children, onClose, modalRef, closeIconRef }) {
 const modalPropTypes = PropTypes.shape({
   children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired,
+  modalRef: PropTypes.element.isRequired,
+  closeIconRef: PropTypes.element.isRequired,
 });
 
-Modal.propTypes = PropTypes.arrayOf(modalPropTypes).isRequired;
+Modal.propTypes = modalPropTypes.isRequired;
 
 export default Modal;

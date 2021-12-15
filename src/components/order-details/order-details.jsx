@@ -23,10 +23,9 @@ function OrderDetails({ orderNumber }) {
 }
 
 const orderDetailsPropTypes = PropTypes.shape({
-  children: PropTypes.element.isRequired,
-  onClose: PropTypes.func.isRequired,
+  orderNumber: PropTypes.number.isRequired,
 });
 
-OrderDetails.propTypes = PropTypes.arrayOf(orderDetailsPropTypes).isRequired;
+OrderDetails.propTypes = orderDetailsPropTypes.isRequired;
 
 export default OrderDetails;

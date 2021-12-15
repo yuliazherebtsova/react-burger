@@ -1,9 +1,9 @@
 /**
  ** 1. Переключение вкладок
  ** 2. Правки ревью
- ** 3. Наполнение модальных окон
- ** 4. Загрузка данных
- ** 5. Анимация всплывающего окна
+ ** 3. Загрузка данных
+ ** 4. Анимация всплывающего окна
+ ** 5. Ошибки в проверках типов
  */
 
 import React, { useState } from "react";
@@ -28,9 +28,9 @@ function App() {
     if (modalType === "ingredientInfo")
       modalData = data.find((item) => item._id === itemId);
     else {
-      if (modalType === "orderSummary") modalData = {orderNumber: orderNumber};
+      if (modalType === "orderSummary")
+        modalData = { orderNumber: orderNumber };
     }
-
     setModalData({ type: modalType, data: modalData });
     setModaVisibility(true);
   };

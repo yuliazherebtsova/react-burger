@@ -39,6 +39,6 @@ const ingredientPropTypes = PropTypes.shape({
   image: PropTypes.string.isRequired,
 });
 
-BurgerIngredient.propTypes = PropTypes.arrayOf(ingredientPropTypes).isRequired;
+BurgerIngredient.propTypes = ingredientPropTypes.isRequired;
 
 export default BurgerIngredient;

@@ -12,7 +12,7 @@ function IngredientDetails({
   return (
     <div className={ingredientDetailsStyles.ingredient}>
       <h2
-        className={`${ingredientDetailsStyles.ingredient__modalTitle} text text_type_main-large pb-8`}
+        className={`${ingredientDetailsStyles.ingredient__modalTitle} text text_type_main-large pb-4`}
       >
         Детали ингредиента
       </h2>

@@ -17,7 +17,7 @@
   cursor: pointer;
 }
 
-.constructor__fillerList {
+.constructor__elementList {
   margin: 0;
   padding: 0;
   max-height: calc(100vh - 520px);
@@ -25,13 +25,14 @@
   overflow-x: hidden;
 }
 
-.constructor__filler {
+.constructor__element {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 
-.constructor__filler:last-of-type {
+.constructor__element:last-of-type {
   margin-bottom: 0;
 }
 

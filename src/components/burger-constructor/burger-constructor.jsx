@@ -11,10 +11,14 @@ import {
 
 function BurgerConstructor({ data, onOpen }) {
   const onOpenModal = () => {
-    onOpen({modalType: "orderSummary"});
+    onOpen({ modalType: "orderSummary" });
   };
 
-  const createBunElement = (type, { name, price, image }) => {
+  const createBunElement = (type, { _id, name, price, image }) => {
+    const onOpenModal = () => {
+      onOpen({ modalType: "ingredientInfo", itemId: _id });
+    };
+
     return (
       <div
         className={
@@ -22,6 +26,7 @@ function BurgerConstructor({ data, onOpen }) {
             ? `${constructorStyles.constructor__bunTop} mr-4`
             : `${constructorStyles.constructor__bunBottom} mr-4`
         }
+        onClick={onOpenModal}
       >
         <ConstructorElement
           type={type}
@@ -35,10 +40,15 @@ function BurgerConstructor({ data, onOpen }) {
   };
 
   const createFillerElement = ({ _id, name, price, image }) => {
+    const onOpenModal = () => {
+      onOpen({ modalType: "ingredientInfo", itemId: _id });
+    };
+
     return (
       <li
-        className={`${constructorStyles.constructor__filler} mb-4 mr-2`}
+        className={`${constructorStyles.constructor__element} mb-4 mr-2`}
         key={_id}
+        onClick={onOpenModal}
       >
         <DragIcon type={"primary"} />
         <ConstructorElement text={name} price={price} thumbnail={image} />
@@ -57,7 +67,7 @@ function BurgerConstructor({ data, onOpen }) {
     >
       {createBunElement("top", demoBun)}
       <ul
-        className={`${constructorStyles.constructor__fillerList} ${appStyles.scroll}`}
+        className={`${constructorStyles.constructor__elementList} ${appStyles.scroll}`}
       >
         {demoFillers.map((filler) => createFillerElement(filler))}
       </ul>

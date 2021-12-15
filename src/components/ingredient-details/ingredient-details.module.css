@@ -6,6 +6,7 @@
 }
 
 .ingredient__modalTitle {
+  transform: translate(-50px);
   align-self: flex-start;
 }
 
@@ -16,6 +17,8 @@
 .ingredient__image {
   width: 520px;
   height: 240px;
+  object-fit: contain;
+  box-sizing: border-box;
 }
 
 .ingredient__compounds {

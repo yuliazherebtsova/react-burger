@@ -9,14 +9,6 @@ function IngredientDetails({
   calories,
   proteins,
 }) {
-  console.log({
-    image,
-    name,
-    fat,
-    carbohydrates,
-    calories,
-    proteins,
-  });
   return (
     <div className={ingredientDetailsStyles.ingredient}>
       <h2

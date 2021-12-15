@@ -33,7 +33,6 @@ function App() {
 
     setModalData({ type: modalType, data: modalData });
     setModaVisibility(true);
-    console.log(modalData);
   };
 
   const handleModalClose = (evt) => {

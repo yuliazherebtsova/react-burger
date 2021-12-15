@@ -13,8 +13,8 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
-import OrderSummary from "../order-summary/order-summary";
-import IngredientInfo from "../ingredient-info/ingredient-info";
+import OrderDetails from "../order-details/order-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 function App() {
   const [modalVisibility, setModaVisibility] = useState(false);
@@ -57,9 +57,9 @@ function App() {
             onClose={handleModalClose}
           >
             {modalData.type === "ingredientInfo" ? (
-              <IngredientInfo />
+              <IngredientDetails />
             ) : (
-              <OrderSummary orderNumber={orderNumber} />
+              <OrderDetails orderNumber={orderNumber} />
             )}
           </Modal>
         )}

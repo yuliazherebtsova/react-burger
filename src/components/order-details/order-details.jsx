@@ -1,9 +1,8 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
-import orderStyles from "./order-summary.module.css";
+import orderStyles from "./order-details.module.css";
 import doneImage from "../../images/done.svg";
 
-function OrderSummary({ orderNumber }) {
+function OrderDetails({ orderNumber }) {
   return (
     <div className={orderStyles.order}>
       <div className="text text_type_digits-large pt-15 pb-8">
@@ -22,11 +21,11 @@ function OrderSummary({ orderNumber }) {
   );
 }
 
-const orderSummaryPropTypes = PropTypes.shape({
+const orderDetailsPropTypes = PropTypes.shape({
   children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired,
 });
 
-OrderSummary.propTypes = PropTypes.arrayOf(orderSummaryPropTypes).isRequired;
+OrderDetails.propTypes = PropTypes.arrayOf(orderDetailsPropTypes).isRequired;
 
-export default OrderSummary;
+export default OrderDetails;

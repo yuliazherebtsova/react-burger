@@ -12,10 +12,10 @@ function Modal({ children, onClose, modalRef, closeIconRef }) {
     <>
       <ModalOverlay onClose={onClose} />
       <div
-        className={`${modalStyles.modal} pt-15 pr-10 pb-15 pl-10`}
+        className={`${modalStyles.modal} pt-15 pr-30 pb-15 pl-30`}
         ref={modalRef}
       >
-        <div className={modalStyles.closeIcon} ref={closeIconRef}>
+        <div className={modalStyles.modal__closeIcon} ref={closeIconRef}>
           <CloseIcon onClick={onClose} type="primary" />
         </div>
         {children}

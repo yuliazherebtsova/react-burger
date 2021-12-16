@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
 import appStyles from "../app/app.module.css";

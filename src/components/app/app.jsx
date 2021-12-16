@@ -37,14 +37,11 @@ function App() {
   });
 
   useEffect(() => {
-    debugger
-    console.log('useEffect')
     const getIngredientsData = async () => {
       setState({ ...state, hasError: false, isLoading: true });
       try {
         const data = await api.getIngredients();
         setState({ ...state, data: data.data, isLoading: false });
-        console.log(state);
       } catch (err) {
         setState({ ...state, hasError: true, isLoading: false });
       }

@@ -45,7 +45,7 @@ function BurgerConstructor({ data, onOpen }) {
 
     return (
       <li
-        className={`${constructorStyles.constructor__element} mb-4 mr-2`}
+        className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
         key={_id}
         onClick={onOpenModal}
       >
@@ -55,8 +55,8 @@ function BurgerConstructor({ data, onOpen }) {
     );
   };
 
-  const demoBun = data.find((item) => item.type === "bun");
-  const demoFillers = data
+  const bun = data.find((item) => item.type === "bun");
+  const nonBunElements = data
     .filter((item) => item.type === "sauce")
     .concat(data.filter((item) => item.type === "main"));
 
@@ -64,13 +64,13 @@ function BurgerConstructor({ data, onOpen }) {
     <section
       className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
     >
-      {createBunElement("top", demoBun)}
+      {createBunElement("top", bun)}
       <ul
-        className={`${constructorStyles.constructor__elementList} ${appStyles.scroll}`}
+        className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
       >
-        {demoFillers.map((filler) => createFillerElement(filler))}
+        {nonBunElements.map((nonBunElement) => createFillerElement(nonBunElement))}
       </ul>
-      {createBunElement("bottom", demoBun)}
+      {createBunElement("bottom", bun)}
       <div
         className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
       >

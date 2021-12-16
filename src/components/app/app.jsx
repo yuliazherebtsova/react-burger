@@ -1,6 +1,7 @@
 /**
  ** 1. Переключение вкладок хедера
  ** 2. Правки ("можно лучше") промежуточного ревью
+ ** 3. gh-pages + README
  */
 
 import React, { useState, useEffect } from "react";

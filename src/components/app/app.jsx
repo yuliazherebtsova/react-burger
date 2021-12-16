@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect } from "react";
 import appStyles from "./app.module.css";
-//import data from "../../utils/data"; // локальной отладки
+//import data from "../../utils/data"; // для локальной отладки
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";

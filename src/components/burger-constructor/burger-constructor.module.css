@@ -1,0 +1,46 @@
+.constructor__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.constructor__bunTop {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: auto;
+  cursor: pointer;
+}
+
+.constructor__bunBottom {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  cursor: pointer;
+}
+
+.constructor__fillerList {
+  margin: 0;
+  padding: 0;
+  max-height: calc(100vh - 520px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.constructor__filler {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.constructor__filler:last-of-type {
+  margin-bottom: 0;
+}
+
+.constructor__totalContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+.constructor__totalPrice {
+  display: flex;
+  align-items: center;
+}

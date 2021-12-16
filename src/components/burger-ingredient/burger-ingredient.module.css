@@ -1,0 +1,22 @@
+.ingredient__сard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  cursor: pointer;
+}
+
+.ingredient__сontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.ingredient__price {
+  display: flex;
+  flex-direction: row;
+}
+
+.ingredient__name {
+  text-align: center;
+}

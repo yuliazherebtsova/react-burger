@@ -1,0 +1,25 @@
+.ingredients__container {
+}
+
+.ingredients__tabContainer {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.ingredients__list {
+  max-height: calc(100vh - 250px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.ingredient__category {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+}

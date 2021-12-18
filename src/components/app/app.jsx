@@ -4,24 +4,19 @@
  ** 3. gh-pages + README
  */
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import appStyles from "./app.module.css";
-//import data from "../../utils/data"; // для локальной отладки
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import Api from "../../utils/api";
-import { BASE_URL } from "../../utils/constants";
+import { api } from "../../utils/api";
 
 function App() {
-  //const [modalVisibility, setModaVisibility] = useState(false);
-  //const [modalData, setModalData] = useState({ type: null, data: null });
-
-  const [modalData, setModalData] = useState({ type: null, data: null });
-  const [modalData, setModalData] = useState({ type: null, data: null });
+  const [ingredientToView, setIngredientToView] = useState(null);
+  const [orderNumber, setOrderNumber] = useState(null);
 
   const [state, setState] = useState({
     isLoading: false,
@@ -29,23 +24,13 @@ function App() {
     data: [],
   });
 
-  const api = new Api({
-    // объект для работы с api сервера (с использованием fetch)
-    baseUrl: BASE_URL,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
   useEffect(() => {
     const getIngredientsData = async () => {
       setState({ ...state, hasError: false, isLoading: true });
       try {
         const data = await api.getIngredients();
-        {
-          /* в такой реализации state после await может быть уже не актуальный,
+        /* в такой реализации state после await может быть уже не актуальный,
         нужно использовать setState с функцией, чтобы применять актуальный стейт */
-        }
         setState((prevState) => ({
           ...prevState,
           data: data.data,
@@ -64,22 +49,14 @@ function App() {
 
   const { data, isLoading, hasError } = state;
 
-  const handleModalOpen = ({ modalType, itemId }) => {
-    let modalData = null;
-    if (modalType === "ingredientInfo")
-      modalData = data.find((item) => item._id === itemId);
-    else {
-      if (modalType === "orderSummary") {
-        const orderNumber = "034536"; // временно хардкод по макету
-        modalData = { orderNumber: orderNumber };
-      }
-    }
-    setModalData({ type: modalType, data: modalData });
-    setModaVisibility(true);
+  const handleModalOpen = ({ itemId, orderNumber }) => {
+    setIngredientToView(data.find((item) => item._id === itemId));
+    setOrderNumber(orderNumber);
   };
 
   const handleModalClose = () => {
-      setModaVisibility(false);
+    setIngredientToView(null);
+    setOrderNumber(null);
   };
 
   return (
@@ -98,24 +75,23 @@ function App() {
         )}
         {!isLoading && !hasError && data.length && (
           <>
-            <BurgerIngredients data={data} onOpen={handleModalOpen} />
-            <BurgerConstructor data={data} onOpen={handleModalOpen} />
-            {modalVisibility && (
-              <Modal
-                onClose={handleModalClose}
-              >
-                {modalData.type === "ingredientInfo" ? (
-                  <IngredientDetails
-                    image={modalData.data.image}
-                    name={modalData.data.name}
-                    fat={modalData.data.fat}
-                    carbohydrates={modalData.data.carbohydrates}
-                    calories={modalData.data.calories}
-                    proteins={modalData.data.proteins}
-                  />
-                ) : (
-                  <OrderDetails orderNumber={modalData.data.orderNumber} />
-                )}
+            <BurgerIngredients data={data} onOpenModal={handleModalOpen} />
+            <BurgerConstructor data={data} onOpenModal={handleModalOpen} />
+            {ingredientToView && (
+              <Modal title="Детали ингредиента" onClose={handleModalClose}>
+                <IngredientDetails
+                  image={ingredientToView.image}
+                  name={ingredientToView.name}
+                  fat={ingredientToView.fat}
+                  carbohydrates={ingredientToView.carbohydrates}
+                  calories={ingredientToView.calories}
+                  proteins={ingredientToView.proteins}
+                />
+              </Modal>
+            )}
+            {orderNumber && (
+              <Modal onClose={handleModalClose}>
+                <OrderDetails orderNumber={orderNumber} />
               </Modal>
             )}
           </>

@@ -5,7 +5,7 @@ import appStyles from "../app/app.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-function BurgerIngredients({ data, onOpen}) {
+function BurgerIngredients({ data, onOpenModal}) {
   const ingredientTypes = {
     bun: "Булки",
     sauce: "Соусы",
@@ -65,7 +65,7 @@ function BurgerIngredients({ data, onOpen}) {
                   name={item.name}
                   price={item.price}
                   image={item.image}
-                  onOpen={onOpen}
+                  onOpenModal={onOpenModal}
                 />
               ))}
             </ul>
@@ -92,7 +92,7 @@ function BurgerIngredients({ data, onOpen}) {
   });
   
   BurgerIngredients.propTypes = {
-    onOpen: PropTypes.func.isRequired,
+    onOpenModal: PropTypes.func.isRequired,
     data: PropTypes.arrayOf(dataPropTypes).isRequired
   };
 

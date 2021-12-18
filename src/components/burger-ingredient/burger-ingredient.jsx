@@ -5,15 +5,15 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerIngredient({ id, image, price, name, onOpen }) {
-  const onOpenModal = () => {
-    onOpen({ modalType: "ingredientInfo", itemId: id });
+function BurgerIngredient({ id, image, price, name, onOpenModal }) {
+  const onOpenIngredient = () => {
+    onOpenModal({ modalType: "ingredientInfo", itemId: id });
   };
 
   return (
     <li
       className={`${ingredientStyles.ingredient__сard} mb-8`}
-      onClick={onOpenModal}
+      onClick={onOpenIngredient}
     >
       <img src={image} alt={name} />
       <Counter count={1} size="default" />
@@ -31,7 +31,7 @@ function BurgerIngredient({ id, image, price, name, onOpen }) {
 }
 
 BurgerIngredient.propTypes = {
-  onOpen: PropTypes.func.isRequired,
+  onOpenModal: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,

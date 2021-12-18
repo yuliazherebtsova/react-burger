@@ -8,9 +8,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerConstructor({ data, onOpen }) {
-  const onOpenModal = () => {
-    onOpen({ modalType: "orderSummary" });
+function BurgerConstructor({ data, onOpenModal }) {
+  const onClickToOrderDetails = (number) => {
+    onOpenModal({ orderNumber: number });
+  };
+
+  const onClickToIngredient = (id) => {
+    onOpenModal({ itemId: id });
   };
 
   const generateKey = (id) => {
@@ -28,7 +32,7 @@ function BurgerConstructor({ data, onOpen }) {
     >
       <div
         className={`${constructorStyles.constructor__bunTop} mr-4`}
-        onClick={onOpenModal}
+        onClick={() => onClickToIngredient(bun._id)}
       >
         <ConstructorElement
           type={bun.type}
@@ -45,7 +49,7 @@ function BurgerConstructor({ data, onOpen }) {
           <li
             className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
             key={generateKey(item._id)}
-            onClick={onOpenModal}
+            onClick={() => onClickToIngredient(item._id)}
           >
             <DragIcon type={"primary"} />
             <ConstructorElement
@@ -58,7 +62,7 @@ function BurgerConstructor({ data, onOpen }) {
       </ul>
       <div
         className={`${constructorStyles.constructor__bunBottom} mr-4`}
-        onClick={onOpenModal}
+        onClick={() => onClickToIngredient(bun._id)}
       >
         <ConstructorElement
           type={bun.type}
@@ -75,7 +79,11 @@ function BurgerConstructor({ data, onOpen }) {
           <p className="text text_type_digits-medium mr-2">610</p>
           <CurrencyIcon />
         </div>
-        <Button type="primary" size="medium" onClick={onOpenModal}>
+        <Button
+          type="primary"
+          size="medium"
+          onClick={() => onClickToOrderDetails("034536")} // временно хардкод номера заказа по макету
+        >
           Оформить заказ
         </Button>
       </div>
@@ -99,7 +107,7 @@ const dataPropTypes = PropTypes.shape({
 });
 
 BurgerConstructor.propTypes = {
-  onOpen: PropTypes.func.isRequired,
+  onOpenModal: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(dataPropTypes).isRequired,
 };
 

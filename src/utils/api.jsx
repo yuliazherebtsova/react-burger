@@ -1,3 +1,5 @@
+import { BASE_URL } from "./constants";
+
 export default class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
@@ -30,3 +32,10 @@ export default class Api {
     }).then(this._checkResponse);
   }
 }
+
+export const api = new Api({
+  baseUrl: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});

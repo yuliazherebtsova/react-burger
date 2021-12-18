@@ -13,31 +13,6 @@ function BurgerConstructor({ data, onOpen }) {
     onOpen({ modalType: "orderSummary" });
   };
 
-  const createBunElement = (type, { _id, name, price, image }) => {
-    const onOpenModal = () => {
-      onOpen({ modalType: "ingredientInfo", itemId: _id });
-    };
-
-    return (
-      <div
-        className={
-          type === "top"
-            ? `${constructorStyles.constructor__bunTop} mr-4`
-            : `${constructorStyles.constructor__bunBottom} mr-4`
-        }
-        onClick={onOpenModal}
-      >
-        <ConstructorElement
-          type={type}
-          isLocked={true}
-          text={name}
-          price={price}
-          thumbnail={image}
-        />
-      </div>
-    );
-  };
-
   const createFillerElement = ({ _id, name, price, image }) => {
     const onOpenModal = () => {
       onOpen({ modalType: "ingredientInfo", itemId: _id });
@@ -64,7 +39,18 @@ function BurgerConstructor({ data, onOpen }) {
     <section
       className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
     >
-      {createBunElement("top", bun)}
+      <div
+        className={`${constructorStyles.constructor__bunTop} mr-4`}
+        onClick={onOpenModal}
+      >
+        <ConstructorElement
+          type={bun.type}
+          isLocked={true}
+          text={`${bun.name} (верх)`}
+          price={bun.price}
+          thumbnail={bun.image}
+        />
+      </div>
       <ul
         className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
       >
@@ -72,7 +58,18 @@ function BurgerConstructor({ data, onOpen }) {
           createFillerElement(nonBunElement)
         )}
       </ul>
-      {createBunElement("bottom", bun)}
+      <div
+        className={`${constructorStyles.constructor__bunBottom} mr-4`}
+        onClick={onOpenModal}
+      >
+        <ConstructorElement
+          type={bun.type}
+          isLocked={true}
+          text={`${bun.name} (низ)`}
+          price={bun.price}
+          thumbnail={bun.image}
+        />
+      </div>
       <div
         className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
       >
@@ -105,7 +102,7 @@ const dataPropTypes = PropTypes.shape({
 
 BurgerConstructor.propTypes = {
   onOpen: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(dataPropTypes).isRequired
+  data: PropTypes.arrayOf(dataPropTypes).isRequired,
 };
 
 export default BurgerConstructor;

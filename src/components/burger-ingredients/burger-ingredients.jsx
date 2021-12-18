@@ -60,6 +60,7 @@ function BurgerIngredients({ data, onOpen}) {
             >
               {items.map((item) => (
                 <BurgerIngredient
+                  key={item._id}
                   id={item._id}
                   name={item.name}
                   price={item.price}

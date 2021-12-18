@@ -17,9 +17,10 @@ import Api from "../../utils/api";
 import { BASE_URL } from "../../utils/constants";
 
 function App() {
-  const [modalVisibility, setModaVisibility] = useState(false);
-  const modalRef = React.createRef(); // forwardRef?
-  const closeIconRef = React.createRef();
+  //const [modalVisibility, setModaVisibility] = useState(false);
+  //const [modalData, setModalData] = useState({ type: null, data: null });
+
+  const [modalData, setModalData] = useState({ type: null, data: null });
   const [modalData, setModalData] = useState({ type: null, data: null });
 
   const [state, setState] = useState({
@@ -41,9 +42,21 @@ function App() {
       setState({ ...state, hasError: false, isLoading: true });
       try {
         const data = await api.getIngredients();
-        setState({ ...state, data: data.data, isLoading: false });
+        {
+          /* в такой реализации state после await может быть уже не актуальный,
+        нужно использовать setState с функцией, чтобы применять актуальный стейт */
+        }
+        setState((prevState) => ({
+          ...prevState,
+          data: data.data,
+          isLoading: false,
+        }));
       } catch (err) {
-        setState({ ...state, hasError: true, isLoading: false });
+        setState((prevState) => ({
+          ...prevState,
+          hasError: true,
+          isLoading: false,
+        }));
       }
     };
     getIngredientsData();
@@ -65,12 +78,7 @@ function App() {
     setModaVisibility(true);
   };
 
-  const handleModalClose = (evt) => {
-    // закрытие попапа по нажатию на оверлей, но не на нем самом
-    if (
-      (modalRef && !modalRef.current.contains(evt.target)) ||
-      (closeIconRef && closeIconRef.current.contains(evt.target))
-    )
+  const handleModalClose = () => {
       setModaVisibility(false);
   };
 
@@ -94,8 +102,6 @@ function App() {
             <BurgerConstructor data={data} onOpen={handleModalOpen} />
             {modalVisibility && (
               <Modal
-                modalRef={modalRef}
-                closeIconRef={closeIconRef}
                 onClose={handleModalClose}
               >
                 {modalData.type === "ingredientInfo" ? (

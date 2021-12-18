@@ -5,7 +5,7 @@ import doneImage from "../../images/done.svg";
 function OrderDetails({ orderNumber }) {
   return (
     <div className={orderStyles.order}>
-      <div className="text text_type_digits-large pt-15 pb-8">
+      <div className={`${orderStyles.order__number} text text_type_digits-large pt-15 pb-8`}>
         {orderNumber}
       </div>
       <p className="text text_type_main-medium">идентификатор заказа</p>

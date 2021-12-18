@@ -61,7 +61,7 @@ function IngredientDetails({
 
 IngredientDetails.propTypes = {
   image: PropTypes.string.isRequired,
-  name: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
   fat: PropTypes.number.isRequired,
   carbohydrates: PropTypes.number.isRequired,
   calories: PropTypes.number.isRequired,

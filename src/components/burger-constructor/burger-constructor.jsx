@@ -13,21 +13,8 @@ function BurgerConstructor({ data, onOpen }) {
     onOpen({ modalType: "orderSummary" });
   };
 
-  const createFillerElement = ({ _id, name, price, image }) => {
-    const onOpenModal = () => {
-      onOpen({ modalType: "ingredientInfo", itemId: _id });
-    };
-
-    return (
-      <li
-        className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
-        key={_id}
-        onClick={onOpenModal}
-      >
-        <DragIcon type={"primary"} />
-        <ConstructorElement text={name} price={price} thumbnail={image} />
-      </li>
-    );
+  const generateKey = (id) => {
+    return `${id}_${new Date().getTime()}`;
   };
 
   const bun = data.find((item) => item.type === "bun");
@@ -54,9 +41,20 @@ function BurgerConstructor({ data, onOpen }) {
       <ul
         className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
       >
-        {nonBunElements.map((nonBunElement) =>
-          createFillerElement(nonBunElement)
-        )}
+        {nonBunElements.map((item) => (
+          <li
+            className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
+            key={generateKey(item._id)}
+            onClick={onOpenModal}
+          >
+            <DragIcon type={"primary"} />
+            <ConstructorElement
+              text={item.name}
+              price={item.price}
+              thumbnail={item.image}
+            />
+          </li>
+        ))}
       </ul>
       <div
         className={`${constructorStyles.constructor__bunBottom} mr-4`}

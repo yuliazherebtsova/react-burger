@@ -13,7 +13,6 @@ function BurgerIngredient({ id, image, price, name, onOpen }) {
   return (
     <li
       className={`${ingredientStyles.ingredient__сard} mb-8`}
-      key={id}
       onClick={onOpenModal}
     >
       <img src={image} alt={name} />

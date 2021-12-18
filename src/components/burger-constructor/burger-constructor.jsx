@@ -68,7 +68,9 @@ function BurgerConstructor({ data, onOpen }) {
       <ul
         className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
       >
-        {nonBunElements.map((nonBunElement) => createFillerElement(nonBunElement))}
+        {nonBunElements.map((nonBunElement) =>
+          createFillerElement(nonBunElement)
+        )}
       </ul>
       {createBunElement("bottom", bun)}
       <div
@@ -86,8 +88,7 @@ function BurgerConstructor({ data, onOpen }) {
   );
 }
 
-const constructorPropTypes = PropTypes.shape({
-  onOpen: PropTypes.func.isRequired,
+const dataPropTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -102,7 +103,9 @@ const constructorPropTypes = PropTypes.shape({
   __v: PropTypes.number.isRequired,
 });
 
-BurgerConstructor.propTypes =
-  PropTypes.arrayOf(constructorPropTypes).isRequired;
+BurgerConstructor.propTypes = {
+  onOpen: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(dataPropTypes).isRequired
+};
 
 export default BurgerConstructor;

@@ -2,7 +2,7 @@ import { React, useEffect } from "react";
 import PropTypes from "prop-types";
 import overlayStyles from "./modal-overlay.module.css";
 
-function ModalOverlay({ children, onClose }) {
+function ModalOverlay({ onClose }) {
   useEffect(() => {
     const handleEscPress = (evt) => {
       if (evt.key === "Escape") onClose(evt);
@@ -13,15 +13,12 @@ function ModalOverlay({ children, onClose }) {
 
   return (
     <div className={overlayStyles.overlay} onClick={onClose}>
-      {children}
     </div>
   );
 }
-const modalOverlayPropTypes = PropTypes.shape({
-  children: PropTypes.element.isRequired,
-  onClose: PropTypes.func.isRequired,
-});
 
-ModalOverlay.propTypes = modalOverlayPropTypes.isRequired;
+ModalOverlay.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 
 export default ModalOverlay;

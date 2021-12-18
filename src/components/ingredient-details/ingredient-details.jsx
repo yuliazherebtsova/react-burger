@@ -11,11 +11,6 @@ function IngredientDetails({
 }) {
   return (
     <div className={ingredientDetailsStyles.ingredient}>
-      <h2
-        className={`${ingredientDetailsStyles.ingredient__modalTitle} text text_type_main-large pb-4`}
-      >
-        Детали ингредиента
-      </h2>
       <img
         className={`${ingredientDetailsStyles.ingredient__image} pb-4`}
         src={image}
@@ -64,15 +59,13 @@ function IngredientDetails({
   );
 }
 
-const ingredientDetailsPropTypes = PropTypes.shape({
+IngredientDetails.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,
   carbohydrates: PropTypes.number.isRequired,
   calories: PropTypes.number.isRequired,
   proteins: PropTypes.number.isRequired,
-});
-
-IngredientDetails.propTypes = ingredientDetailsPropTypes.isRequired;
+};
 
 export default IngredientDetails;

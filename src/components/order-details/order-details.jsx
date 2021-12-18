@@ -22,10 +22,8 @@ function OrderDetails({ orderNumber }) {
   );
 }
 
-const orderDetailsPropTypes = PropTypes.shape({
-  orderNumber: PropTypes.number.isRequired,
-});
-
-OrderDetails.propTypes = orderDetailsPropTypes.isRequired;
+OrderDetails.propTypes =  {
+  orderNumber: PropTypes.string.isRequired,
+};
 
 export default OrderDetails;

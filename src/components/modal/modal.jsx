@@ -18,6 +18,11 @@ function Modal({ children, onClose, modalRef, closeIconRef }) {
         <div className={modalStyles.modal__closeIcon} ref={closeIconRef}>
           <CloseIcon onClick={onClose} type="primary" />
         </div>
+        <h2
+          className={`${modalStyles.modal__title} text text_type_main-large pb-4`}
+        >
+          Детали ингредиента
+        </h2>
         {children}
       </div>
     </>,
@@ -25,13 +30,11 @@ function Modal({ children, onClose, modalRef, closeIconRef }) {
   );
 }
 
-const modalPropTypes = PropTypes.shape({
+Modal.propTypes = {
   children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired,
   modalRef: PropTypes.element.isRequired,
   closeIconRef: PropTypes.element.isRequired,
-});
-
-Modal.propTypes = modalPropTypes.isRequired;
+};
 
 export default Modal;

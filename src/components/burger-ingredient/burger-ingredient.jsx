@@ -31,14 +31,12 @@ function BurgerIngredient({ id, image, price, name, onOpen }) {
   );
 }
 
-const ingredientPropTypes = PropTypes.shape({
+BurgerIngredient.propTypes = {
   onOpen: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-});
-
-BurgerIngredient.propTypes = ingredientPropTypes.isRequired;
+};
 
 export default BurgerIngredient;

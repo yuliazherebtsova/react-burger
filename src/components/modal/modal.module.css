@@ -11,10 +11,11 @@
   max-width: 720px;
   max-height: 718px;
   background: var(--main-background);
-  /* box-shadow: rgba(76, 76, 255, 0.5) -5px 5px 250px 90px; */
-  /* border: 2px solid #4c4cff; */
   border-radius: 40px;
-  transition: visibility 0.3s 0s, opacity 0.3s 0s linear;
+  /* background: var(--modal-background);
+  box-shadow: rgba(76, 76, 255, 0.5) -5px 5px 150px 50px; 
+  border: 2px solid rgba(76, 76, 255); */
+  /* transition: visibility 0.3s 0s, opacity 0.3s 0s linear; */
 }
 
 .modal__title {

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
 import appStyles from "../app/app.module.css";
@@ -22,9 +23,18 @@ function BurgerConstructor({ data, onOpenModal }) {
   };
 
   const bun = data.find((item) => item.type === "bun");
-  const nonBunElements = data
-    .filter((item) => item.type === "sauce")
-    .concat(data.filter((item) => item.type === "main"));
+  const nonBunElements = useMemo(() => {
+    /**
+     * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
+     * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива nonBunElements.
+     * Делать это нужно только в тот момент когда меняется массив исходных данных, поэтому вычисление мемоизируем
+     * через useMemo с зависимостями [data]. Теперь uid не будет меняться при каждой перерисовке компонента,
+     * и мы можем использовать его в качестве key.
+     */
+    return data
+      .filter((item) => item.type !== "bun")
+      .map((item) => ({ ...item, uid: generateKey(item._id) }));
+  }, [data]);
 
   return (
     <section
@@ -48,7 +58,7 @@ function BurgerConstructor({ data, onOpenModal }) {
         {nonBunElements.map((item) => (
           <li
             className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
-            key={generateKey(item._id)}
+            key={item.uid}
             onClick={() => onClickToIngredient(item._id)}
           >
             <DragIcon type={"primary"} />

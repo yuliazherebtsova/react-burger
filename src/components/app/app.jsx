@@ -1,6 +1,7 @@
 /**
  ** 1. Переключение вкладок хедера
- ** 2. gh-pages + README
+ ** 2. gh-pages
+ ** 3. README
  */
 
 import { useState, useEffect } from "react";

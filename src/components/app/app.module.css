@@ -1,17 +1,22 @@
-.main {
+.page {
+  position: relative;
   margin: 0 auto;
   max-width: var(--max-content-width-desktop);
   background-color: var(--main-background);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   column-gap: 40px;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
 }
 
 .scroll::-webkit-scrollbar-thumb {
   background: #8585ad;
 }
 
-.scroll::-webkit-scrollbar {
-  width: 8px;
-  background: #2f2f37;
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: #8b8bcf;
 }

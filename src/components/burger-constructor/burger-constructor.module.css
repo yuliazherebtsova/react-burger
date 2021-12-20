@@ -6,7 +6,6 @@
 .constructor__bunTop {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: auto;
   cursor: pointer;
 }
 
@@ -17,22 +16,22 @@
   cursor: pointer;
 }
 
-.constructor__fillerList {
+.constructor__nonBunElements {
   margin: 0;
-  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
   max-height: calc(100vh - 520px);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
-.constructor__filler {
+.constructor__nonBunElement {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   cursor: pointer;
 }
 
-.constructor__filler:last-of-type {
+.constructor__nonBunElement:last-of-type {
   margin-bottom: 0;
 }
 

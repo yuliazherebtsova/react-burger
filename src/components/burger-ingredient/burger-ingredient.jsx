@@ -5,9 +5,16 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerIngredient({ id, image, price, name }) {
+function BurgerIngredient({ id, image, price, name, onOpenModal }) {
+  const onOpenIngredient = () => {
+    onOpenModal({ modalType: "ingredientInfo", itemId: id });
+  };
+
   return (
-    <li className={`${ingredientStyles.ingredient__сard} mb-8`} key={id}>
+    <li
+      className={`${ingredientStyles.ingredient__сard} mb-8`}
+      onClick={onOpenIngredient}
+    >
       <img src={image} alt={name} />
       <Counter count={1} size="default" />
       <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
@@ -23,13 +30,12 @@ function BurgerIngredient({ id, image, price, name }) {
   );
 }
 
-const ingredientPropTypes = PropTypes.shape({
+BurgerIngredient.propTypes = {
+  onOpenModal: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-});
-
-BurgerIngredient.propTypes = PropTypes.arrayOf(ingredientPropTypes).isRequired;
+};
 
 export default BurgerIngredient;

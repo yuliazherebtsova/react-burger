@@ -8,4 +8,5 @@ body {
   --max-content-width-desktop: 1240px;
   --main-background: #131316;
   --header-background: #1C1C21;
+  --modal-background: #000;
 }

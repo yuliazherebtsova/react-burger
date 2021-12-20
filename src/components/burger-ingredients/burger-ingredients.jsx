@@ -1,18 +1,19 @@
-import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import appStyles from "../app/app.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
+import { dataPropTypes } from "../../utils/types";
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients({ data, onOpenModal }) {
   const ingredientTypes = {
     bun: "Булки",
     sauce: "Соусы",
     main: "Начинки",
   };
 
-  const [currentTab, setCurrentTab] = React.useState("Булки");
+  const [currentTab, setCurrentTab] = useState("Булки");
 
   const handleTabClick = (value) => setCurrentTab(value);
 
@@ -60,10 +61,12 @@ function BurgerIngredients({ data }) {
             >
               {items.map((item) => (
                 <BurgerIngredient
+                  key={item._id}
                   id={item._id}
                   name={item.name}
                   price={item.price}
                   image={item.image}
+                  onOpenModal={onOpenModal}
                 />
               ))}
             </ul>
@@ -74,22 +77,9 @@ function BurgerIngredients({ data }) {
   );
 }
 
-const ingredientsPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  __v: PropTypes.number.isRequired,
-});
-
-BurgerIngredients.propTypes =
-  PropTypes.arrayOf(ingredientsPropTypes).isRequired;
+BurgerIngredients.propTypes = {
+  onOpenModal: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(dataPropTypes).isRequired,
+};
 
 export default BurgerIngredients;

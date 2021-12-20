@@ -1,6 +1,3 @@
-.ingredients__container {
-}
-
 .ingredients__tabContainer {
   margin: 0;
   padding: 0;
@@ -11,8 +8,8 @@
 }
 
 .ingredients__list {
-  max-height: calc(100vh - 250px);
-  overflow-y: scroll;
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
   overflow-x: hidden;
 }
 

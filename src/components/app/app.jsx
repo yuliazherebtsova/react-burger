@@ -1,7 +1,6 @@
 /**
  ** 1. Переключение вкладок хедера
- ** 2. Правки ("можно лучше") промежуточного ревью
- ** 3. gh-pages + README
+ ** 2. gh-pages + README
  */
 
 import { useState, useEffect } from "react";
@@ -49,8 +48,11 @@ function App() {
 
   const { data, isLoading, hasError } = state;
 
-  const handleModalOpen = ({ itemId, orderNumber }) => {
+  const handleIngredientModalOpen = ({ itemId }) => {
     setIngredientToView(data.find((item) => item._id === itemId));
+  };
+
+  const handleOrderModalOpen = ({ orderNumber }) => {
     setOrderNumber(orderNumber);
   };
 
@@ -75,8 +77,15 @@ function App() {
         )}
         {!isLoading && !hasError && data.length && (
           <>
-            <BurgerIngredients data={data} onOpenModal={handleModalOpen} />
-            <BurgerConstructor data={data} onOpenModal={handleModalOpen} />
+            <BurgerIngredients
+              data={data}
+              onOpenModal={handleIngredientModalOpen}
+            />
+            <BurgerConstructor
+              data={data}
+              onOpenModalWithOrder={handleOrderModalOpen}
+              onOpenModalWithIngredient={handleIngredientModalOpen}
+            />
             {ingredientToView && (
               <Modal title="Детали ингредиента" onClose={handleModalClose}>
                 <IngredientDetails

@@ -10,13 +10,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { dataPropTypes } from "../../utils/types";
 
-function BurgerConstructor({ data, onOpenModal }) {
+function BurgerConstructor({
+  data,
+  onOpenModalWithIngredient,
+  onOpenModalWithOrder,
+}) {
   const onClickToOrderDetails = (number) => {
-    onOpenModal({ orderNumber: number });
+    onOpenModalWithOrder({ orderNumber: number });
   };
 
   const onClickToIngredient = (id) => {
-    onOpenModal({ itemId: id });
+    onOpenModalWithIngredient({ itemId: id });
   };
 
   const generateKey = (id) => {
@@ -103,7 +107,8 @@ function BurgerConstructor({ data, onOpenModal }) {
 }
 
 BurgerConstructor.propTypes = {
-  onOpenModal: PropTypes.func.isRequired,
+  onOpenModalWithIngredient: PropTypes.func.isRequired,
+  onOpenModalWithOrder: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(dataPropTypes).isRequired,
 };
 

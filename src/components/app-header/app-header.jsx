@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import headerStyles from "./app-header.module.css";
 import {
   Logo,
@@ -6,19 +6,26 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import NavigationItem from "components/navigation-item/navigation-item";
 
 function AppHeader() {
+  const [currentPage, setCurrentPage] = useState("constructor");
+
+  const handleNavigationClick = (title) => {
+    setCurrentPage(title);
+  };
+
   return (
     <header className={headerStyles.header}>
       <div className={`${headerStyles.header__container} pt-4 pb-4`}>
         <nav>
-          <ul className={headerStyles.navigation__list}>
+          <ul className={headerStyles.header__navigation}>
             <li>
               <button
                 className={`${headerStyles.navigation__button} pt-4 pr-5 pb-4 pl-5`}
               >
-                <BurgerIcon type="primary" />
-                <p className="text text text_type_main-default ml-2">
+                <BurgerIcon type="secondary" />
+                <p className="text text text_type_main-default text_color_inactive ml-2">
                   Конструктор
                 </p>
               </button>

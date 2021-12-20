@@ -10,27 +10,13 @@
   max-width: var(--max-header-width-desktop);
 }
 
-.navigation__list {
+.header__navigation {
   margin: 0;
   padding: 0;
   display: grid;
   align-items: center;
   grid-template-columns: max-content max-content 1fr max-content;
   list-style: none;
-}
-
-.navigation__button {
-  display: flex;
-  padding: 0;
-  margin: 0;
-  border: none;
-  cursor: pointer;
-  background: transparent;
-  color: inherit;
-}
-
-.navigation__button:hover {
-  opacity: 0.8;
 }
 
 .header__logo {

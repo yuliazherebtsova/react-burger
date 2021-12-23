@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/react-burger/static/css/main.38b9caab.chunk.css",
+    "main.css": "/react-burger/static/css/main.9f778bdc.chunk.css",
     "main.js": "/react-burger/static/js/main.c37d3a73.chunk.js",
     "main.js.map": "/react-burger/static/js/main.c37d3a73.chunk.js.map",
     "runtime-main.js": "/react-burger/static/js/runtime-main.c26004e3.js",
@@ -10,7 +10,7 @@
     "static/js/2.e1159a0a.chunk.js.map": "/react-burger/static/js/2.e1159a0a.chunk.js.map",
     "index.html": "/react-burger/index.html",
     "static/css/2.eedfcd70.chunk.css.map": "/react-burger/static/css/2.eedfcd70.chunk.css.map",
-    "static/css/main.38b9caab.chunk.css.map": "/react-burger/static/css/main.38b9caab.chunk.css.map",
+    "static/css/main.9f778bdc.chunk.css.map": "/react-burger/static/css/main.9f778bdc.chunk.css.map",
     "static/js/2.e1159a0a.chunk.js.LICENSE.txt": "/react-burger/static/js/2.e1159a0a.chunk.js.LICENSE.txt",
     "static/media/fonts.css": "/react-burger/static/media/iceland.77ad7fc2.woff",
     "static/media/done.6d4020a5.svg": "/react-burger/static/media/done.6d4020a5.svg"
@@ -19,7 +19,7 @@
     "static/js/runtime-main.c26004e3.js",
     "static/css/2.eedfcd70.chunk.css",
     "static/js/2.e1159a0a.chunk.js",
-    "static/css/main.38b9caab.chunk.css",
+    "static/css/main.9f778bdc.chunk.css",
     "static/js/main.c37d3a73.chunk.js"
   ]
 }

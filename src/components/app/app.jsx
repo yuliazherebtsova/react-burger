@@ -1,8 +1,5 @@
 /**
- ** 1. ереключение вкладок хедера
- ** 2. gh-pages
- ** 3. README
- ** 4. scroll вкладок
+ ** 1. gh-pages + README
  */
 
 import { useState, useEffect } from "react";

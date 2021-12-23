@@ -1,12 +1,7 @@
 import { useState } from "react";
 import headerStyles from "./app-header.module.css";
-import {
-  Logo,
-  BurgerIcon,
-  ListIcon,
-  ProfileIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import NavigationItem from "components/navigation-item/navigation-item";
+import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function AppHeader() {
   const [currentPage, setCurrentPage] = useState("constructor");
@@ -21,24 +16,22 @@ function AppHeader() {
         <nav>
           <ul className={headerStyles.header__navigation}>
             <li>
-              <button
-                className={`${headerStyles.navigation__button} pt-4 pr-5 pb-4 pl-5`}
+              <NavigationItem
+                title={"constructor"}
+                currentPage={currentPage}
+                onNavigationClick={handleNavigationClick}
               >
-                <BurgerIcon type="secondary" />
-                <p className="text text text_type_main-default text_color_inactive ml-2">
-                  Конструктор
-                </p>
-              </button>
+                Конструктор
+              </NavigationItem>
             </li>
             <li>
-              <button
-                className={`${headerStyles.navigation__button} pt-4 pr-5 pb-4 pl-5`}
+              <NavigationItem
+                title={"orderList"}
+                currentPage={currentPage}
+                onNavigationClick={handleNavigationClick}
               >
-                <ListIcon type="secondary" />
-                <p className="text text text_type_main-default text_color_inactive ml-2">
-                  Лента заказов
-                </p>
-              </button>
+                Лента заказов
+              </NavigationItem>
             </li>
             <li className={headerStyles.header__logo}>
               <a href="#">
@@ -46,14 +39,13 @@ function AppHeader() {
               </a>
             </li>
             <li>
-              <button
-                className={`${headerStyles.navigation__button} pt-4 pr-5 pb-4 pl-5`}
+              <NavigationItem
+                title={"profile"}
+                currentPage={currentPage}
+                onNavigationClick={handleNavigationClick}
               >
-                <ProfileIcon type="secondary" />
-                <p className="text text text_type_main-default text_color_inactive ml-2">
-                  Личный кабинет
-                </p>
-              </button>
+                Личный кабинет
+              </NavigationItem>
             </li>
           </ul>
         </nav>

@@ -1,7 +1,12 @@
 import { useState } from "react";
 import headerStyles from "./app-header.module.css";
-import NavigationItem from "components/navigation-item/navigation-item";
-import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
+import NavigationLink from "components/navigation-link/navigation-link";
+import {
+  BurgerIcon,
+  ListIcon,
+  ProfileIcon,
+  Logo,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
 function AppHeader() {
   const [currentPage, setCurrentPage] = useState("constructor");
@@ -16,36 +21,53 @@ function AppHeader() {
         <nav>
           <ul className={headerStyles.header__navigation}>
             <li>
-              <NavigationItem
+              <NavigationLink
                 title={"constructor"}
-                currentPage={currentPage}
+                icon={
+                  <BurgerIcon
+                    type={
+                      currentPage === "constructor" ? "primary" : "secondary"
+                    }
+                  />
+                }
+                isActive={currentPage === "constructor"}
                 onNavigationClick={handleNavigationClick}
               >
                 Конструктор
-              </NavigationItem>
+              </NavigationLink>
             </li>
             <li>
-              <NavigationItem
+              <NavigationLink
                 title={"orderList"}
-                currentPage={currentPage}
+                icon={
+                  <ListIcon
+                    type={currentPage === "orderList" ? "primary" : "secondary"}
+                  />
+                }
+                isActive={currentPage === "orderList"}
                 onNavigationClick={handleNavigationClick}
               >
                 Лента заказов
-              </NavigationItem>
+              </NavigationLink>
             </li>
             <li className={headerStyles.header__logo}>
-              <a href="#">
+              <a href="/#">
                 <Logo />
               </a>
             </li>
             <li>
-              <NavigationItem
+              <NavigationLink
                 title={"profile"}
-                currentPage={currentPage}
+                icon={
+                  <ProfileIcon
+                    type={currentPage === "profile" ? "primary" : "secondary"}
+                  />
+                }
+                isActive={currentPage === "profile"}
                 onNavigationClick={handleNavigationClick}
               >
                 Личный кабинет
-              </NavigationItem>
+              </NavigationLink>
             </li>
           </ul>
         </nav>

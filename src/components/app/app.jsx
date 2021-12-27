@@ -11,11 +11,7 @@ import { OrderContext } from "utils/appContext";
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);
-  const [orderData, setOrderData] = useState({
-    isLoading: false,
-    hasError: false,
-    data: null,
-  });
+  const [orderNumber, setOrderNumber] = useState(null);
 
   const [state, setState] = useState({
     isLoading: false,
@@ -52,25 +48,8 @@ function App() {
     setIngredientToView(data.find((item) => item._id === itemId));
   };
 
-  const handleOrderModalOpen = () => {
-    const getOrderDetails = async () => {
-      setOrderData({ ...state, hasError: false, isLoading: true });
-      try {
-        const orderData = await api.postOrder();
-        setOrderData((prevState) => ({
-          ...prevState,
-          data: data.data,
-          isLoading: false,
-        }));
-      } catch (err) {
-        setOrderData((prevState) => ({
-          ...prevState,
-          hasError: true,
-          isLoading: false,
-        }));
-      }
-    };
-    getOrderDetails();
+  const handleOrderModalOpen = ({ orderNumber }) => {
+    setOrderNumber(orderNumber);
   };
 
   const handleIngredientModalClose = () => {
@@ -102,13 +81,17 @@ function App() {
               onOpenModal={handleIngredientModalOpen}
             />
             <OrderContext.Provider value={data}>
+            //ConstructorContext
               <BurgerConstructor
                 onOpenModalWithOrder={handleOrderModalOpen}
                 onOpenModalWithIngredient={handleIngredientModalOpen}
               />
             </OrderContext.Provider>
             {ingredientToView && (
-              <Modal title="Детали ингредиента" onClose={handleIngredientModalClose}>
+              <Modal
+                title="Детали ингредиента"
+                onClose={handleIngredientModalClose}
+              >
                 <IngredientDetails
                   image={ingredientToView.image}
                   name={ingredientToView.name}
@@ -121,7 +104,7 @@ function App() {
             )}
             {orderNumber && (
               <Modal onClose={handleOrderModalClose}>
-                <OrderDetails orderNumber={orderData.order.number} />
+                <OrderDetails orderNumber={orderNumber} />
               </Modal>
             )}
           </>

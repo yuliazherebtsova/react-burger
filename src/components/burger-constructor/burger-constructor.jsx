@@ -8,15 +8,15 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { OrderContext } from "../../utils/appContext";
+import { ConstructorContext } from "../../utils/appContext";
 
 function BurgerConstructor({
   onOpenModalWithIngredient,
   onOpenModalWithOrder,
 }) {
-  const data = useContext(OrderContext);
+  const { constructorState, setConstructorState } = useContext(ConstructorContext);
 
-  const bun = useMemo(() => data.find((item) => item.type === "bun"), [data]);
+  const bun = useMemo(() => constructorState.find((item) => item.type === "bun"), [constructorState]);
   const nonBunElements = useMemo(() => {
     /**
      * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
@@ -25,10 +25,10 @@ function BurgerConstructor({
      * через useMemo с зависимостями [data]. Теперь uid не будет меняться при каждой перерисовке компонента,
      * и мы можем использовать его в качестве key.
      */
-    return data
+    return constructorState
       .filter((item) => item.type !== "bun")
       .map((item) => ({ ...item, uid: generateKey(item._id) })).slice(2, 9);
-  }, [data]);
+  }, [constructorState]);
 
   const orderCart = [bun, ...nonBunElements];
 
@@ -41,7 +41,6 @@ function BurgerConstructor({
   );
 
   useEffect(() => {
-    totalPriceDispatcher({ type: "reset"})
     const totalSum = orderCart.reduce(
       (x, y) => ({ price: x.price + y.price }),
       { price: orderCart[0].price }
@@ -59,6 +58,10 @@ function BurgerConstructor({
         throw new Error(`Wrong type of action: ${action.type}`);
     }
   }
+
+  const createOrder = (number) => {
+    onOpenModalWithOrder({ orderNumber: number });
+  };
 
   const onClickToIngredient = (id) => {
     onOpenModalWithIngredient({ itemId: id });
@@ -126,7 +129,7 @@ function BurgerConstructor({
         <Button
           type="primary"
           size="medium"
-          onClick={onOpenModalWithOrder}
+          onClick={() => createOrder("034536")} // временно хардкод номера заказа по макету
         >
           Оформить заказ
         </Button>

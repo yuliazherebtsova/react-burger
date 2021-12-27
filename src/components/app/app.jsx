@@ -7,6 +7,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { api } from "../../utils/api";
+import { OrderContext } from "utils/appContext";
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);
@@ -76,11 +77,12 @@ function App() {
               data={data}
               onOpenModal={handleIngredientModalOpen}
             />
-            <BurgerConstructor
-              data={data}
-              onOpenModalWithOrder={handleOrderModalOpen}
-              onOpenModalWithIngredient={handleIngredientModalOpen}
-            />
+            <OrderContext.Provider value={data}>
+              <BurgerConstructor
+                onOpenModalWithOrder={handleOrderModalOpen}
+                onOpenModalWithIngredient={handleIngredientModalOpen}
+              />
+            </OrderContext.Provider>
             {ingredientToView && (
               <Modal title="Детали ингредиента" onClose={handleModalClose}>
                 <IngredientDetails

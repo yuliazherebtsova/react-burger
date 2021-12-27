@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useContext, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
 import appStyles from "../app/app.module.css";
@@ -8,26 +8,15 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { dataPropTypes } from "../../utils/types";
+import { OrderContext } from "../../utils/appContext";
 
 function BurgerConstructor({
-  data,
   onOpenModalWithIngredient,
   onOpenModalWithOrder,
 }) {
-  const onClickToOrderDetails = (number) => {
-    onOpenModalWithOrder({ orderNumber: number });
-  };
+  const data = useContext(OrderContext);
 
-  const onClickToIngredient = (id) => {
-    onOpenModalWithIngredient({ itemId: id });
-  };
-
-  const generateKey = (id) => {
-    return `${id}_${new Date().getTime()}`;
-  };
-
-  const bun = data.find((item) => item.type === "bun");
+  const bun = useMemo(() => data.find((item) => item.type === "bun"), [data]);
   const nonBunElements = useMemo(() => {
     /**
      * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
@@ -38,8 +27,50 @@ function BurgerConstructor({
      */
     return data
       .filter((item) => item.type !== "bun")
-      .map((item) => ({ ...item, uid: generateKey(item._id) }));
+      .map((item) => ({ ...item, uid: generateKey(item._id) })).slice(2, 9);
   }, [data]);
+
+  const orderCart = [bun, ...nonBunElements];
+
+  const totalPriceInitialState = { total: 0 };
+
+  const [totalPriceState, totalPriceDispatcher] = useReducer(
+    totalPriceReducer,
+    totalPriceInitialState,
+    undefined
+  );
+
+  useEffect(() => {
+    totalPriceDispatcher({ type: "reset"})
+    const totalSum = orderCart.reduce(
+      (x, y) => ({ price: x.price + y.price }),
+      { price: orderCart[0].price }
+    );
+    totalPriceDispatcher({ type: "add", total: totalSum.price });
+  }, []);
+
+  function totalPriceReducer(state, action) {
+    switch (action.type) {
+      case "add":
+        return { total: state.total + action.total};
+      case "reset":
+        return totalPriceInitialState;
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  }
+
+  const onClickToOrderDetails = (number) => {
+    onOpenModalWithOrder({ orderNumber: number });
+  };
+
+  const onClickToIngredient = (id) => {
+    onOpenModalWithIngredient({ itemId: id });
+  };
+
+  function generateKey(id) {
+    return `${id}_${new Date().getTime()}`;
+  }
 
   return (
     <section
@@ -91,7 +122,9 @@ function BurgerConstructor({
         className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
       >
         <div className={`${constructorStyles.constructor__totalPrice} mr-10`}>
-          <p className="text text_type_digits-medium mr-2">610</p>
+          <p className="text text_type_digits-medium mr-2">
+            {totalPriceState.total}
+          </p>
           <CurrencyIcon />
         </div>
         <Button
@@ -109,7 +142,6 @@ function BurgerConstructor({
 BurgerConstructor.propTypes = {
   onOpenModalWithIngredient: PropTypes.func.isRequired,
   onOpenModalWithOrder: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(dataPropTypes).isRequired,
 };
 
 export default BurgerConstructor;

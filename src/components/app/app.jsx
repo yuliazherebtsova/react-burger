@@ -10,17 +10,19 @@ import { api } from "../../utils/api";
 import { OrderContext } from "utils/appContext";
 
 function App() {
-  const [ingredientToView, setIngredientToView] = useState(null);
-  const [orderData, setOrderData] = useState({
-    isLoading: false,
-    hasError: false,
-    data: null,
-  });
 
   const [state, setState] = useState({
     isLoading: false,
     hasError: false,
     data: [],
+  });
+
+  const [ingredientToView, setIngredientToView] = useState(null);
+
+  const [orderData, setOrderData] = useState({
+    isLoading: false,
+    hasError: false,
+    number: null,
   });
 
   useEffect(() => {
@@ -48,18 +50,20 @@ function App() {
 
   const { data, isLoading, hasError } = state;
 
+  const { orderNumber, isOrderLoading, hasOrderError } = orderData;
+
   const handleIngredientModalOpen = ({ itemId }) => {
     setIngredientToView(data.find((item) => item._id === itemId));
   };
 
   const handleOrderModalOpen = () => {
-    const getOrderDetails = async () => {
+    const getOrderData = async () => {
       setOrderData({ ...state, hasError: false, isLoading: true });
       try {
-        const orderData = await api.postOrder();
+        const data = await api.postOrder();
         setOrderData((prevState) => ({
           ...prevState,
-          data: data.data,
+          number: data.data,
           isLoading: false,
         }));
       } catch (err) {
@@ -70,7 +74,7 @@ function App() {
         }));
       }
     };
-    getOrderDetails();
+    getOrderData();
   };
 
   const handleIngredientModalClose = () => {
@@ -78,7 +82,7 @@ function App() {
   };
 
   const handleOrderModalClose = () => {
-    setOrderNumber(null);
+    setOrderData(null);
   };
 
   return (
@@ -108,7 +112,10 @@ function App() {
               />
             </OrderContext.Provider>
             {ingredientToView && (
-              <Modal title="Детали ингредиента" onClose={handleIngredientModalClose}>
+              <Modal
+                title="Детали ингредиента"
+                onClose={handleIngredientModalClose}
+              >
                 <IngredientDetails
                   image={ingredientToView.image}
                   name={ingredientToView.name}
@@ -119,11 +126,11 @@ function App() {
                 />
               </Modal>
             )}
-            {orderNumber && (
-              <Modal onClose={handleOrderModalClose}>
+            <Modal onClose={handleOrderModalClose}>
+              {orderNumber && (
                 <OrderDetails orderNumber={orderData.order.number} />
-              </Modal>
-            )}
+              )}
+            </Modal>
           </>
         )}
       </main>

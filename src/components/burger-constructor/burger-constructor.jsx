@@ -60,10 +60,6 @@ function BurgerConstructor({
     }
   }
 
-  const onClickToOrderDetails = (number) => {
-    onOpenModalWithOrder({ orderNumber: number });
-  };
-
   const onClickToIngredient = (id) => {
     onOpenModalWithIngredient({ itemId: id });
   };
@@ -130,7 +126,7 @@ function BurgerConstructor({
         <Button
           type="primary"
           size="medium"
-          onClick={() => onClickToOrderDetails("034536")} // временно хардкод номера заказа по макету
+          onClick={onOpenModalWithOrder}
         >
           Оформить заказ
         </Button>

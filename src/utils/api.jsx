@@ -31,6 +31,22 @@ export default class Api {
       headers: this._headers,
     }).then(this._checkResponse);
   }
+
+  postOrder() {
+    /**
+     * POST запрос с данными заказа на сервер */
+
+    /**
+     * @returns промис полученный от сервера с помощью fetch
+     */
+    return fetch(`${this._baseUrl}/orders`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        ingredients: ingredients
+      }),
+    }).then(this._checkResponse);
+  }
 }
 
 export const api = new Api({

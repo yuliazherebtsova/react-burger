@@ -7,13 +7,14 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { api } from "../../utils/api";
-import { OrderContext } from "utils/appContext";
+import { ConstructorContext, OrderContext } from "utils/appContext";
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);
   const [orderNumber, setOrderNumber] = useState(null);
 
   const [state, setState] = useState({
+    // ingredientsState
     isLoading: false,
     hasError: false,
     data: [],
@@ -80,33 +81,35 @@ function App() {
               data={data}
               onOpenModal={handleIngredientModalOpen}
             />
-            <OrderContext.Provider value={data}>
-            //ConstructorContext
-              <BurgerConstructor
-                onOpenModalWithOrder={handleOrderModalOpen}
-                onOpenModalWithIngredient={handleIngredientModalOpen}
-              />
-            </OrderContext.Provider>
-            {ingredientToView && (
-              <Modal
-                title="Детали ингредиента"
-                onClose={handleIngredientModalClose}
-              >
-                <IngredientDetails
-                  image={ingredientToView.image}
-                  name={ingredientToView.name}
-                  fat={ingredientToView.fat}
-                  carbohydrates={ingredientToView.carbohydrates}
-                  calories={ingredientToView.calories}
-                  proteins={ingredientToView.proteins}
+            <ConstructorContext.Provider value={data}>
+              <OrderContext.Provider>
+                <BurgerConstructor
+                  onOpenModalWithOrder={handleOrderModalOpen}
+                  onOpenModalWithIngredient={handleIngredientModalOpen}
                 />
-              </Modal>
-            )}
-            {orderNumber && (
-              <Modal onClose={handleOrderModalClose}>
-                <OrderDetails orderNumber={orderNumber} />
-              </Modal>
-            )}
+
+                {ingredientToView && (
+                  <Modal
+                    title="Детали ингредиента"
+                    onClose={handleIngredientModalClose}
+                  >
+                    <IngredientDetails
+                      image={ingredientToView.image}
+                      name={ingredientToView.name}
+                      fat={ingredientToView.fat}
+                      carbohydrates={ingredientToView.carbohydrates}
+                      calories={ingredientToView.calories}
+                      proteins={ingredientToView.proteins}
+                    />
+                  </Modal>
+                )}
+                {orderNumber && (
+                  <Modal onClose={handleOrderModalClose}>
+                    <OrderDetails orderNumber={orderNumber} />
+                  </Modal>
+                )}
+              </OrderContext.Provider>
+            </ConstructorContext.Provider>
           </>
         )}
       </main>

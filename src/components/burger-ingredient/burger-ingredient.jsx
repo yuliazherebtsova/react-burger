@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import ingredientStyles from "./burger-ingredient.module.css";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import ingredientStyles from "./burger-ingredient.module.css";
 
 function BurgerIngredient({ id, image, price, name, onOpenModal }) {
   const onOpenIngredient = () => {
@@ -18,7 +18,7 @@ function BurgerIngredient({ id, image, price, name, onOpenModal }) {
       <img src={image} alt={name} />
       <Counter count={1} size="default" />
       <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
-        <p className={"text text_type_digits-default mr-2"}>{price}</p>
+        <p className="text text_type_digits-default mr-2">{price}</p>
         <CurrencyIcon />
       </div>
       <p

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ConstructorContext, OrderContext } from "../../utils/appContext";
 import appStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -7,7 +8,6 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { api } from "../../utils/api";
-import { ConstructorContext, OrderContext } from "utils/appContext";
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);
@@ -49,8 +49,8 @@ function App() {
     setIngredientToView(data.find((item) => item._id === itemId));
   };
 
-  const handleOrderModalOpen = ({ orderNumber }) => {
-    setOrderNumber(orderNumber);
+  const handleOrderModalOpen = ({ number }) => {
+    setOrderNumber(number);
   };
 
   const handleIngredientModalClose = () => {

@@ -1,34 +1,45 @@
-import { useMemo, useContext, useReducer, useEffect } from "react";
-import PropTypes from "prop-types";
-import constructorStyles from "./burger-constructor.module.css";
-import appStyles from "../app/app.module.css";
+import { useMemo, useContext, useReducer, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   ConstructorElement,
   DragIcon,
   CurrencyIcon,
   Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { ConstructorContext } from "../../utils/appContext";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import constructorStyles from './burger-constructor.module.css';
+import appStyles from '../app/app.module.css';
+import { ConstructorContext } from '../../utils/appContext';
 
 function BurgerConstructor({
   onOpenModalWithIngredient,
   onOpenModalWithOrder,
 }) {
-  const { constructorState, setConstructorState } = useContext(ConstructorContext);
+  const { constructorState, setConstructorState } =
+    useContext(ConstructorContext);
 
-  const bun = useMemo(() => constructorState.find((item) => item.type === "bun"), [constructorState]);
-  const nonBunElements = useMemo(() => {
-    /**
-     * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
-     * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива nonBunElements.
-     * Делать это нужно только в тот момент когда меняется массив исходных данных, поэтому вычисление мемоизируем
-     * через useMemo с зависимостями [data]. Теперь uid не будет меняться при каждой перерисовке компонента,
-     * и мы можем использовать его в качестве key.
-     */
-    return constructorState
-      .filter((item) => item.type !== "bun")
-      .map((item) => ({ ...item, uid: generateKey(item._id) })).slice(2, 9);
-  }, [constructorState]);
+  function generateKey(id) {
+    return `${id}_${new Date().getTime()}`;
+  }
+
+  const bun = useMemo(
+    () => constructorState.find((item) => item.type === 'bun'),
+    [constructorState]
+  );
+  const nonBunElements = useMemo(
+    () =>
+      /**
+       * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
+       * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива nonBunElements.
+       * Делать это нужно только в тот момент когда меняется массив исходных данных, поэтому вычисление мемоизируем
+       * через useMemo с зависимостями [data]. Теперь uid не будет меняться при каждой перерисовке компонента,
+       * и мы можем использовать его в качестве key.
+       */
+      constructorState
+        .filter((item) => item.type !== 'bun')
+        .map((item) => ({ ...item, uid: generateKey(item._id) }))
+        .slice(2, 9),
+    [constructorState]
+  );
 
   const orderCart = [bun, ...nonBunElements];
 
@@ -45,14 +56,14 @@ function BurgerConstructor({
       (x, y) => ({ price: x.price + y.price }),
       { price: orderCart[0].price }
     );
-    totalPriceDispatcher({ type: "add", total: totalSum.price });
+    totalPriceDispatcher({ type: 'add', total: totalSum.price });
   }, []);
 
   function totalPriceReducer(state, action) {
     switch (action.type) {
-      case "add":
-        return { total: state.total + action.total};
-      case "reset":
+      case 'add':
+        return { total: state.total + action.total };
+      case 'reset':
         return totalPriceInitialState;
       default:
         throw new Error(`Wrong type of action: ${action.type}`);
@@ -67,10 +78,6 @@ function BurgerConstructor({
     onOpenModalWithIngredient({ itemId: id });
   };
 
-  function generateKey(id) {
-    return `${id}_${new Date().getTime()}`;
-  }
-
   return (
     <section
       className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
@@ -81,7 +88,7 @@ function BurgerConstructor({
       >
         <ConstructorElement
           type={bun.type}
-          isLocked={true}
+          isLocked
           text={`${bun.name} (верх)`}
           price={bun.price}
           thumbnail={bun.image}
@@ -96,7 +103,7 @@ function BurgerConstructor({
             key={item.uid}
             onClick={() => onClickToIngredient(item._id)}
           >
-            <DragIcon type={"primary"} />
+            <DragIcon type="primary" />
             <ConstructorElement
               text={item.name}
               price={item.price}
@@ -111,7 +118,7 @@ function BurgerConstructor({
       >
         <ConstructorElement
           type={bun.type}
-          isLocked={true}
+          isLocked
           text={`${bun.name} (низ)`}
           price={bun.price}
           thumbnail={bun.image}
@@ -129,7 +136,7 @@ function BurgerConstructor({
         <Button
           type="primary"
           size="medium"
-          onClick={() => createOrder("034536")} // временно хардкод номера заказа по макету
+          onClick={() => createOrder('034536')} // временно хардкод номера заказа по макету
         >
           Оформить заказ
         </Button>

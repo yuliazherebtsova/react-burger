@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import navigationStyles from "./navigation-link.module.css";
 
 function NavigationLink({
@@ -28,5 +29,13 @@ function NavigationLink({
     </a>
   );
 }
+
+NavigationLink.propTypes = {
+  children: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  onNavigationClick: PropTypes.func.isRequired,
+};
 
 export default NavigationLink;

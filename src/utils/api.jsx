@@ -1,4 +1,4 @@
-import { BASE_URL } from "./constants";
+import { BASE_URL } from './constants';
 
 export default class Api {
   constructor({ baseUrl, headers }) {
@@ -17,7 +17,7 @@ export default class Api {
      * @returns в случае успешного ответа - json с данными, иначе - реджект промиса
      */
     if (res.ok) return res.json();
-    return Promise.reject(`Ошибка запроса на сервер: ${res.status}`);
+    return Promise.reject(new Error(`Ошибка запроса на сервер: ${res.status}`));
   }
 
   getIngredients() {
@@ -32,7 +32,7 @@ export default class Api {
     }).then(this._checkResponse);
   }
 
-  postOrder() {
+  postOrder(ingredients) {
     /**
      * POST запрос с данными заказа на сервер */
 
@@ -40,10 +40,10 @@ export default class Api {
      * @returns промис полученный от сервера с помощью fetch
      */
     return fetch(`${this._baseUrl}/orders`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        ingredients: ingredients
+        ingredients,
       }),
     }).then(this._checkResponse);
   }
@@ -52,6 +52,6 @@ export default class Api {
 export const api = new Api({
   baseUrl: BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });

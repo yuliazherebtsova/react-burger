@@ -1,8 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import appStyles from "../app/app.module.css";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { dataPropTypes } from "../../utils/types";
 
@@ -17,20 +17,16 @@ function BurgerIngredients({ data, onOpenModal }) {
 
   const handleTabClick = (value) => setCurrentTab(value);
 
-  const getIngredientsByType = () => {
-    return Object.keys(ingredientTypes).map((key) => {
-      return {
+  const getIngredientsByType = () => Object.keys(ingredientTypes).map((key) => ({
         name: ingredientTypes[key],
         items: data.filter((el) => el.type === key),
-      };
-    });
-  };
+      }));
 
   const ingredientsByType = getIngredientsByType();
 
   return (
     <section className={ingredientsStyles.ingredients__container}>
-      <h1 className={"text text_type_main-large mt-10 mb-5"}>
+      <h1 className="text text_type_main-large mt-10 mb-5">
         Соберите бургер
       </h1>
       <nav>

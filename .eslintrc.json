@@ -1,0 +1,47 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:import/recommended",
+    "prettier"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "legacyDecorators": true
+    },
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "allowImportExportEverywhere": false
+  },
+  "plugins": ["react"],
+  "rules": {
+    // suppress errors for missing 'import React' in files
+    "react/react-in-jsx-scope": "off",
+    // allow jsx syntax in js files (for next.js project)
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", ".ts"] }
+    ],
+    "no-underscore-dangle": [
+      "warn",
+      {
+        "allow": ["_id"],
+        "enforceInMethodNames": false,
+        "allowAfterThis": true
+      }
+    ],
+    "class-methods-use-this": ["error"]
+  }
+}

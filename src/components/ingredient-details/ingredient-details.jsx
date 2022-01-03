@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import ingredientDetailsStyles from "./ingredient-details.module.css";
+import PropTypes from 'prop-types';
+import ingredientDetailsStyles from './ingredient-details.module.css';
 
 function IngredientDetails({
   image,
@@ -15,7 +15,7 @@ function IngredientDetails({
         className={`${ingredientDetailsStyles.ingredient__image} pb-4`}
         src={image}
         alt={name}
-      ></img>
+      />
       <p
         className={`${ingredientDetailsStyles.ingredient__name} text text_type_main-medium pb-8`}
       >

@@ -1,15 +1,15 @@
-import { useState } from "react";
-import headerStyles from "./app-header.module.css";
-import NavigationLink from "components/navigation-link/navigation-link";
+import { useState } from 'react';
+import NavigationLink from 'components/navigation-link/navigation-link';
 import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
   Logo,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import headerStyles from './app-header.module.css';
 
 function AppHeader() {
-  const [currentPage, setCurrentPage] = useState("constructor");
+  const [currentPage, setCurrentPage] = useState('constructor');
 
   const handleNavigationClick = (title) => {
     setCurrentPage(title);
@@ -22,15 +22,15 @@ function AppHeader() {
           <ul className={headerStyles.header__navigation}>
             <li>
               <NavigationLink
-                title={"constructor"}
+                title="constructor"
                 icon={
                   <BurgerIcon
                     type={
-                      currentPage === "constructor" ? "primary" : "secondary"
+                      currentPage === 'constructor' ? 'primary' : 'secondary'
                     }
                   />
                 }
-                isActive={currentPage === "constructor"}
+                isActive={currentPage === 'constructor'}
                 onNavigationClick={handleNavigationClick}
               >
                 Конструктор
@@ -38,13 +38,13 @@ function AppHeader() {
             </li>
             <li>
               <NavigationLink
-                title={"orderList"}
+                title="orderList"
                 icon={
                   <ListIcon
-                    type={currentPage === "orderList" ? "primary" : "secondary"}
+                    type={currentPage === 'orderList' ? 'primary' : 'secondary'}
                   />
                 }
-                isActive={currentPage === "orderList"}
+                isActive={currentPage === 'orderList'}
                 onNavigationClick={handleNavigationClick}
               >
                 Лента заказов
@@ -57,13 +57,13 @@ function AppHeader() {
             </li>
             <li>
               <NavigationLink
-                title={"profile"}
+                title="profile"
                 icon={
                   <ProfileIcon
-                    type={currentPage === "profile" ? "primary" : "secondary"}
+                    type={currentPage === 'profile' ? 'primary' : 'secondary'}
                   />
                 }
-                isActive={currentPage === "profile"}
+                isActive={currentPage === 'profile'}
                 onNavigationClick={handleNavigationClick}
               >
                 Личный кабинет

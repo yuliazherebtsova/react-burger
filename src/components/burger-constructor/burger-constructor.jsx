@@ -85,6 +85,7 @@ function BurgerConstructor({
       <div
         className={`${constructorStyles.constructor__bunTop} mr-4`}
         onClick={() => onClickToIngredient(bun._id)}
+        onKeyPress={() => onClickToIngredient(bun._id)}
       >
         <ConstructorElement
           type={bun.type}
@@ -102,6 +103,7 @@ function BurgerConstructor({
             className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
             key={item.uid}
             onClick={() => onClickToIngredient(item._id)}
+            onKeyPress={() => onClickToIngredient(item._id)}
           >
             <DragIcon type="primary" />
             <ConstructorElement
@@ -115,6 +117,7 @@ function BurgerConstructor({
       <div
         className={`${constructorStyles.constructor__bunBottom} mr-4`}
         onClick={() => onClickToIngredient(bun._id)}
+        onKeyPress={() => onClickToIngredient(bun._id)}
       >
         <ConstructorElement
           type={bun.type}

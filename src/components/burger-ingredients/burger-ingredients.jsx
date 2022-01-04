@@ -1,10 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import dataPropTypes from "utils/types";
+import BurgerIngredient from "components/burger-ingredient/burger-ingredient";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import appStyles from "../app/app.module.css";
-import BurgerIngredient from "../burger-ingredient/burger-ingredient";
-import { dataPropTypes } from "../../utils/types";
 
 function BurgerIngredients({ data, onOpenModal }) {
   const ingredientTypes = {

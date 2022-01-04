@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": "src" /* чтобы избежать длинных абсолютных путей импортов
-    https://stackoverflow.com/questions/59146997/how-to-avoid-very-long-paths-and-use-absolute-paths-within-a-create-react-app-pr */,
+    "baseUrl": "src", /* чтобы избежать длинных абсолютных путей импортов */
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

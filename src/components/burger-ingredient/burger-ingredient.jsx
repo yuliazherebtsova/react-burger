@@ -14,6 +14,7 @@ function BurgerIngredient({ id, image, price, name, onOpenModal }) {
     <li
       className={`${ingredientStyles.ingredient__сard} mb-8`}
       onClick={onOpenIngredient}
+      onKeyPress={onOpenIngredient}
     >
       <img src={image} alt={name} />
       <Counter count={1} size="default" />

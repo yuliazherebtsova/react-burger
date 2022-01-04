@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { ConstructorContext, OrderContext } from "../../utils/appContext";
-import appStyles from "./app.module.css";
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import { api } from "../../utils/api";
+import Modal from "components/modal/modal";
+import { ConstructorContext, OrderContext } from "utils/appContext";
+import appStyles from "components/app/app.module.css";
+import AppHeader from "components/app-header/app-header";
+import BurgerIngredients from "components/burger-ingredients/burger-ingredients";
+import BurgerConstructor from "components/burger-constructor/burger-constructor";
+import OrderDetails from "components/order-details/order-details";
+import IngredientDetails from "components/ingredient-details/ingredient-details";
+import { api } from "utils/api";
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);

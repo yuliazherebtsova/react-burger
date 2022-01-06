@@ -21,7 +21,13 @@ function App() {
     hasError: false,
     data: [],
   });
-  const [orderState, setOrderState] = useState(null);
+
+  const orderInitialState = {
+    isLoading: false,
+    hasError: false,
+    number: null,
+  };
+  const [orderState, setOrderState] = useState(orderInitialState);
 
   const constructorInitialState = { bun: {}, draggableItems: [] };
 
@@ -80,16 +86,12 @@ function App() {
     );
   };
 
-  const handleOrderModalOpen = ({ number }) => {
-    setOrderState(number);
-  };
-
   const handleIngredientModalClose = () => {
     setIngredientToView(null);
   };
 
   const handleOrderModalClose = () => {
-    setOrderState(null);
+    setOrderState(orderInitialState);
   };
 
   const ingredientsContextProvider = useMemo(
@@ -129,7 +131,6 @@ function App() {
               <ConstructorContext.Provider value={constructorContextProvider}>
                 <OrderContext.Provider value={orderContextProvider}>
                   <BurgerConstructor
-                    onOpenModalWithOrder={handleOrderModalOpen}
                     onOpenModalWithIngredient={handleIngredientModalOpen}
                   />
                   {ingredientToView && (
@@ -147,9 +148,21 @@ function App() {
                       />
                     </Modal>
                   )}
-                  {orderState && (
-                    <Modal onClose={handleOrderModalClose}>
-                      <OrderDetails />
+                  {!orderState.isLoading &&
+                    !orderState.hasError &&
+                    orderState.number && (
+                      <Modal onClose={handleOrderModalClose}>
+                        <OrderDetails />
+                      </Modal>
+                    )}
+                  {!orderState.isLoading && orderState.hasError && (
+                    <Modal
+                      title="Ошибка создания заказа"
+                      onClose={handleOrderModalClose}
+                    >
+                      <p className="text text_type_main-medium text_color_inactive pt-10">
+                        Пожалуйста, повторите попытку позднее
+                      </p>
                     </Modal>
                   )}
                 </OrderContext.Provider>

@@ -1,18 +1,18 @@
-import { useEffect } from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from "../modal-overlay/modal-overlay";
-import modalStyles from "./modal.module.css";
-import { portal } from "../../utils/constants";
+import { useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import modalStyles from './modal.module.css';
+import { portal } from '../../utils/constants';
 
-function Modal({ children, title = "", onClose }) {
+function Modal({ children, title = '', onClose }) {
   useEffect(() => {
     const handleEscPress = (evt) => {
-      if (evt.key === "Escape") onClose(evt);
+      if (evt.key === 'Escape') onClose(evt);
     };
-    document.addEventListener("keydown", handleEscPress);
-    return () => document.removeEventListener("keydown", handleEscPress);
+    document.addEventListener('keydown', handleEscPress);
+    return () => document.removeEventListener('keydown', handleEscPress);
   }, [onClose]);
 
   return ReactDOM.createPortal(

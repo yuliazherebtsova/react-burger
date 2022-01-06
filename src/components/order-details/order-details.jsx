@@ -1,14 +1,17 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import orderStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
+import { OrderContext } from '../../utils/appContext';
 
-function OrderDetails({ orderNumber }) {
+function OrderDetails() {
+  const { orderState } = useContext(OrderContext);
+
   return (
     <div className={orderStyles.order}>
       <div
         className={`${orderStyles.order__number} text text_type_digits-large pt-15 pb-8`}
       >
-        {orderNumber}
+        {orderState.number}
       </div>
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <img
@@ -23,9 +26,5 @@ function OrderDetails({ orderNumber }) {
     </div>
   );
 }
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.string.isRequired,
-};
 
 export default OrderDetails;

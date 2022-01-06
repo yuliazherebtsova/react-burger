@@ -1,4 +1,4 @@
-import { useMemo, useContext, useReducer, useEffect } from 'react';
+import { useMemo, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -15,13 +15,11 @@ import {
   OrderContext,
 } from '../../utils/appContext';
 
-function BurgerConstructor({
-  onOpenModalWithIngredient,
-  onOpenModalWithOrder,
-}) {
+function BurgerConstructor({ onOpenModalWithIngredient }) {
   const { ingredientsState } = useContext(IngredientsContext);
   const { constructorState, setConstructorState } =
     useContext(ConstructorContext);
+  const { orderState, setOrderState } = useContext(OrderContext);
 
   function generateKey(id) {
     return `${id}_${new Date().getTime()}`;
@@ -66,11 +64,27 @@ function BurgerConstructor({
   /* ********************************************************************************************* */
 
   const createOrder = async () => {
+    setOrderState({
+      ...orderState,
+      hasError: false,
+      isLoading: true,
+    });
     try {
-      const res = await api.postOrder();
-      console.log(res);
+      const res = await api.postOrder([
+        constructorState.bun,
+        ...constructorState.draggableItems,
+      ]);
+      setOrderState((prevState) => ({
+        ...prevState,
+        number: res.order.number,
+        isLoading: false,
+      }));
     } catch (err) {
-      console.log(err);
+      setOrderState((prevState) => ({
+        ...prevState,
+        hasError: true,
+        isLoading: false,
+      }));
     }
   };
 
@@ -137,7 +151,7 @@ function BurgerConstructor({
           <CurrencyIcon />
         </div>
         <Button type="primary" size="medium" onClick={() => createOrder()}>
-          Оформить заказ
+          {orderState.isLoading ? 'Создаем заказ...' : 'Оформить заказ'}
         </Button>
       </div>
     </section>
@@ -146,7 +160,6 @@ function BurgerConstructor({
 
 BurgerConstructor.propTypes = {
   onOpenModalWithIngredient: PropTypes.func.isRequired,
-  onOpenModalWithOrder: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

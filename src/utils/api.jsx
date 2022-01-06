@@ -6,6 +6,7 @@ export default class Api {
     this._headers = headers;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _checkResponse(res) {
     /**
      * проверка ответа сервера на корректность:

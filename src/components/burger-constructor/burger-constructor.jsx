@@ -26,7 +26,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
   }
 
   const totalPrice = useMemo(() => {
-    const bunsPrice = constructorState.bun.price
+    const bunsPrice = !constructorState.bun.isEmpty
       ? constructorState.bun.price * 2
       : 0;
 
@@ -79,6 +79,9 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         number: res.order.number,
         isLoading: false,
       }));
+      setConstructorState({
+        type: 'RESET',
+      });
     } catch (err) {
       setOrderState((prevState) => ({
         ...prevState,
@@ -96,51 +99,62 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     <section
       className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
     >
-      <div
-        className={`${constructorStyles.constructor__bunTop} mr-4`}
-        onClick={() => onClickToIngredient(constructorState.bun._id)}
-        onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
-      >
-        <ConstructorElement
-          type={constructorState.bun.type}
-          text={`${constructorState.bun.name} (верх)`}
-          price={constructorState.bun.price}
-          thumbnail={constructorState.bun.image}
-          isLocked
-        />
-      </div>
+      {!constructorState.bun.isEmpty && (
+        <div
+          className={`${constructorStyles.constructor__bunTop} mr-4`}
+          onClick={() => onClickToIngredient(constructorState.bun._id)}
+          onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
+        >
+          <ConstructorElement
+            type={constructorState.bun.type}
+            text={`${constructorState.bun.name} (верх)`}
+            price={constructorState.bun.price}
+            thumbnail={constructorState.bun.image}
+            isLocked
+          />
+        </div>
+      )}
+
       <ul
-        className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
+        className={`${constructorStyles.constructor__nonBunElements} ${
+          constructorState.draggableItems.length === 0
+            ? constructorStyles.constructor__nonBunElements_empty
+            : ''
+        } ${appStyles.scroll} pt-4`}
       >
-        {constructorState.draggableItems.map((item) => (
-          <li
-            className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
-            key={item.uid}
-            onClick={() => onClickToIngredient(item._id)}
-            onKeyPress={() => onClickToIngredient(item._id)}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
-            />
-          </li>
-        ))}
+        {constructorState.draggableItems.length > 0 &&
+          constructorState.draggableItems.map((item) => (
+            <li
+              className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
+              key={item.uid}
+              onClick={() => onClickToIngredient(item._id)}
+              onKeyPress={() => onClickToIngredient(item._id)}
+            >
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </li>
+          ))}
       </ul>
-      <div
-        className={`${constructorStyles.constructor__bunBottom} mr-4`}
-        onClick={() => onClickToIngredient(constructorState.bun._id)}
-        onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
-      >
-        <ConstructorElement
-          type={constructorState.bun.type}
-          text={`${constructorState.bun.name} (низ)`}
-          price={constructorState.bun.price}
-          thumbnail={constructorState.bun.image}
-          isLocked
-        />
-      </div>
+
+      {!constructorState.bun.isEmpty && (
+        <div
+          className={`${constructorStyles.constructor__bunBottom} mr-4`}
+          onClick={() => onClickToIngredient(constructorState.bun._id)}
+          onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
+        >
+          <ConstructorElement
+            type={constructorState.bun.type}
+            text={`${constructorState.bun.name} (низ)`}
+            price={constructorState.bun.price}
+            thumbnail={constructorState.bun.image}
+            isLocked
+          />
+        </div>
+      )}
       <div
         className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
       >

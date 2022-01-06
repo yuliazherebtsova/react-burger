@@ -29,7 +29,10 @@ function App() {
   };
   const [orderState, setOrderState] = useState(orderInitialState);
 
-  const constructorInitialState = { bun: {}, draggableItems: [] };
+  const constructorInitialState = {
+    bun: { isEmpty: true },
+    draggableItems: [],
+  };
 
   function constructorReducer(state, action) {
     switch (action.type) {

@@ -19,7 +19,7 @@ function BurgerIngredient({ id, image, price, name, onOpenModal }) {
       <img src={image} alt={name} />
       <Counter count={1} size="default" />
       <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
-        <p className="text text_type_digits-default mr-2">{price}</p>
+        <span className="text text_type_digits-default mr-2">{price}</span>
         <CurrencyIcon />
       </div>
       <p

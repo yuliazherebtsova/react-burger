@@ -6,6 +6,7 @@ import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { api } from 'utils/api';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 import {
@@ -26,64 +27,51 @@ function BurgerConstructor({
     return `${id}_${new Date().getTime()}`;
   }
 
+  const totalPrice = useMemo(() => {
+    const bunsPrice = constructorState.bun.price
+      ? constructorState.bun.price * 2
+      : 0;
+
+    const nonBunElementsPrice = constructorState.draggableItems.reduce(
+      (acc, item) => acc + item.price,
+      0
+    );
+
+    return bunsPrice + nonBunElementsPrice;
+  }, [constructorState]);
+
   /* ********************************************************************************************* */
   /** Временно заполняем корзину с заказом случайными элементами из массива данных об ингредиентах */
   /* ********************************************************************************************* */
 
-  const bun = useMemo(
-    () => ingredientsState.data.find((item) => item.type === 'bun'),
-    [ingredientsState]
-  );
+  useEffect(() => {
+    setConstructorState({
+      type: 'ADD_BUN',
+      payload: ingredientsState.data.find((item) => item.type === 'bun'),
+    });
 
-  const nonBunElements = useMemo(
-    () =>
+    setConstructorState({
       /**
        * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
-       * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива nonBunElements.
-       * Делать это нужно только в тот момент когда меняется массив исходных данных, поэтому вычисление мемоизируем
-       * через useMemo с зависимостями [data]. Теперь uid не будет меняться при каждой перерисовке компонента,
-       * и мы можем использовать его в качестве key.
+       * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива draggableItems в state конструктора.
        */
-      ingredientsState.data
+      type: 'ADD_NON_BUN_ELEMENT',
+      payload: ingredientsState.data
         .filter((item) => item.type !== 'bun')
         .map((item) => ({ ...item, uid: generateKey(item._id) }))
         .slice(2, 9),
-    [ingredientsState]
-  );
+    });
+  }, [ingredientsState]);
 
   /* ********************************************************************************************* */
 
-  const orderCart = [bun, ...nonBunElements];
-
-  const totalPriceInitialState = { total: 0 };
-
-  function totalPriceReducer(state, action) {
-    switch (action.type) {
-      case 'add':
-        return { total: state.total + action.total };
-      case 'reset':
-        return totalPriceInitialState;
-      default:
-        throw new Error(`Wrong type of action: ${action.type}`);
+  const createOrder = async () => {
+    try {
+      const res = await api.postOrder();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
-  }
-
-  const [totalPriceState, totalPriceDispatcher] = useReducer(
-    totalPriceReducer,
-    totalPriceInitialState,
-    undefined
-  );
-
-  useEffect(() => {
-    const totalSum = orderCart.reduce(
-      (x, y) => ({ price: x.price + y.price }),
-      { price: orderCart[0].price }
-    );
-    totalPriceDispatcher({ type: 'add', total: totalSum.price });
-  }, []);
-
-  const createOrder = (number) => {
-    onOpenModalWithOrder({ orderNumber: number });
   };
 
   const onClickToIngredient = (id) => {
@@ -96,21 +84,21 @@ function BurgerConstructor({
     >
       <div
         className={`${constructorStyles.constructor__bunTop} mr-4`}
-        onClick={() => onClickToIngredient(bun._id)}
-        onKeyPress={() => onClickToIngredient(bun._id)}
+        onClick={() => onClickToIngredient(constructorState.bun._id)}
+        onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
       >
         <ConstructorElement
-          type={bun.type}
+          type={constructorState.bun.type}
+          text={`${constructorState.bun.name} (верх)`}
+          price={constructorState.bun.price}
+          thumbnail={constructorState.bun.image}
           isLocked
-          text={`${bun.name} (верх)`}
-          price={bun.price}
-          thumbnail={bun.image}
         />
       </div>
       <ul
         className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
       >
-        {nonBunElements.map((item) => (
+        {constructorState.draggableItems.map((item) => (
           <li
             className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
             key={item.uid}
@@ -128,31 +116,27 @@ function BurgerConstructor({
       </ul>
       <div
         className={`${constructorStyles.constructor__bunBottom} mr-4`}
-        onClick={() => onClickToIngredient(bun._id)}
-        onKeyPress={() => onClickToIngredient(bun._id)}
+        onClick={() => onClickToIngredient(constructorState.bun._id)}
+        onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
       >
         <ConstructorElement
-          type={bun.type}
+          type={constructorState.bun.type}
+          text={`${constructorState.bun.name} (низ)`}
+          price={constructorState.bun.price}
+          thumbnail={constructorState.bun.image}
           isLocked
-          text={`${bun.name} (низ)`}
-          price={bun.price}
-          thumbnail={bun.image}
         />
       </div>
       <div
         className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
       >
         <div className={`${constructorStyles.constructor__totalPrice} mr-10`}>
-          <p className="text text_type_digits-medium mr-2">
-            {totalPriceState.total}
-          </p>
+          <span className="text text_type_digits-medium mr-2">
+            {totalPrice}
+          </span>
           <CurrencyIcon />
         </div>
-        <Button
-          type="primary"
-          size="medium"
-          onClick={() => createOrder('034536')} // временно хардкод номера заказа по макету
-        >
+        <Button type="primary" size="medium" onClick={() => createOrder()}>
           Оформить заказ
         </Button>
       </div>

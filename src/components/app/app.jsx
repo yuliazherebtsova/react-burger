@@ -23,11 +23,18 @@ function App() {
   });
   const [orderState, setOrderState] = useState(null);
 
-  const constructorInitialState = { bun: null, draggableItem: [] };
+  const constructorInitialState = { bun: {}, draggableItems: [] };
 
   function constructorReducer(state, action) {
     switch (action.type) {
-      case 'reset':
+      case 'ADD_BUN':
+        return { ...state, bun: action.payload };
+      case 'ADD_NON_BUN_ELEMENT':
+        return {
+          ...state,
+          draggableItems: state.draggableItems.concat(action.payload),
+        };
+      case 'RESET':
         return constructorInitialState;
       default:
         throw new Error(`Wrong type of action: ${action.type}`);

@@ -2,7 +2,7 @@
 @import url('../src/vendor/fonts/fonts.css');
 /* vendor css */
 
-body {
+:root {
   --max-width-desktop: 1920px;
   --max-header-width-desktop: 1280px;
   --max-content-width-desktop: 1240px;

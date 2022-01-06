@@ -31,7 +31,7 @@ function NavigationLink({
 }
 
 NavigationLink.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
   isActive: PropTypes.bool.isRequired,

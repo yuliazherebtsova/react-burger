@@ -1,39 +1,63 @@
-import { useState, useEffect } from "react";
-import Modal from "components/modal/modal";
-import { ConstructorContext, OrderContext } from "utils/appContext";
-import appStyles from "components/app/app.module.css";
-import AppHeader from "components/app-header/app-header";
-import BurgerIngredients from "components/burger-ingredients/burger-ingredients";
-import BurgerConstructor from "components/burger-constructor/burger-constructor";
-import OrderDetails from "components/order-details/order-details";
-import IngredientDetails from "components/ingredient-details/ingredient-details";
-import { api } from "utils/api";
+import { useState, useEffect, useReducer } from 'react';
+import Modal from 'components/modal/modal';
+import {
+  IngredientsContext,
+  ConstructorContext,
+  OrderContext,
+} from 'utils/appContext';
+import appStyles from 'components/app/app.module.css';
+import AppHeader from 'components/app-header/app-header';
+import BurgerIngredients from 'components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from 'components/burger-constructor/burger-constructor';
+import OrderDetails from 'components/order-details/order-details';
+import IngredientDetails from 'components/ingredient-details/ingredient-details';
+import { api } from 'utils/api';
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);
-  const [orderNumber, setOrderNumber] = useState(null);
 
-  const [state, setState] = useState({
-    // ingredientsState
+  const [ingredientsState, setIngredientsState] = useState({
     isLoading: false,
     hasError: false,
     data: [],
   });
+  const [orderState, setOrderState] = useState(null);
+
+  const constructorInitialState = { bun: null, draggableItem: [] };
+
+  function constructorReducer(state, action) {
+    switch (action.type) {
+      case 'reset':
+        return constructorInitialState;
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  }
+
+  const [constructorState, setConstructorState] = useReducer(
+    constructorReducer,
+    constructorInitialState,
+    undefined
+  );
 
   useEffect(() => {
     const getIngredientsData = async () => {
-      setState({ ...state, hasError: false, isLoading: true });
+      setIngredientsState({
+        ...ingredientsState,
+        hasError: false,
+        isLoading: true,
+      });
       try {
-        const data = await api.getIngredients();
+        const res = await api.getIngredients();
         /* в такой реализации state после await может быть уже не актуальный,
         нужно использовать setState с функцией, чтобы применять актуальный стейт */
-        setState((prevState) => ({
+        setIngredientsState((prevState) => ({
           ...prevState,
-          data: data.data,
+          data: res.data,
           isLoading: false,
         }));
       } catch (err) {
-        setState((prevState) => ({
+        setIngredientsState((prevState) => ({
           ...prevState,
           hasError: true,
           isLoading: false,
@@ -43,14 +67,12 @@ function App() {
     getIngredientsData();
   }, []);
 
-  const { data, isLoading, hasError } = state;
-
   const handleIngredientModalOpen = ({ itemId }) => {
-    setIngredientToView(data.find((item) => item._id === itemId));
+    setIngredientToView(ingredientsState.data.find((item) => item._id === itemId));
   };
 
   const handleOrderModalOpen = ({ number }) => {
-    setOrderNumber(number);
+    setOrderState(number);
   };
 
   const handleIngredientModalClose = () => {
@@ -58,60 +80,60 @@ function App() {
   };
 
   const handleOrderModalClose = () => {
-    setOrderNumber(null);
+    setOrderState(null);
   };
 
   return (
     <>
       <AppHeader />
       <main className={appStyles.page}>
-        {isLoading && (
+        {ingredientsState.isLoading && (
           <p className="text text_type_main-medium text_color_inactive pt-10">
             Загрузка...
           </p>
         )}
-        {hasError && (
+        {ingredientsState.hasError && (
           <p className="text text_type_main-medium text_color_inactive pt-10">
             Ошибка загрузки данных
           </p>
         )}
-        {!isLoading && !hasError && data.length && (
-          <>
-            <BurgerIngredients
-              data={data}
-              onOpenModal={handleIngredientModalOpen}
-            />
-            <ConstructorContext.Provider value={data}>
-              <OrderContext.Provider>
-                <BurgerConstructor
-                  onOpenModalWithOrder={handleOrderModalOpen}
-                  onOpenModalWithIngredient={handleIngredientModalOpen}
-                />
-
-                {ingredientToView && (
-                  <Modal
-                    title="Детали ингредиента"
-                    onClose={handleIngredientModalClose}
-                  >
-                    <IngredientDetails
-                      image={ingredientToView.image}
-                      name={ingredientToView.name}
-                      fat={ingredientToView.fat}
-                      carbohydrates={ingredientToView.carbohydrates}
-                      calories={ingredientToView.calories}
-                      proteins={ingredientToView.proteins}
-                    />
-                  </Modal>
-                )}
-                {orderNumber && (
-                  <Modal onClose={handleOrderModalClose}>
-                    <OrderDetails orderNumber={orderNumber} />
-                  </Modal>
-                )}
-              </OrderContext.Provider>
-            </ConstructorContext.Provider>
-          </>
-        )}
+        {!ingredientsState.isLoading &&
+          !ingredientsState.hasError &&
+          ingredientsState.data.length && (
+            <IngredientsContext.Provider value={{ ingredientsState }}>
+              <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
+              <ConstructorContext.Provider
+                value={(constructorState, setConstructorState)}
+              >
+                <OrderContext.Provider value={{ orderState, setOrderState }}>
+                  <BurgerConstructor
+                    onOpenModalWithOrder={handleOrderModalOpen}
+                    onOpenModalWithIngredient={handleIngredientModalOpen}
+                  />
+                  {ingredientToView && (
+                    <Modal
+                      title="Детали ингредиента"
+                      onClose={handleIngredientModalClose}
+                    >
+                      <IngredientDetails
+                        image={ingredientToView.image}
+                        name={ingredientToView.name}
+                        fat={ingredientToView.fat}
+                        carbohydrates={ingredientToView.carbohydrates}
+                        calories={ingredientToView.calories}
+                        proteins={ingredientToView.proteins}
+                      />
+                    </Modal>
+                  )}
+                  {orderState && (
+                    <Modal onClose={handleOrderModalClose}>
+                      <OrderDetails />
+                    </Modal>
+                  )}
+                </OrderContext.Provider>
+              </ConstructorContext.Provider>
+            </IngredientsContext.Provider>
+          )}
       </main>
     </>
   );

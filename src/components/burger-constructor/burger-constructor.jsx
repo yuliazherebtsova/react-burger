@@ -8,12 +8,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
-import { ConstructorContext } from '../../utils/appContext';
+import {
+  IngredientsContext,
+  ConstructorContext,
+  OrderContext,
+} from '../../utils/appContext';
 
 function BurgerConstructor({
   onOpenModalWithIngredient,
   onOpenModalWithOrder,
 }) {
+  const { ingredientsState } = useContext(IngredientsContext);
   const { constructorState, setConstructorState } =
     useContext(ConstructorContext);
 
@@ -21,10 +26,15 @@ function BurgerConstructor({
     return `${id}_${new Date().getTime()}`;
   }
 
+  /* ********************************************************************************************* */
+  /** Временно заполняем корзину с заказом случайными элементами из массива данных об ингредиентах */
+  /* ********************************************************************************************* */
+
   const bun = useMemo(
-    () => constructorState.find((item) => item.type === 'bun'),
-    [constructorState]
+    () => ingredientsState.data.find((item) => item.type === 'bun'),
+    [ingredientsState]
   );
+
   const nonBunElements = useMemo(
     () =>
       /**
@@ -34,16 +44,29 @@ function BurgerConstructor({
        * через useMemo с зависимостями [data]. Теперь uid не будет меняться при каждой перерисовке компонента,
        * и мы можем использовать его в качестве key.
        */
-      constructorState
+      ingredientsState.data
         .filter((item) => item.type !== 'bun')
         .map((item) => ({ ...item, uid: generateKey(item._id) }))
         .slice(2, 9),
-    [constructorState]
+    [ingredientsState]
   );
+
+  /* ********************************************************************************************* */
 
   const orderCart = [bun, ...nonBunElements];
 
   const totalPriceInitialState = { total: 0 };
+
+  function totalPriceReducer(state, action) {
+    switch (action.type) {
+      case 'add':
+        return { total: state.total + action.total };
+      case 'reset':
+        return totalPriceInitialState;
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  }
 
   const [totalPriceState, totalPriceDispatcher] = useReducer(
     totalPriceReducer,
@@ -58,17 +81,6 @@ function BurgerConstructor({
     );
     totalPriceDispatcher({ type: 'add', total: totalSum.price });
   }, []);
-
-  function totalPriceReducer(state, action) {
-    switch (action.type) {
-      case 'add':
-        return { total: state.total + action.total };
-      case 'reset':
-        return totalPriceInitialState;
-      default:
-        throw new Error(`Wrong type of action: ${action.type}`);
-    }
-  }
 
   const createOrder = (number) => {
     onOpenModalWithOrder({ orderNumber: number });

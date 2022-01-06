@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useMemo, useState, useEffect, useReducer } from 'react';
 import Modal from 'components/modal/modal';
 import {
   IngredientsContext,
@@ -68,7 +68,9 @@ function App() {
   }, []);
 
   const handleIngredientModalOpen = ({ itemId }) => {
-    setIngredientToView(ingredientsState.data.find((item) => item._id === itemId));
+    setIngredientToView(
+      ingredientsState.data.find((item) => item._id === itemId)
+    );
   };
 
   const handleOrderModalOpen = ({ number }) => {
@@ -82,6 +84,21 @@ function App() {
   const handleOrderModalClose = () => {
     setOrderState(null);
   };
+
+  const ingredientsContextProvider = useMemo(
+    () => ({ ingredientsState, setIngredientsState }),
+    [ingredientsState, setIngredientsState]
+  );
+
+  const constructorContextProvider = useMemo(
+    () => ({ constructorState, setConstructorState }),
+    [constructorState, setConstructorState]
+  );
+
+  const orderContextProvider = useMemo(
+    () => ({ orderState, setOrderState }),
+    [orderState, setOrderState]
+  );
 
   return (
     <>
@@ -100,12 +117,10 @@ function App() {
         {!ingredientsState.isLoading &&
           !ingredientsState.hasError &&
           ingredientsState.data.length && (
-            <IngredientsContext.Provider value={{ ingredientsState }}>
+            <IngredientsContext.Provider value={ingredientsContextProvider}>
               <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
-              <ConstructorContext.Provider
-                value={(constructorState, setConstructorState)}
-              >
-                <OrderContext.Provider value={{ orderState, setOrderState }}>
+              <ConstructorContext.Provider value={constructorContextProvider}>
+                <OrderContext.Provider value={orderContextProvider}>
                   <BurgerConstructor
                     onOpenModalWithOrder={handleOrderModalOpen}
                     onOpenModalWithIngredient={handleIngredientModalOpen}

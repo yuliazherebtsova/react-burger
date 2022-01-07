@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import Modal from 'components/modal/modal';
 import {
   IngredientsContext,
@@ -30,7 +30,7 @@ function App() {
   const [orderState, setOrderState] = useState(orderInitialState);
 
   const constructorInitialState = {
-    bun: { isEmpty: true },
+    bun: {},
     draggableItems: [],
   };
 
@@ -97,21 +97,7 @@ function App() {
     setOrderState(orderInitialState);
   };
 
-  const ingredientsContextProvider = useMemo(
-    () => ({ ingredientsState, setIngredientsState }),
-    [ingredientsState, setIngredientsState]
-  );
-
-  const constructorContextProvider = useMemo(
-    () => ({ constructorState, setConstructorState }),
-    [constructorState, setConstructorState]
-  );
-
-  const orderContextProvider = useMemo(
-    () => ({ orderState, setOrderState }),
-    [orderState, setOrderState]
-  );
-
+  /* eslint-disable react/jsx-no-constructed-context-values */
   return (
     <>
       <AppHeader />
@@ -129,10 +115,14 @@ function App() {
         {!ingredientsState.isLoading &&
           !ingredientsState.hasError &&
           ingredientsState.data.length && (
-            <IngredientsContext.Provider value={ingredientsContextProvider}>
+            <IngredientsContext.Provider
+              value={{ ingredientsState, setIngredientsState }}
+            >
               <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
-              <ConstructorContext.Provider value={constructorContextProvider}>
-                <OrderContext.Provider value={orderContextProvider}>
+              <ConstructorContext.Provider
+                value={{ constructorState, setConstructorState }}
+              >
+                <OrderContext.Provider value={{ orderState, setOrderState }}>
                   <BurgerConstructor
                     onOpenModalWithIngredient={handleIngredientModalOpen}
                   />

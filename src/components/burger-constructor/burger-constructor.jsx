@@ -7,6 +7,7 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { api } from 'utils/api';
+import { v4 as uuidv4 } from 'uuid';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 import {
@@ -21,14 +22,17 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     useContext(ConstructorContext);
   const { orderState, setOrderState } = useContext(OrderContext);
 
-  function generateKey(id) {
-    return `${id}_${new Date().getTime()}`;
-  }
+  const nonBunElementsClass = `${
+    constructorStyles.constructor__nonBunElements
+  } ${
+    constructorState.draggableItems.length === 0
+      ? constructorStyles.constructor__nonBunElements_empty
+      : ''
+  } ${appStyles.scroll} pt-4`;
 
   const totalPrice = useMemo(() => {
-    const bunsPrice = !constructorState.bun.isEmpty
-      ? constructorState.bun.price * 2
-      : 0;
+    const bunsPrice =
+      constructorState.bun.type === 'bun' ? constructorState.bun.price * 2 : 0;
 
     const nonBunElementsPrice = constructorState.draggableItems.reduce(
       (acc, item) => acc + item.price,
@@ -37,10 +41,6 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
 
     return bunsPrice + nonBunElementsPrice;
   }, [constructorState]);
-
-  /* ********************************************************************************************* */
-  /** Временно заполняем корзину с заказом случайными элементами из массива данных об ингредиентах */
-  /* ********************************************************************************************* */
 
   useEffect(() => {
     setConstructorState({
@@ -56,12 +56,10 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       type: 'ADD_NON_BUN_ELEMENT',
       payload: ingredientsState.data
         .filter((item) => item.type !== 'bun')
-        .map((item) => ({ ...item, uid: generateKey(item._id) }))
+        .map((item) => ({ ...item, uid: uuidv4() }))
         .slice(2, 9),
     });
   }, [ingredientsState]);
-
-  /* ********************************************************************************************* */
 
   const createOrder = async () => {
     setOrderState({
@@ -99,7 +97,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     <section
       className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
     >
-      {!constructorState.bun.isEmpty && (
+      {constructorState.bun.type === 'bun' && (
         <div
           className={`${constructorStyles.constructor__bunTop} mr-4`}
           onClick={() => onClickToIngredient(constructorState.bun._id)}
@@ -115,32 +113,25 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         </div>
       )}
 
-      <ul
-        className={`${constructorStyles.constructor__nonBunElements} ${
-          constructorState.draggableItems.length === 0
-            ? constructorStyles.constructor__nonBunElements_empty
-            : ''
-        } ${appStyles.scroll} pt-4`}
-      >
-        {constructorState.draggableItems.length > 0 &&
-          constructorState.draggableItems.map((item) => (
-            <li
-              className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
-              key={item.uid}
-              onClick={() => onClickToIngredient(item._id)}
-              onKeyPress={() => onClickToIngredient(item._id)}
-            >
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </li>
-          ))}
+      <ul className={nonBunElementsClass}>
+        {constructorState.draggableItems.map((item) => (
+          <li
+            className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
+            key={item.uid}
+            onClick={() => onClickToIngredient(item._id)}
+            onKeyPress={() => onClickToIngredient(item._id)}
+          >
+            <DragIcon type="primary" />
+            <ConstructorElement
+              text={item.name}
+              price={item.price}
+              thumbnail={item.image}
+            />
+          </li>
+        ))}
       </ul>
 
-      {!constructorState.bun.isEmpty && (
+      {constructorState.bun.type === 'bun' && (
         <div
           className={`${constructorStyles.constructor__bunBottom} mr-4`}
           onClick={() => onClickToIngredient(constructorState.bun._id)}

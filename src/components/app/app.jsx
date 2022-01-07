@@ -12,6 +12,7 @@ import BurgerConstructor from 'components/burger-constructor/burger-constructor'
 import OrderDetails from 'components/order-details/order-details';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import { api } from 'utils/api';
+import { orderInitialState, constructorInitialState } from 'utils/constants';
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);
@@ -22,17 +23,7 @@ function App() {
     data: [],
   });
 
-  const orderInitialState = {
-    isLoading: false,
-    hasError: false,
-    number: null,
-  };
   const [orderState, setOrderState] = useState(orderInitialState);
-
-  const constructorInitialState = {
-    bun: {},
-    draggableItems: [],
-  };
 
   function constructorReducer(state, action) {
     switch (action.type) {

@@ -89,10 +89,10 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     }
   };
 
-  const onClickToIngredient = (uid) => {
-    console.log(uid);
-    onOpenModalWithIngredient({ itemId: uid });
-  };
+  const onClickToIngredient = useCallback(
+    (uid) => () => onOpenModalWithIngredient({ itemId: uid }),
+    []
+  );
 
   const onOrderButtonClick = () => {
     createOrder();
@@ -105,8 +105,8 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       {constructorState.bun.type === 'bun' && (
         <div
           className={`${constructorStyles.constructor__bunTop} mr-4`}
-          onClick={() => onClickToIngredient(constructorState.bun._id)}
-          onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
+          onClick={onClickToIngredient(constructorState.bun._id)}
+          onKeyPress={onClickToIngredient(constructorState.bun._id)}
         >
           <ConstructorElement
             type={constructorState.bun.type}
@@ -123,8 +123,8 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
           <li
             className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
             key={item.uid}
-            onClick={() => onClickToIngredient(item._id)}
-            onKeyPress={() => onClickToIngredient(item._id)}
+            onClick={onClickToIngredient(item._id)}
+            onKeyPress={onClickToIngredient(item._id)}
           >
             <DragIcon type="primary" />
             <ConstructorElement
@@ -139,8 +139,8 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       {constructorState.bun.type === 'bun' && (
         <div
           className={`${constructorStyles.constructor__bunBottom} mr-4`}
-          onClick={() => onClickToIngredient(constructorState.bun._id)}
-          onKeyPress={() => onClickToIngredient(constructorState.bun._id)}
+          onClick={onClickToIngredient(constructorState.bun._id)}
+          onKeyPress={onClickToIngredient(constructorState.bun._id)}
         >
           <ConstructorElement
             type={constructorState.bun.type}

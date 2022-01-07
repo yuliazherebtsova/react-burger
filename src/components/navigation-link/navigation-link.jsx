@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import navigationStyles from "./navigation-link.module.css";
+import PropTypes from 'prop-types';
+import navigationStyles from './navigation-link.module.css';
 
 function NavigationLink({
   children,
@@ -12,7 +12,7 @@ function NavigationLink({
     onNavigationClick(title);
   };
 
-  const navigtionTextStyle = !isActive ? "text_color_inactive" : "";
+  const navigtionTextStyle = !isActive ? 'text_color_inactive' : '';
 
   return (
     <a

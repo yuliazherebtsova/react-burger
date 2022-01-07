@@ -1,4 +1,4 @@
-import { useMemo, useContext, useEffect } from 'react';
+import { useMemo, useContext, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -89,8 +89,13 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     }
   };
 
-  const onClickToIngredient = (id) => {
-    onOpenModalWithIngredient({ itemId: id });
+  const onClickToIngredient = (uid) => {
+    console.log(uid);
+    onOpenModalWithIngredient({ itemId: uid });
+  };
+
+  const onOrderButtonClick = () => {
+    createOrder();
   };
 
   return (
@@ -155,7 +160,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
           </span>
           <CurrencyIcon />
         </div>
-        <Button type="primary" size="medium" onClick={() => createOrder()}>
+        <Button type="primary" size="medium" onClick={onOrderButtonClick}>
           {orderState.isLoading ? 'Создаем заказ...' : 'Оформить заказ'}
         </Button>
       </div>

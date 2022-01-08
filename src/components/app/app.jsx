@@ -12,16 +12,19 @@ import BurgerConstructor from 'components/burger-constructor/burger-constructor'
 import OrderDetails from 'components/order-details/order-details';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import { api } from 'utils/api';
-import { orderInitialState, constructorInitialState } from 'utils/constants';
+import {
+  ingredientsInitialState,
+  orderInitialState,
+  constructorInitialState,
+} from 'utils/constants';
+import LoadingIndicatorHOC from 'components/loading-indicator-hoc/loading-indicator-hoc';
 
 function App() {
   const [ingredientToView, setIngredientToView] = useState(null);
 
-  const [ingredientsState, setIngredientsState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
+  const [ingredientsState, setIngredientsState] = useState(
+    ingredientsInitialState
+  );
 
   const [orderState, setOrderState] = useState(orderInitialState);
 
@@ -84,6 +87,10 @@ function App() {
     setIngredientToView(null);
   };
 
+  const handleErrorModalClose = () => {
+    setIngredientsState(ingredientsInitialState);
+  };
+
   const handleOrderModalClose = () => {
     setOrderState(orderInitialState);
   };
@@ -93,66 +100,51 @@ function App() {
     <>
       <AppHeader />
       <main className={appStyles.page}>
-        {ingredientsState.isLoading && (
-          <p className="text text_type_main-medium text_color_inactive pt-10">
-            Загрузка...
-          </p>
-        )}
-        {ingredientsState.hasError && (
-          <p className="text text_type_main-medium text_color_inactive pt-10">
-            Ошибка загрузки данных
-          </p>
-        )}
-        {!ingredientsState.isLoading &&
-          !ingredientsState.hasError &&
-          ingredientsState.data.length && (
-            <IngredientsContext.Provider
-              value={{ ingredientsState, setIngredientsState }}
+        <LoadingIndicatorHOC
+          isLoading={ingredientsState.isLoading}
+          hasError={ingredientsState.hasError}
+          gotData={Boolean(ingredientsState.data.length)}
+          onClick={handleErrorModalClose}
+        >
+          <IngredientsContext.Provider
+            value={{ ingredientsState, setIngredientsState }}
+          >
+            <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
+            <ConstructorContext.Provider
+              value={{ constructorState, setConstructorState }}
             >
-              <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
-              <ConstructorContext.Provider
-                value={{ constructorState, setConstructorState }}
-              >
-                <OrderContext.Provider value={{ orderState, setOrderState }}>
-                  <BurgerConstructor
-                    onOpenModalWithIngredient={handleIngredientModalOpen}
-                  />
-                  {ingredientToView && (
-                    <Modal
-                      title="Детали ингредиента"
-                      onClose={handleIngredientModalClose}
-                    >
-                      <IngredientDetails
-                        image={ingredientToView.image}
-                        name={ingredientToView.name}
-                        fat={ingredientToView.fat}
-                        carbohydrates={ingredientToView.carbohydrates}
-                        calories={ingredientToView.calories}
-                        proteins={ingredientToView.proteins}
-                      />
-                    </Modal>
-                  )}
-                  {!orderState.isLoading &&
-                    !orderState.hasError &&
-                    orderState.number && (
-                      <Modal onClose={handleOrderModalClose}>
-                        <OrderDetails />
-                      </Modal>
-                    )}
-                  {!orderState.isLoading && orderState.hasError && (
-                    <Modal
-                      title="Ошибка создания заказа"
-                      onClose={handleOrderModalClose}
-                    >
-                      <p className="text text_type_main-medium text_color_inactive pt-10">
-                        Пожалуйста, повторите попытку позднее
-                      </p>
-                    </Modal>
-                  )}
-                </OrderContext.Provider>
-              </ConstructorContext.Provider>
-            </IngredientsContext.Provider>
-          )}
+              <OrderContext.Provider value={{ orderState, setOrderState }}>
+                <BurgerConstructor
+                  onOpenModalWithIngredient={handleIngredientModalOpen}
+                />
+                {ingredientToView && (
+                  <Modal
+                    title="Детали ингредиента"
+                    onClose={handleIngredientModalClose}
+                  >
+                    <IngredientDetails
+                      image={ingredientToView.image}
+                      name={ingredientToView.name}
+                      fat={ingredientToView.fat}
+                      carbohydrates={ingredientToView.carbohydrates}
+                      calories={ingredientToView.calories}
+                      proteins={ingredientToView.proteins}
+                    />
+                  </Modal>
+                )}
+                <LoadingIndicatorHOC
+                  hasError={orderState.hasError}
+                  gotData={Boolean(orderState.number)}
+                  onClick={handleOrderModalClose}
+                >
+                  <Modal onClose={handleOrderModalClose}>
+                    <OrderDetails />
+                  </Modal>
+                </LoadingIndicatorHOC>
+              </OrderContext.Provider>
+            </ConstructorContext.Provider>
+          </IngredientsContext.Provider>
+        </LoadingIndicatorHOC>
       </main>
     </>
   );

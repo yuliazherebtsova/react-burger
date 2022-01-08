@@ -160,7 +160,14 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
           </span>
           <CurrencyIcon />
         </div>
-        <Button type="primary" size="medium" onClick={onOrderButtonClick}>
+        <Button
+          type="primary"
+          size="medium"
+          onClick={onOrderButtonClick}
+          disabled={totalPrice === 0}
+          name="orderSubmitButton"
+          htmlType="submit"
+        >
           {orderState.isLoading ? 'Создаем заказ...' : 'Оформить заказ'}
         </Button>
       </div>

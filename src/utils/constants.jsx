@@ -3,6 +3,12 @@ export const BASE_URL = 'https://norma.nomoreparties.space/api';
 
 export const portal = document.getElementById('react-portal');
 
+export const ingredientsInitialState = {
+  isLoading: false,
+  hasError: false,
+  data: [],
+};
+
 export const orderInitialState = {
   isLoading: false,
   hasError: false,

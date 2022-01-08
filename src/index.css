@@ -2,12 +2,13 @@
 @import url('../src/vendor/fonts/fonts.css');
 /* vendor css */
 
-body {
+:root {
   --max-width-desktop: 1920px;
   --max-header-width-desktop: 1280px;
   --max-content-width-desktop: 1240px;
   --main-background: #131316;
-  --header-background: #1C1C21;
-  --modal-background: #000;
+  --header-background: #1c1c21;
+  --modal-background: #1c1c21;
+  --interface-accent: #4c4cff;
   --link-text-color-primary: #fff;
 }

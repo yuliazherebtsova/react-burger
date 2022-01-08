@@ -10,22 +10,17 @@
   box-sizing: border-box;
   max-width: 720px;
   max-height: 718px;
-  background: var(--main-background);
+  background: var(--modal-background);
   border-radius: 40px;
   /* background: var(--modal-background);
   box-shadow: rgba(76, 76, 255, 0.5) -5px 5px 150px 50px; 
-  border: 2px solid rgba(76, 76, 255); */
-  /* transition: visibility 0.3s 0s, opacity 0.3s 0s linear; */
+  border: 2px solid var(--interface-accent); */
 }
 
 .modal__title {
   align-self: flex-start;
   transform: translate(-50px);
 }
-
-/* .modal_closed {
-  opacity: 0;
-} */
 
 .modal__closeIcon {
   position: absolute;

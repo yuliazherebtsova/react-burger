@@ -1,6 +1,7 @@
 .constructor__container {
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 215px);
 }
 
 .constructor__bunTop {
@@ -17,12 +18,16 @@
 }
 
 .constructor__nonBunElements {
+  height: 100%;
   margin: 0;
   padding-left: 0;
   padding-right: 0;
-  max-height: calc(100vh - 520px);
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.constructor__nonBunElements_empty {
+  border: 1px dashed var(--interface-accent);
 }
 
 .constructor__nonBunElement {

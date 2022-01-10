@@ -26,7 +26,7 @@ https://yuliazherebtsova.github.io/react-burger/
 
 ## Сборка проекта
 
-Собрать проект и запустить проект на [localhost:3000](http://localhost:3000) можно выполнив команды в локальной директории:
+Собрать и запустить проект на [localhost:3000](http://localhost:3000) можно, выполнив команды в локальной директории:
 
 - `$ git clone git@github.com:yuliazherebtsova/react-burger.git`
 - `$ npm install`

@@ -87,7 +87,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
           onKeyPress={onClickToIngredient(bunElement._id)}
         >
           <ConstructorElement
-            type={bunElement.type}
+            type='top'
             text={`${bunElement.name} (верх)`}
             price={bunElement.price}
             thumbnail={bunElement.image}
@@ -121,7 +121,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
           onKeyPress={onClickToIngredient(bunElement._id)}
         >
           <ConstructorElement
-            type={bunElement.type}
+            type='bottom'
             text={`${bunElement.name} (низ)`}
             price={bunElement.price}
             thumbnail={bunElement.image}

@@ -10,7 +10,6 @@ import {
 const constructorInitialState = {
   bunElement: {},
   draggableElements: [],
-  elementToView: {},
 };
 
 export default(state = constructorInitialState, action) => {

@@ -6,6 +6,7 @@ import { RESET_CONSTRUCTOR } from 'services/actions/constructor';
 export const POST_ORDER_REQUEST = 'POST_ORDER_REQUEST';
 export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS';
 export const POST_ORDER_FAILED = 'POST_ORDER_FAILED';
+export const RESET_ORDER = 'RESET_ORDER';
 
 export function postOrder(ingredientsData) {
   return function (dispatch) {
@@ -31,6 +32,11 @@ export function postOrder(ingredientsData) {
           type: RESET_CONSTRUCTOR,
         });
       })
-      .catch((err) => console.log(`Ошибка оформления заказа: ${err}`));
+      .catch((err) => {
+        dispatch({
+          type: POST_ORDER_FAILED,
+        });
+        console.log(`Ошибка оформления заказа: ${err}`);
+      });
   };
 }

@@ -7,18 +7,26 @@ import BurgerConstructor from 'components/burger-constructor/burger-constructor'
 import OrderDetails from 'components/order-details/order-details';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import LoadingIndicatorHOC from 'components/loading-indicator-hoc/loading-indicator-hoc';
-import { getIngredientsData } from 'services/actions/ingredients';
+import {
+  getIngredientsData,
+  RESET_INGREDIENTS,
+  RESET_INGREDIENT_TO_VIEW,
+  SET_INGREDIENT_TO_VIEW,
+} from 'services/actions/ingredients';
 import { useSelector, useDispatch } from 'react-redux';
+import { RESET_ORDER } from 'services/actions/order';
 
 function App() {
   const {
     ingredients,
+    ingredientToView,
     ingredientsRequest,
     ingredientsFailed,
     orderNumber,
     orderFailed,
   } = useSelector((state) => ({
     ingredients: state.burgerIngredients.ingredients,
+    ingredientToView: state.burgerIngredients.ingredientToView,
     ingredientsRequest: state.burgerIngredients.ingredientsRequest,
     ingredientsFailed: state.burgerIngredients.ingredientsFailed,
     orderNumber: state.order.orderNumber,
@@ -27,27 +35,27 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const [ingredientToView, setIngredientToView] = useState(null);
-
   useEffect(() => {
     dispatch(getIngredientsData());
   }, [dispatch]);
 
   const handleIngredientModalOpen = ({ itemId }) => {
-    setIngredientToView();
-    ingredients.find((item) => item._id === itemId);
+    dispatch({
+      type: SET_INGREDIENT_TO_VIEW,
+      payload: ingredients.find((item) => item._id === itemId),
+    });
   };
 
   const handleIngredientModalClose = () => {
-    setIngredientToView(null);
+    dispatch({ type: RESET_INGREDIENT_TO_VIEW });
   };
 
   const handleErrorModalClose = () => {
-    //setIngredientsState(ingredientsInitialState);
+    dispatch({ type: RESET_INGREDIENTS });
   };
 
   const handleOrderModalClose = () => {
-    //setOrderState(orderInitialState);
+    dispatch({ type: RESET_ORDER });
   };
 
   /* eslint-disable react/jsx-no-constructed-context-values */

@@ -3,6 +3,7 @@ import {
   POST_ORDER_REQUEST,
   POST_ORDER_SUCCESS,
   POST_ORDER_FAILED,
+  RESET_ORDER
 } from 'services/actions/order';
 
 const orderInitialState = {
@@ -29,6 +30,9 @@ export default (state = orderInitialState, action) => {
     }
     case POST_ORDER_FAILED: {
       return { ...state, orderFailed: true, orderRequest: false };
+    }
+    case RESET_ORDER: {
+      return orderInitialState;
     }
     default: {
       return state;

@@ -7,7 +7,7 @@ import ingredientsStyles from './burger-ingredients.module.css';
 import appStyles from '../app/app.module.css';
 
 function BurgerIngredients({ onOpenModal }) {
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const ingredients = useSelector((state) => state.burgerIngredients.ingredients);
 
   const ingredientTypes = {
     bun: 'Булки',

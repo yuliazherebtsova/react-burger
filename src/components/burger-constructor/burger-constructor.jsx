@@ -1,5 +1,5 @@
 import { useMemo, useEffect, useCallback, useContext } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -9,52 +9,59 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { api } from 'utils/api';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  ADD_BUN_ELEMENT,
+  ADD_NON_BUN_ELEMENT,
+  SET_ELEMENT_TO_VIEW,
+  DELETE_ELEMENT,
+  RESET_CONSTRUCTOR,
+} from 'services/actions/constructor';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
-import {
-  ConstructorContext,
-  OrderContext,
-} from '../../utils/appContext';
+import { OrderContext } from '../../utils/appContext';
 
 function BurgerConstructor({ onOpenModalWithIngredient }) {
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const { ingredients, bunElement, draggableElements } = useSelector((state) => ({
+    ingredients: state.burgerIngredients.ingredients,
+    bunElement: state.burgerConstructor.bunElement,
+    draggableElements: state.burgerConstructor.draggableElements,
+  }));
 
-  const { constructorState, setConstructorState } =
-    useContext(ConstructorContext);
+  const dispatch = useDispatch();
+
   const { orderState, setOrderState } = useContext(OrderContext);
 
   const nonBunElementsClass = `${
     constructorStyles.constructor__nonBunElements
   } ${
-    constructorState.draggableItems.length === 0
+    draggableElements.length === 0
       ? constructorStyles.constructor__nonBunElements_empty
       : ''
   } ${appStyles.scroll} pt-4`;
 
   const totalPrice = useMemo(() => {
-    const bunsPrice =
-      constructorState.bun.type === 'bun' ? constructorState.bun.price * 2 : 0;
+    const bunsPrice = bunElement.type === 'bun' ? bunElement.price * 2 : 0;
 
-    const nonBunElementsPrice = constructorState.draggableItems.reduce(
+    const nonBunElementsPrice = draggableElements.reduce(
       (acc, item) => acc + item.price,
       0
     );
 
     return bunsPrice + nonBunElementsPrice;
-  }, [constructorState]);
+  }, [bunElement, draggableElements]);
 
   useEffect(() => {
-    setConstructorState({
-      type: 'ADD_BUN',
+    dispatch({
+      type: ADD_BUN_ELEMENT,
       payload: ingredients.find((item) => item.type === 'bun'),
     });
 
-    setConstructorState({
+    dispatch({
       /**
        * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
        * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива draggableItems в state конструктора.
        */
-      type: 'ADD_NON_BUN_ELEMENT',
+      type: ADD_NON_BUN_ELEMENT,
       payload: ingredients
         .filter((item) => item.type !== 'bun')
         .map((item) => ({ ...item, uid: uuidv4() }))
@@ -69,17 +76,14 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       isLoading: true,
     });
     try {
-      const res = await api.postOrder([
-        constructorState.bun,
-        ...constructorState.draggableItems,
-      ]);
+      const res = await api.postOrder([bunElement, ...draggableElements]);
       setOrderState((prevState) => ({
         ...prevState,
         number: res.order.number,
         isLoading: false,
       }));
-      setConstructorState({
-        type: 'RESET',
+      dispatch({
+        type: RESET_CONSTRUCTOR,
       });
     } catch (err) {
       setOrderState((prevState) => ({
@@ -103,24 +107,24 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     <section
       className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
     >
-      {constructorState.bun.type === 'bun' && (
+      {bunElement.type === 'bun' && (
         <div
           className={`${constructorStyles.constructor__bunTop} mr-4`}
-          onClick={onClickToIngredient(constructorState.bun._id)}
-          onKeyPress={onClickToIngredient(constructorState.bun._id)}
+          onClick={onClickToIngredient(bunElement._id)}
+          onKeyPress={onClickToIngredient(bunElement._id)}
         >
           <ConstructorElement
-            type={constructorState.bun.type}
-            text={`${constructorState.bun.name} (верх)`}
-            price={constructorState.bun.price}
-            thumbnail={constructorState.bun.image}
+            type={bunElement.type}
+            text={`${bunElement.name} (верх)`}
+            price={bunElement.price}
+            thumbnail={bunElement.image}
             isLocked
           />
         </div>
       )}
 
       <ul className={nonBunElementsClass}>
-        {constructorState.draggableItems.map((item) => (
+        {draggableElements.map((item) => (
           <li
             className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
             key={item.uid}
@@ -137,17 +141,17 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         ))}
       </ul>
 
-      {constructorState.bun.type === 'bun' && (
+      {bunElement.type === 'bun' && (
         <div
           className={`${constructorStyles.constructor__bunBottom} mr-4`}
-          onClick={onClickToIngredient(constructorState.bun._id)}
-          onKeyPress={onClickToIngredient(constructorState.bun._id)}
+          onClick={onClickToIngredient(bunElement._id)}
+          onKeyPress={onClickToIngredient(bunElement._id)}
         >
           <ConstructorElement
-            type={constructorState.bun.type}
-            text={`${constructorState.bun.name} (низ)`}
-            price={constructorState.bun.price}
-            thumbnail={constructorState.bun.image}
+            type={bunElement.type}
+            text={`${bunElement.name} (низ)`}
+            price={bunElement.price}
+            thumbnail={bunElement.image}
             isLocked
           />
         </div>

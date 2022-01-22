@@ -11,7 +11,7 @@ const ingredientsInitialState = {
   ingredientsFailed: false,
 };
 
-const ingredientsReducer = (state = ingredientsInitialState, action, ) => {
+export default (state = ingredientsInitialState, action) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -35,5 +35,3 @@ const ingredientsReducer = (state = ingredientsInitialState, action, ) => {
     }
   }
 };
-
-export default ingredientsReducer;

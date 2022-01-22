@@ -19,8 +19,6 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 // Инициализируем хранилище с помощью корневого редьюсера, подключаем  Redux Devtools и усилители
 const store = createStore(rootReducer, enhancer);
 
-console.log(store.getState())
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

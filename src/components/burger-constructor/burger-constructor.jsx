@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useCallback, useContext } from 'react';
+import { useMemo, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -7,29 +7,27 @@ import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { api } from 'utils/api';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ADD_BUN_ELEMENT,
   ADD_NON_BUN_ELEMENT,
   SET_ELEMENT_TO_VIEW,
   DELETE_ELEMENT,
-  RESET_CONSTRUCTOR,
 } from 'services/actions/constructor';
+import { postOrder } from 'services/actions/order';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
-import { OrderContext } from '../../utils/appContext';
 
 function BurgerConstructor({ onOpenModalWithIngredient }) {
-  const { ingredients, bunElement, draggableElements } = useSelector((state) => ({
-    ingredients: state.burgerIngredients.ingredients,
-    bunElement: state.burgerConstructor.bunElement,
-    draggableElements: state.burgerConstructor.draggableElements,
-  }));
+  const { ingredients, bunElement, draggableElements, orderRequest } =
+    useSelector((state) => ({
+      ingredients: state.burgerIngredients.ingredients,
+      bunElement: state.burgerConstructor.bunElement,
+      draggableElements: state.burgerConstructor.draggableElements,
+      orderRequest: state.order.orderRequest,
+    }));
 
   const dispatch = useDispatch();
-
-  const { orderState, setOrderState } = useContext(OrderContext);
 
   const nonBunElementsClass = `${
     constructorStyles.constructor__nonBunElements
@@ -67,41 +65,16 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         .map((item) => ({ ...item, uid: uuidv4() }))
         .slice(2, 9),
     });
-  }, [ingredients]);
+  }, [ingredients, dispatch]);
 
-  const createOrder = async () => {
-    setOrderState({
-      ...orderState,
-      hasError: false,
-      isLoading: true,
-    });
-    try {
-      const res = await api.postOrder([bunElement, ...draggableElements]);
-      setOrderState((prevState) => ({
-        ...prevState,
-        number: res.order.number,
-        isLoading: false,
-      }));
-      dispatch({
-        type: RESET_CONSTRUCTOR,
-      });
-    } catch (err) {
-      setOrderState((prevState) => ({
-        ...prevState,
-        hasError: true,
-        isLoading: false,
-      }));
-    }
+  const onClickToOrderButton = () => {
+    dispatch(postOrder([bunElement, ...draggableElements]));
   };
 
   const onClickToIngredient = useCallback(
     (uid) => () => onOpenModalWithIngredient({ itemId: uid }),
-    []
+    [onOpenModalWithIngredient]
   );
-
-  const onOrderButtonClick = () => {
-    createOrder();
-  };
 
   return (
     <section
@@ -168,12 +141,12 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         <Button
           type="primary"
           size="medium"
-          onClick={onOrderButtonClick}
+          onClick={onClickToOrderButton}
           disabled={totalPrice === 0}
           name="orderSubmitButton"
           htmlType="submit"
         >
-          {orderState.isLoading ? 'Создаем заказ...' : 'Оформить заказ'}
+          {orderRequest ? 'Создаем заказ...' : 'Оформить заказ'}
         </Button>
       </div>
     </section>

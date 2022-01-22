@@ -1,30 +1,29 @@
 import { useState, useEffect, useReducer } from 'react';
 import Modal from 'components/modal/modal';
-import {
-  IngredientsContext,
-  ConstructorContext,
-  OrderContext,
-} from 'utils/appContext';
+import { ConstructorContext, OrderContext } from 'utils/appContext';
 import appStyles from 'components/app/app.module.css';
 import AppHeader from 'components/app-header/app-header';
 import BurgerIngredients from 'components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from 'components/burger-constructor/burger-constructor';
 import OrderDetails from 'components/order-details/order-details';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
-import { api } from 'utils/api';
-import {
-  ingredientsInitialState,
-  orderInitialState,
-  constructorInitialState,
-} from 'utils/constants';
+import { orderInitialState, constructorInitialState } from 'utils/constants';
 import LoadingIndicatorHOC from 'components/loading-indicator-hoc/loading-indicator-hoc';
+import { getIngredientsData } from 'services/actions/ingredients';
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
-  const [ingredientToView, setIngredientToView] = useState(null);
-
-  const [ingredientsState, setIngredientsState] = useState(
-    ingredientsInitialState
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
+    (state) => ({
+      ingredients: state.ingredients.ingredients,
+      ingredientsRequest: state.ingredients.ingredientsRequest,
+      ingredientsFailed: state.ingredients.ingredientsFailed,
+    })
   );
+
+  const dispatch = useDispatch();
+
+  const [ingredientToView, setIngredientToView] = useState(null);
 
   const [orderState, setOrderState] = useState(orderInitialState);
 
@@ -51,36 +50,12 @@ function App() {
   );
 
   useEffect(() => {
-    const getIngredientsData = async () => {
-      setIngredientsState({
-        ...ingredientsState,
-        hasError: false,
-        isLoading: true,
-      });
-      try {
-        const res = await api.getIngredients();
-        /* в такой реализации state после await может быть уже не актуальный,
-        нужно использовать setState с функцией, чтобы применять актуальный стейт */
-        setIngredientsState((prevState) => ({
-          ...prevState,
-          data: res.data,
-          isLoading: false,
-        }));
-      } catch (err) {
-        setIngredientsState((prevState) => ({
-          ...prevState,
-          hasError: true,
-          isLoading: false,
-        }));
-      }
-    };
-    getIngredientsData();
-  }, []);
+    dispatch(getIngredientsData());
+  }, [dispatch]);
 
   const handleIngredientModalOpen = ({ itemId }) => {
-    setIngredientToView(
-      ingredientsState.data.find((item) => item._id === itemId)
-    );
+    setIngredientToView();
+    ingredients.find((item) => item._id === itemId)
   };
 
   const handleIngredientModalClose = () => {
@@ -88,7 +63,7 @@ function App() {
   };
 
   const handleErrorModalClose = () => {
-    setIngredientsState(ingredientsInitialState);
+    //setIngredientsState(ingredientsInitialState);
   };
 
   const handleOrderModalClose = () => {
@@ -101,49 +76,46 @@ function App() {
       <AppHeader />
       <main className={appStyles.page}>
         <LoadingIndicatorHOC
-          isLoading={ingredientsState.isLoading}
-          hasError={ingredientsState.hasError}
-          gotData={Boolean(ingredientsState.data.length)}
+          isLoading={ingredientsRequest}
+          hasError={ingredientsFailed}
+          gotData={Boolean(ingredients.length)}
           onClick={handleErrorModalClose}
         >
-          <IngredientsContext.Provider
-            value={{ ingredientsState, setIngredientsState }}
+          <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
+          <ConstructorContext.Provider
+            value={{ constructorState, setConstructorState }}
           >
-            <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
-            <ConstructorContext.Provider
-              value={{ constructorState, setConstructorState }}
-            >
-              <OrderContext.Provider value={{ orderState, setOrderState }}>
-                <BurgerConstructor
-                  onOpenModalWithIngredient={handleIngredientModalOpen}
-                />
-                {ingredientToView && (
-                  <Modal
-                    title="Детали ингредиента"
-                    onClose={handleIngredientModalClose}
-                  >
-                    <IngredientDetails
-                      image={ingredientToView.image}
-                      name={ingredientToView.name}
-                      fat={ingredientToView.fat}
-                      carbohydrates={ingredientToView.carbohydrates}
-                      calories={ingredientToView.calories}
-                      proteins={ingredientToView.proteins}
-                    />
-                  </Modal>
-                )}
-                <LoadingIndicatorHOC
-                  hasError={orderState.hasError}
-                  gotData={Boolean(orderState.number)}
-                  onClick={handleOrderModalClose}
+            <OrderContext.Provider value={{ orderState, setOrderState }}>
+              <BurgerConstructor
+                onOpenModalWithIngredient={handleIngredientModalOpen}
+              />
+              {ingredientToView && (
+                <Modal
+                  title="Детали ингредиента"
+                  onClose={handleIngredientModalClose}
                 >
-                  <Modal onClose={handleOrderModalClose}>
-                    <OrderDetails />
-                  </Modal>
-                </LoadingIndicatorHOC>
-              </OrderContext.Provider>
-            </ConstructorContext.Provider>
-          </IngredientsContext.Provider>
+                  <IngredientDetails
+                    image={ingredientToView.image}
+                    name={ingredientToView.name}
+                    fat={ingredientToView.fat}
+                    carbohydrates={ingredientToView.carbohydrates}
+                    calories={ingredientToView.calories}
+                    proteins={ingredientToView.proteins}
+                  />
+                </Modal>
+              )}
+              <LoadingIndicatorHOC
+                isLoading={false}
+                hasError={orderState.hasError}
+                gotData={Boolean(orderState.number)}
+                onClick={handleOrderModalClose}
+              >
+                <Modal onClose={handleOrderModalClose}>
+                  <OrderDetails />
+                </Modal>
+              </LoadingIndicatorHOC>
+            </OrderContext.Provider>
+          </ConstructorContext.Provider>
         </LoadingIndicatorHOC>
       </main>
     </>

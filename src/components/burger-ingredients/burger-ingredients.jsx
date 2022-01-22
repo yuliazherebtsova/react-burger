@@ -1,13 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import ingredientsStyles from './burger-ingredients.module.css';
 import appStyles from '../app/app.module.css';
-import { IngredientsContext } from '../../utils/appContext';
 
 function BurgerIngredients({ onOpenModal }) {
-  const { ingredientsState } = useContext(IngredientsContext);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
 
   const ingredientTypes = {
     bun: 'Булки',
@@ -19,13 +19,13 @@ function BurgerIngredients({ onOpenModal }) {
 
   const handleTabClick = (value) => setCurrentTab(value);
 
-  const getIngredientsByType = () =>
+  const sortIngredientsByType = () =>
     Object.keys(ingredientTypes).map((key) => ({
       name: ingredientTypes[key],
-      items: ingredientsState.data.filter((el) => el.type === key),
+      items: ingredients.filter((el) => el.type === key),
     }));
 
-  const ingredientsByType = getIngredientsByType();
+  const ingredientsByType = sortIngredientsByType();
   return (
     <section className={ingredientsStyles.ingredients__container}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>

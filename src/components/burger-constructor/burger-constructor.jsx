@@ -1,4 +1,5 @@
-import { useMemo, useContext, useEffect, useCallback } from 'react';
+import { useMemo, useEffect, useCallback, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -11,13 +12,13 @@ import { v4 as uuidv4 } from 'uuid';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 import {
-  IngredientsContext,
   ConstructorContext,
   OrderContext,
 } from '../../utils/appContext';
 
 function BurgerConstructor({ onOpenModalWithIngredient }) {
-  const { ingredientsState } = useContext(IngredientsContext);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+
   const { constructorState, setConstructorState } =
     useContext(ConstructorContext);
   const { orderState, setOrderState } = useContext(OrderContext);
@@ -45,7 +46,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
   useEffect(() => {
     setConstructorState({
       type: 'ADD_BUN',
-      payload: ingredientsState.data.find((item) => item.type === 'bun'),
+      payload: ingredients.find((item) => item.type === 'bun'),
     });
 
     setConstructorState({
@@ -54,12 +55,12 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
        * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива draggableItems в state конструктора.
        */
       type: 'ADD_NON_BUN_ELEMENT',
-      payload: ingredientsState.data
+      payload: ingredients
         .filter((item) => item.type !== 'bun')
         .map((item) => ({ ...item, uid: uuidv4() }))
         .slice(2, 9),
     });
-  }, [ingredientsState]);
+  }, [ingredients]);
 
   const createOrder = async () => {
     setOrderState({

@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   ADD_BUN_ELEMENT,
   ADD_NON_BUN_ELEMENT,
-  SET_ELEMENT_TO_VIEW,
   DELETE_ELEMENT,
 } from 'services/actions/constructor';
 import { postOrder } from 'services/actions/order';

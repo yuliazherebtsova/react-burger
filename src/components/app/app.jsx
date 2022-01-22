@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Modal from 'components/modal/modal';
 import appStyles from 'components/app/app.module.css';
 import AppHeader from 'components/app-header/app-header';

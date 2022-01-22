@@ -2,7 +2,6 @@
 import {
   ADD_BUN_ELEMENT,
   ADD_NON_BUN_ELEMENT,
-  SET_ELEMENT_TO_VIEW,
   DELETE_ELEMENT,
   RESET_CONSTRUCTOR,
 } from 'services/actions/constructor';

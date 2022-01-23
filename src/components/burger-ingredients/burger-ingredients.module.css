@@ -8,6 +8,7 @@
 }
 
 .ingredients__list {
+  position: relative;
   max-height: calc(100vh - 280px);
   overflow-y: auto;
   overflow-x: hidden;

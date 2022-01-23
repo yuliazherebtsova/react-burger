@@ -1,3 +1,12 @@
+/**
+ * *TODO
+ * * 1. перетаскивание элементов
+ * * 2. уддаление элемента из заказа
+ * * 3. счетчик ингредиентов в заказе
+ * * 4. навигация по ингредиентам
+ * * 5. сортировка ингредиентов внутри конструктора
+ */
+
 import { useEffect } from 'react';
 import Modal from 'components/modal/modal';
 import appStyles from 'components/app/app.module.css';

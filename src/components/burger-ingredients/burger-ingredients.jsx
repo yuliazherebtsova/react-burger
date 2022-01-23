@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,38 +7,75 @@ import ingredientsStyles from './burger-ingredients.module.css';
 import appStyles from '../app/app.module.css';
 
 function BurgerIngredients({ onOpenModal }) {
-  const ingredients = useSelector((state) => state.burgerIngredients.ingredients);
+  const ingredients = useSelector(
+    (state) => state.burgerIngredients.ingredients
+  );
 
   const ingredientTypes = {
-    bun: 'Булки',
-    sauce: 'Соусы',
-    main: 'Начинки',
+    bun: {
+      name: 'Булки',
+      ref: useRef(null),
+    },
+    sauce: {
+      name: 'Соусы',
+      ref: useRef(null),
+    },
+    main: {
+      name: 'Начинки',
+      ref: useRef(null),
+    },
   };
 
   const [currentTab, setCurrentTab] = useState('Булки');
 
-  const handleTabClick = (value) => setCurrentTab(value);
+  const handleTabClick = useCallback(
+    ({ tabName, element }) =>
+      () => {
+        setCurrentTab(tabName);
+        element.current.scrollIntoView({ behavior: 'smooth' });
+      },
+    []
+  );
 
-  const sortIngredientsByType = () =>
+  const groupIngredientsByType = () =>
     Object.keys(ingredientTypes).map((key) => ({
-      name: ingredientTypes[key],
+      name: ingredientTypes[key].name,
       items: ingredients.filter((el) => el.type === key),
+      ref: ingredientTypes[key].ref,
     }));
 
-  const ingredientsByType = sortIngredientsByType();
+  const ingredientsByType = groupIngredientsByType();
+
+  const handleSectionScroll = (e) => {
+    const container = e.target;
+    const scrollPosition = container.scrollTop;
+    const positionOfSauseSection = ingredientTypes.sauce.ref.current.offsetTop;
+    const positionOfMainSection = ingredientTypes.main.ref.current.offsetTop;
+    if (scrollPosition + 120 <= positionOfSauseSection) {
+      setCurrentTab('Булки');
+    } else if (scrollPosition + 120 <= positionOfMainSection) {
+      setCurrentTab('Соусы');
+    } else {
+      setCurrentTab('Начинки');
+    }
+  };
+
   return (
     <section className={ingredientsStyles.ingredients__container}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <nav>
         <ul className={ingredientsStyles.ingredients__tabContainer}>
-          {Object.values(ingredientTypes).map((tab, index) => (
+          {Object.values(ingredientTypes).map((type, index) => (
             <li key={index}>
               <Tab
-                value={tab}
-                active={currentTab === tab}
-                onClick={handleTabClick}
+                value={type.name}
+                active={currentTab === type.name}
+                onClick={handleTabClick({
+                  tabName: type.name,
+                  element: type.ref,
+                })}
               >
-                {tab}
+                {type.name}
               </Tab>
             </li>
           ))}
@@ -46,10 +83,15 @@ function BurgerIngredients({ onOpenModal }) {
       </nav>
       <section
         className={`${ingredientsStyles.ingredients__list} ${appStyles.scroll} pr-4 pl-4`}
+        onScroll={handleSectionScroll}
       >
-        {ingredientsByType.map(({ name, items }, index) => (
+        {ingredientsByType.map(({ name, items, ref }, index) => (
           <>
-            <h2 className="text text_type_main-medium mt-10 mb-6" key={index}>
+            <h2
+              className="text text_type_main-medium mt-10 mb-6"
+              key={index}
+              ref={ref}
+            >
               {name}
             </h2>
             <ul

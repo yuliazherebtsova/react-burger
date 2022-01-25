@@ -50,6 +50,7 @@ function App() {
 
   const handleIngredientModalOpen = (e) => {
     if (!e.target.closest('.constructor-element__action')) {
+      // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
       const ingredientId = e.target.closest('li').dataset.id;
       dispatch({
         type: SET_INGREDIENT_TO_VIEW,

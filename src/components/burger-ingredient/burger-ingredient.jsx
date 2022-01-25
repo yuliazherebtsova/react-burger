@@ -1,4 +1,5 @@
 import { useDrag, DragPreviewImage } from 'react-dnd';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Counter,
@@ -13,6 +14,12 @@ function BurgerIngredient({
   name,
   onOpenModalWithIngredient,
 }) {
+  const ingredientsInOrder = useSelector((state) => [
+    state.burgerConstructor.bunElement,
+    ...state.burgerConstructor.draggableElements,
+    state.burgerConstructor.bunElement,
+  ]);
+
   const [{ isDrag }, dragRef, dragPreview] = useDrag({
     type: 'ingredient',
     item: { id },
@@ -22,6 +29,10 @@ function BurgerIngredient({
   });
 
   const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
+
+  const ingredientsCounter = ingredientsInOrder.filter(
+    (item) => item._id === id
+  ).length;
 
   return (
     <li
@@ -34,7 +45,9 @@ function BurgerIngredient({
     >
       <DragPreviewImage src={image} connect={dragPreview} />
       <img src={image} alt={name} />
-      <Counter count={1} size="default" />
+      {ingredientsCounter !== 0 && (
+        <Counter count={ingredientsCounter} size="default" />
+      )}
       <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
         <span className="text text_type_digits-default mr-2">{price}</span>
         <CurrencyIcon />

@@ -1,11 +1,14 @@
 /**
  * *TODO
- * * 1. счетчик ингредиентов в заказе
+ * * 1. счетчик ингредиентов в заказе (при добавлении и удалении)
  * * 2. сортировка ингредиентов внутри конструктора
- * * 3. запрет добавление ингредиента без булочки
+ * * 3. запрет добавление ингредиента без булочки (модальное окно?)
  */
 
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import Modal from 'components/modal/modal';
 import appStyles from 'components/app/app.module.css';
 import AppHeader from 'components/app-header/app-header';
@@ -15,15 +18,12 @@ import OrderDetails from 'components/order-details/order-details';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import LoadingIndicatorHOC from 'components/loading-indicator-hoc/loading-indicator-hoc';
 import {
-  getIngredientsData,
   RESET_INGREDIENTS,
   RESET_INGREDIENT_TO_VIEW,
   SET_INGREDIENT_TO_VIEW,
+  getIngredientsData,
 } from 'services/actions/ingredients';
-import { useSelector, useDispatch } from 'react-redux';
 import { RESET_ORDER } from 'services/actions/order';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   const {

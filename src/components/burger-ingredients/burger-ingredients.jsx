@@ -49,11 +49,12 @@ function BurgerIngredients({ onOpenModalWithIngredient }) {
   const handleSectionScroll = (e) => {
     const container = e.target;
     const scrollPosition = container.scrollTop;
+    const scrollOffset = 120;
     const positionOfSauseSection = ingredientTypes.sauce.ref.current.offsetTop;
     const positionOfMainSection = ingredientTypes.main.ref.current.offsetTop;
-    if (scrollPosition + 120 <= positionOfSauseSection) {
+    if (scrollPosition + scrollOffset <= positionOfSauseSection) {
       setCurrentTab('Булки');
-    } else if (scrollPosition + 120 <= positionOfMainSection) {
+    } else if (scrollPosition + scrollOffset <= positionOfMainSection) {
       setCurrentTab('Соусы');
     } else {
       setCurrentTab('Начинки');

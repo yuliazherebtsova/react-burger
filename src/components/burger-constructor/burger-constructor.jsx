@@ -30,13 +30,15 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
   const dispatch = useDispatch();
 
   const handleIngredientDrop = ({ id }) => {
+    console.log('drop');
     const draggedItem = ingredients.find((item) => item._id === id);
     if (draggedItem.type === 'bun') {
       dispatch({
         type: ADD_BUN_ELEMENT,
         payload: { ...draggedItem, uid: uuidv4() },
       });
-    } else {
+    } else if (bunElement._id) {
+      // в конструкторе уже есть булка, можно добавить начинку
       dispatch({
         type: ADD_NON_BUN_ELEMENT,
         payload: { ...draggedItem, uid: uuidv4() },
@@ -44,23 +46,36 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     }
   };
 
-  const [{ isHover, isCanDrop }, dropTarget] = useDrop({
+  const handleCanIngredientDrop = ({ id }) => {
+    const draggedItem = ingredients.find((item) => item._id === id);
+    return !(!bunElement._id && draggedItem.type !== 'bun');
+    // если в конструкторе еще нет булки, добавить начинку нельзя
+  };
+
+  const [{ isHover, isCanDrop, isDragging }, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(itemId) {
       handleIngredientDrop(itemId);
     },
+    canDrop(itemId) {
+      return handleCanIngredientDrop(itemId);
+    },
     collect: (monitor) => ({
       isHover: monitor.isOver(),
       isCanDrop: monitor.canDrop(),
+      isDragging: monitor.canDrop() && !monitor.isOver(),
     }),
   });
 
-  const elementsClass = `${constructorStyles.constructor__elements} ${
-    (!bunElement._id && !draggableElements.length) || isCanDrop
-      ? constructorStyles.constructor__elements_empty
-      : ''
+  const constructorElementsClass = `${constructorStyles.constructor__elements} 
+  ${
+    ((!bunElement._id && !draggableElements.length) || isDragging) &&
+    constructorStyles.constructor__elements_dropArea
   } 
-  ${isHover ? constructorStyles.constructor__elements_dropHovered : ''}`;
+  ${isHover && isCanDrop && constructorStyles.constructor__elements_canDrop}
+  ${
+    isHover && !isCanDrop && constructorStyles.constructor__elements_canNotDrop
+  }`;
 
   const totalPrice = useMemo(() => {
     const bunsPrice = bunElement.type === 'bun' ? bunElement.price * 2 : 0;
@@ -89,7 +104,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
 
   return (
     <section className="pt-25 pb-2 pl-4">
-      <ul className={elementsClass} ref={dropTarget}>
+      <ul className={constructorElementsClass} ref={dropTarget}>
         {bunElement.type === 'bun' && (
           <li
             className={`${constructorStyles.constructor__bunTop} mr-4`}

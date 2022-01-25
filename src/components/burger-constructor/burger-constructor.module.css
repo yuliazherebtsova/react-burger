@@ -8,12 +8,16 @@
   height: 100vh;
 }
 
-.constructor__elements_empty {
+.constructor__elements_dropArea {
   outline: 1px dashed var(--interface-accent);
 }
 
-.constructor__elements_dropHovered {
+.constructor__elements_canDrop {
   outline: 2px solid var(--interface-accent);
+}
+
+.constructor__elements_canNotDrop {
+  outline: 1px dashed var(--interface-error);
 }
 
 .constructor__bunTop {

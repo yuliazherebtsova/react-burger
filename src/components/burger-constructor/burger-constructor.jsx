@@ -30,7 +30,6 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
   const dispatch = useDispatch();
 
   const handleIngredientDrop = ({ id }) => {
-    console.log('drop');
     const draggedItem = ingredients.find((item) => item._id === id);
     if (draggedItem.type === 'bun') {
       dispatch({
@@ -67,14 +66,18 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     }),
   });
 
+  const isConstructorEmpty = !bunElement._id && !draggableElements.length;
+
   const constructorElementsClass = `${constructorStyles.constructor__elements} 
   ${
-    ((!bunElement._id && !draggableElements.length) || isDragging) &&
+    (isConstructorEmpty || isDragging) &&
     constructorStyles.constructor__elements_dropArea
   } 
-  ${isHover && isCanDrop && constructorStyles.constructor__elements_canDrop}
+  ${isHover && isCanDrop ? constructorStyles.constructor__elements_canDrop : ''}
   ${
-    isHover && !isCanDrop && constructorStyles.constructor__elements_canNotDrop
+    isHover && !isCanDrop
+      ? constructorStyles.constructor__elements_canNotDrop
+      : ''
   }`;
 
   const totalPrice = useMemo(() => {
@@ -124,6 +127,14 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         <ul
           className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
         >
+          {isConstructorEmpty && (
+            <p
+              className={`${constructorStyles.constructor__text} mt-10
+              text text text_type_main-medium text_color_inactive`}
+            >
+              Перетащите элемент в конструктор. Сначала добавьте булочку
+            </p>
+          )}
           {draggableElements.map((item) => (
             <li
               className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}

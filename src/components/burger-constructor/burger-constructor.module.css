@@ -4,8 +4,9 @@
   padding-right: 0;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 215px);
+  max-height: calc(100vh - 340px);
   height: 100vh;
+  border-radius: 1%;
 }
 
 .constructor__elements_dropArea {
@@ -59,4 +60,8 @@
 .constructor__totalPrice {
   display: flex;
   align-items: center;
+}
+
+.constructor__text {
+  text-align: center;
 }

@@ -1,5 +1,6 @@
-import { useMemo, useEffect, useCallback } from 'react';
+import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -7,13 +8,13 @@ import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { v4 as uuidv4 } from 'uuid';
 import {
   ADD_BUN_ELEMENT,
   ADD_NON_BUN_ELEMENT,
   DELETE_ELEMENT,
 } from 'services/actions/constructor';
 import { postOrder } from 'services/actions/order';
+import { v4 as uuidv4 } from 'uuid';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 
@@ -28,13 +29,38 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
 
   const dispatch = useDispatch();
 
-  const nonBunElementsClass = `${
-    constructorStyles.constructor__nonBunElements
-  } ${
-    draggableElements.length === 0
-      ? constructorStyles.constructor__nonBunElements_empty
+  const handleIngredientDrop = ({ id }) => {
+    const draggedItem = ingredients.find((item) => item._id === id);
+    if (draggedItem.type === 'bun') {
+      dispatch({
+        type: ADD_BUN_ELEMENT,
+        payload: { ...draggedItem, uid: uuidv4() },
+      });
+    } else {
+      dispatch({
+        type: ADD_NON_BUN_ELEMENT,
+        payload: { ...draggedItem, uid: uuidv4() },
+      });
+    }
+  };
+
+  const [{ isHover, isCanDrop }, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(itemId) {
+      handleIngredientDrop(itemId);
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+      isCanDrop: monitor.canDrop(),
+    }),
+  });
+
+  const elementsClass = `${constructorStyles.constructor__elements} ${
+    (!bunElement._id && !draggableElements.length) || isCanDrop
+      ? constructorStyles.constructor__elements_empty
       : ''
-  } ${appStyles.scroll} pt-4`;
+  } 
+  ${isHover ? constructorStyles.constructor__elements_dropHovered : ''}`;
 
   const totalPrice = useMemo(() => {
     const bunsPrice = bunElement.type === 'bun' ? bunElement.price * 2 : 0;
@@ -47,89 +73,80 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     return bunsPrice + nonBunElementsPrice;
   }, [bunElement, draggableElements]);
 
-  useEffect(() => {
-    dispatch({
-      type: ADD_BUN_ELEMENT,
-      payload: ingredients.find((item) => item.type === 'bun'),
-    });
-
-    dispatch({
-      /**
-       * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
-       * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива draggableItems в state конструктора.
-       */
-      type: ADD_NON_BUN_ELEMENT,
-      payload: ingredients
-        .filter((item) => item.type !== 'bun')
-        .map((item) => ({ ...item, uid: uuidv4() }))
-        .slice(2, 9),
-    });
-  }, [ingredients, dispatch]);
-
   const onClickToOrderButton = () => {
     dispatch(postOrder([bunElement, ...draggableElements]));
   };
 
-  const onClickToIngredient = useCallback(
-    (uid) => () => onOpenModalWithIngredient({ itemId: uid }),
-    [onOpenModalWithIngredient]
-  );
+  const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
+
+  const handleIngredientDelete = (e) => {
+    const itemToDeleteUid = e.target.closest('li').dataset.uid;
+    dispatch({
+      type: DELETE_ELEMENT,
+      uid: itemToDeleteUid,
+    });
+  };
 
   return (
-    <section
-      className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
-    >
-      {bunElement.type === 'bun' && (
-        <div
-          className={`${constructorStyles.constructor__bunTop} mr-4`}
-          onClick={onClickToIngredient(bunElement._id)}
-          onKeyPress={onClickToIngredient(bunElement._id)}
-        >
-          <ConstructorElement
-            type='top'
-            text={`${bunElement.name} (верх)`}
-            price={bunElement.price}
-            thumbnail={bunElement.image}
-            isLocked
-          />
-        </div>
-      )}
-
-      <ul className={nonBunElementsClass}>
-        {draggableElements.map((item) => (
+    <section className="pt-25 pb-2 pl-4">
+      <ul className={elementsClass} ref={dropTarget}>
+        {bunElement.type === 'bun' && (
           <li
-            className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
-            key={item.uid}
-            onClick={onClickToIngredient(item._id)}
-            onKeyPress={onClickToIngredient(item._id)}
+            className={`${constructorStyles.constructor__bunTop} mr-4`}
+            onClick={onClickToIngredient}
+            onKeyPress={onClickToIngredient}
+            data-id={bunElement._id}
           >
-            <DragIcon type="primary" />
             <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
+              type="top"
+              text={`${bunElement.name} (верх)`}
+              price={bunElement.price}
+              thumbnail={bunElement.image}
+              isLocked
             />
           </li>
-        ))}
-      </ul>
-
-      {bunElement.type === 'bun' && (
-        <div
-          className={`${constructorStyles.constructor__bunBottom} mr-4`}
-          onClick={onClickToIngredient(bunElement._id)}
-          onKeyPress={onClickToIngredient(bunElement._id)}
+        )}
+        <ul
+          className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
         >
-          <ConstructorElement
-            type='bottom'
-            text={`${bunElement.name} (низ)`}
-            price={bunElement.price}
-            thumbnail={bunElement.image}
-            isLocked
-          />
-        </div>
-      )}
+          {draggableElements.map((item) => (
+            <li
+              className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
+              key={item.uid}
+              onClick={onClickToIngredient}
+              onKeyPress={onClickToIngredient}
+              data-id={item._id}
+              data-uid={item.uid}
+            >
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+                handleClose={handleIngredientDelete}
+              />
+            </li>
+          ))}
+        </ul>
+        {bunElement.type === 'bun' && (
+          <li
+            className={`${constructorStyles.constructor__bunBottom} mr-4`}
+            onClick={onClickToIngredient}
+            onKeyPress={onClickToIngredient}
+            data-id={bunElement._id}
+          >
+            <ConstructorElement
+              type="bottom"
+              text={`${bunElement.name} (низ)`}
+              price={bunElement.price}
+              thumbnail={bunElement.image}
+              isLocked
+            />
+          </li>
+        )}
+      </ul>
       <div
-        className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
+        className={`${constructorStyles.constructor__totalPriceContainer} mt-10 mr-4`}
       >
         <div className={`${constructorStyles.constructor__totalPrice} mr-10`}>
           <span className="text text_type_digits-medium mr-2">

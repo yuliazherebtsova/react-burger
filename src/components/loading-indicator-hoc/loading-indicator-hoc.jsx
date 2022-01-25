@@ -6,7 +6,7 @@ function LoadingIndicatorHOC({
   hasError,
   gotData,
   children,
-  onClick,
+  onErrorModalClose,
 }) {
   return (
     <>
@@ -16,7 +16,7 @@ function LoadingIndicatorHOC({
         </p>
       )}
       {hasError && (
-        <Modal title="Произошла ошибка" onClose={onClick}>
+        <Modal title="Произошла ошибка" onClose={onErrorModalClose}>
           <p className="text text_type_main-medium text_color_inactive pt-10">
             Пожалуйста, повторите попытку позднее
           </p>
@@ -29,7 +29,7 @@ function LoadingIndicatorHOC({
 
 LoadingIndicatorHOC.propTypes = {
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onErrorModalClose: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   gotData: PropTypes.bool.isRequired,

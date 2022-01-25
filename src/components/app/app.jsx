@@ -1,10 +1,8 @@
 /**
  * *TODO
- * * 1. перетаскивание элементов
- * * 2. уддаление элемента из заказа
- * * 3. счетчик ингредиентов в заказе
- * * 4. навигация по ингредиентам
- * * 5. сортировка ингредиентов внутри конструктора
+ * * 1. счетчик ингредиентов в заказе
+ * * 2. сортировка ингредиентов внутри конструктора
+ * * 3. запрет добавление ингредиента без булочки
  */
 
 import { useEffect } from 'react';
@@ -24,6 +22,8 @@ import {
 } from 'services/actions/ingredients';
 import { useSelector, useDispatch } from 'react-redux';
 import { RESET_ORDER } from 'services/actions/order';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   const {
@@ -48,11 +48,14 @@ function App() {
     dispatch(getIngredientsData());
   }, [dispatch]);
 
-  const handleIngredientModalOpen = ({ itemId }) => {
-    dispatch({
-      type: SET_INGREDIENT_TO_VIEW,
-      payload: ingredients.find((item) => item._id === itemId),
-    });
+  const handleIngredientModalOpen = (e) => {
+    if (!e.target.closest('.constructor-element__action')) {
+      const ingredientId = e.target.closest('li').dataset.id;
+      dispatch({
+        type: SET_INGREDIENT_TO_VIEW,
+        payload: ingredients.find((item) => item._id === ingredientId),
+      });
+    }
   };
 
   const handleIngredientModalClose = () => {
@@ -76,12 +79,16 @@ function App() {
           isLoading={ingredientsRequest}
           hasError={ingredientsFailed}
           gotData={Boolean(ingredients.length)}
-          onClick={handleErrorModalClose}
+          onErrorModalClose={handleErrorModalClose}
         >
-          <BurgerIngredients onOpenModal={handleIngredientModalOpen} />
-          <BurgerConstructor
-            onOpenModalWithIngredient={handleIngredientModalOpen}
-          />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients
+              onOpenModalWithIngredient={handleIngredientModalOpen}
+            />
+            <BurgerConstructor
+              onOpenModalWithIngredient={handleIngredientModalOpen}
+            />
+          </DndProvider>
           {ingredientToView && (
             <Modal
               title="Детали ингредиента"
@@ -101,7 +108,7 @@ function App() {
             isLoading={false}
             hasError={orderFailed}
             gotData={Boolean(orderNumber)}
-            onClick={handleOrderModalClose}
+            onErrorModalClose={handleOrderModalClose}
           >
             <Modal onClose={handleOrderModalClose}>
               <OrderDetails />

@@ -11,7 +11,7 @@ const constructorInitialState = {
   draggableElements: [],
 };
 
-export default(state = constructorInitialState, action) => {
+export default (state = constructorInitialState, action) => {
   switch (action.type) {
     case ADD_BUN_ELEMENT: {
       return { ...state, bunElement: action.payload };
@@ -20,6 +20,14 @@ export default(state = constructorInitialState, action) => {
       return {
         ...state,
         draggableElements: state.draggableElements.concat(action.payload),
+      };
+    }
+    case DELETE_ELEMENT: {
+      return {
+        ...state,
+        draggableElements: state.draggableElements.filter(
+          (item) => item.uid !== action.uid
+        ),
       };
     }
     case RESET_CONSTRUCTOR: {

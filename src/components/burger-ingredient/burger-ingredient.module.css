@@ -7,9 +7,9 @@
   cursor: pointer;
 }
 
-.ingredient__сontainer {
-  display: flex;
-  justify-content: center;
+.ingredient__сard_isDragging {
+  background-color: var(--interface-accent);
+  border-radius: 10%;
 }
 
 .ingredient__price {

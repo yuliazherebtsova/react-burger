@@ -1,7 +1,19 @@
-.constructor__container {
+.constructor__elements {
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 215px);
+  height: 100vh;
+}
+
+.constructor__elements_empty {
+  outline: 1px dashed var(--interface-accent);
+}
+
+.constructor__elements_dropHovered {
+  outline: 2px solid var(--interface-accent);
 }
 
 .constructor__bunTop {
@@ -25,11 +37,6 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-
-.constructor__nonBunElements_empty {
-  border: 1px dashed var(--interface-accent);
-}
-
 .constructor__nonBunElement {
   display: flex;
   align-items: center;
@@ -40,10 +47,11 @@
   margin-bottom: 0;
 }
 
-.constructor__totalContainer {
+.constructor__totalPriceContainer {
   display: flex;
   justify-content: flex-end;
 }
+
 .constructor__totalPrice {
   display: flex;
   align-items: center;

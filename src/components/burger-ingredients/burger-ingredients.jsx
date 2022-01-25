@@ -6,7 +6,7 @@ import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import ingredientsStyles from './burger-ingredients.module.css';
 import appStyles from '../app/app.module.css';
 
-function BurgerIngredients({ onOpenModal }) {
+function BurgerIngredients({ onOpenModalWithIngredient }) {
   const ingredients = useSelector(
     (state) => state.burgerIngredients.ingredients
   );
@@ -104,7 +104,7 @@ function BurgerIngredients({ onOpenModal }) {
                   name={item.name}
                   price={item.price}
                   image={item.image}
-                  onOpenModal={onOpenModal}
+                  onOpenModalWithIngredient={onOpenModalWithIngredient}
                 />
               ))}
             </ul>
@@ -116,7 +116,7 @@ function BurgerIngredients({ onOpenModal }) {
 }
 
 BurgerIngredients.propTypes = {
-  onOpenModal: PropTypes.func.isRequired,
+  onOpenModalWithIngredient: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

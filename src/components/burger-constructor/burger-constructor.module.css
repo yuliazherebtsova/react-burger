@@ -21,16 +21,9 @@
   outline: 1px dashed var(--interface-error);
 }
 
-.constructor__bunTop {
+.constructor__bunElement {
   display: flex;
   justify-content: flex-end;
-  cursor: pointer;
-}
-
-.constructor__bunBottom {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: auto;
   cursor: pointer;
 }
 

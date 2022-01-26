@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import {
 import {
   ADD_BUN_ELEMENT,
   ADD_NON_BUN_ELEMENT,
+  UPDATE_ELEMENTS_ORDER,
 } from 'services/actions/constructor';
 import { postOrder } from 'services/actions/order';
 import { v4 as uuidv4 } from 'uuid';
@@ -68,10 +69,36 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     [handleIngredientDrop, handleCanIngredientDrop]
   );
 
-  const handleIngredientSort = () => {};
+  const findDraggableElement = useCallback(
+    (uid) => {
+      const draggableElement = draggableElements.find(
+        (item) => item.uid === uid
+      );
+      return {
+        draggableElement,
+        draggableElementIndex: draggableElements.indexOf(draggableElement),
+      };
+    },
+    [draggableElements]
+  );
 
-  const [, drop] = useDrop(() => ({ accept: ItemTypes.CARD }));
-  
+  const moveDraggableElement = useCallback(
+    (uid, atIndex) => {
+      const { draggableElement, draggableElementIndex } =
+        findDraggableElement(uid);
+      dispatch({
+        type: UPDATE_ELEMENTS_ORDER,
+        element: draggableElement,
+        oldIndex: draggableElementIndex,
+        newIndex: atIndex,
+      });
+    },
+    [findDraggableElement, dispatch]
+  );
+
+  const [, sortTarget] = useDrop(() => ({
+    accept: 'DraggableItem',
+  }));
 
   const isConstructorEmpty = !bunElement._id && !draggableElements.length;
 
@@ -107,7 +134,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       <ul className={constructorElementsClass} ref={dropTarget}>
         {bunElement.type === 'bun' && (
           <li
-            className={`${constructorStyles.constructor__bunTop} mr-4`}
+            className={`${constructorStyles.constructor__bunElement} mr-4 mb-4`}
             onClick={onClickToIngredient}
             onKeyPress={onClickToIngredient}
             data-id={bunElement._id}
@@ -122,7 +149,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
           </li>
         )}
         <ul
-          className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
+          className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll}`}
           ref={sortTarget}
         >
           {isConstructorEmpty && (
@@ -142,12 +169,14 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
               price={item.price}
               image={item.image}
               onClickToIngredient={onClickToIngredient}
+              findDraggableElement={findDraggableElement}
+              moveDraggableElement={moveDraggableElement}
             />
           ))}
         </ul>
         {bunElement.type === 'bun' && (
           <li
-            className={`${constructorStyles.constructor__bunBottom} mr-4`}
+            className={`${constructorStyles.constructor__bunElement} mt-4 mr-4`}
             onClick={onClickToIngredient}
             onKeyPress={onClickToIngredient}
             data-id={bunElement._id}

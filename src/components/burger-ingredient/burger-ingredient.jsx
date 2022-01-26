@@ -20,12 +20,12 @@ function BurgerIngredient({
     state.burgerConstructor.bunElement,
   ]);
 
-  const [{ isDrag }, dragRef, dragPreview] = useDrag(
+  const [{ isDragging }, dragRef, dragPreview] = useDrag(
     {
       type: 'BurgerIngredient',
       item: { id },
       collect: (monitor) => ({
-        isDrag: monitor.isDragging(),
+        isDragging: monitor.isDragging(),
       }),
     },
     [id]
@@ -40,7 +40,7 @@ function BurgerIngredient({
   return (
     <li
       className={`${ingredientStyles.ingredient__сard} 
-      ${isDrag && ingredientStyles.ingredient__сard_isDragging} mb-8`}
+      ${isDragging && ingredientStyles.ingredient__сard_isDragging} mb-8`}
       onClick={onClickToIngredient}
       onKeyPress={onClickToIngredient}
       ref={dragRef}

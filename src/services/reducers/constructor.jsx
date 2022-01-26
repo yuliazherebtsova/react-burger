@@ -3,8 +3,10 @@ import {
   ADD_BUN_ELEMENT,
   ADD_NON_BUN_ELEMENT,
   DELETE_ELEMENT,
+  UPDATE_ELEMENTS_ORDER,
   RESET_CONSTRUCTOR,
 } from 'services/actions/constructor';
+import update from 'immutability-helper';
 
 const constructorInitialState = {
   bunElement: {},
@@ -28,6 +30,25 @@ export default (state = constructorInitialState, action) => {
         draggableElements: state.draggableElements.filter(
           (item) => item.uid !== action.uid
         ),
+      };
+    }
+    case UPDATE_ELEMENTS_ORDER: {
+      // //debugger;
+      // const draggedElement = state.draggableElements.find(
+      //   (item) => item.uid === action.uid
+      // );
+      // const draggedElementIndex =
+      //   state.draggableElements.indexOf(draggedElement);
+      // console.log('dispatch', draggedElement, draggedElementIndex);
+      const newCards = update(state.draggableElements, {
+        $splice: [
+          [action.oldIndex, 1],
+          [action.newIndex, 0, action.element],
+        ],
+      });
+      return {
+        ...state,
+        draggableElements: newCards,
       };
     }
     case RESET_CONSTRUCTOR: {

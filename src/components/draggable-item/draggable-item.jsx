@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useDrag, DragPreviewImage } from 'react-dnd';
+import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
@@ -8,39 +8,48 @@ import {
 import { DELETE_ELEMENT } from 'services/actions/constructor';
 import draggableItemStyles from './draggable-item.module.css';
 
-function DraggableItem({ id, uid, name, price, image, onClickToIngredient }) {
+function DraggableItem({
+  id,
+  uid,
+  name,
+  price,
+  image,
+  onClickToIngredient,
+  findDraggableElement,
+  moveDraggableElement,
+}) {
   const dispatch = useDispatch();
 
-  const originalIndex = findCard(id).index;
-  const [{ isDragging }, dragRef] = useDrag(
+  const originalIndex = findDraggableElement(uid).draggableElementIndex;
+
+  const [{ isDragging }, dragRef, dragPreview] = useDrag(
     () => ({
       type: 'DraggableItem',
-      item: { id, originalIndex },
+      item: { uid, originalIndex },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
-      end: (item, monitor) => {
-        const { id: droppedId, originalIndex } = item;
-        const didDrop = monitor.didDrop();
-        if (!didDrop) {
-          //moveCard(droppedId, originalIndex);
+      end: (_, monitor) => {
+        if (!monitor.didDrop()) {
+          moveDraggableElement(uid, originalIndex);
         }
       },
     }),
-    [id, originalIndex]
+    [uid, moveDraggableElement, originalIndex]
   );
 
-  const [, drop] = useDrop(
+  const [, dropTarget] = useDrop(
     () => ({
       accept: 'DraggableItem',
-      hover({ id: draggedId }) {
-        if (draggedId !== id) {
-          const { index: overIndex } = findCard(id);
-          moveCard(draggedId, overIndex);
+      hover({ uid: draggedUid }) {
+        if (draggedUid !== uid) {
+          const { draggableElementIndex: overIndex } =
+            findDraggableElement(uid);
+          moveDraggableElement(draggedUid, overIndex);
         }
       },
     }),
-    [findCard, moveCard]
+    [findDraggableElement, moveDraggableElement]
   );
 
   const handleIngredientDelete = (e) => {
@@ -51,17 +60,18 @@ function DraggableItem({ id, uid, name, price, image, onClickToIngredient }) {
     });
   };
 
-  const opacity = isDragging ? 0 : 1;
   return (
     <li
-      className={`${draggableItemStyles.draggableElement} mb-4 ml-2`}
+      className={`${draggableItemStyles.draggableElement} 
+      ${
+        isDragging && draggableItemStyles.draggableElement_isDragging
+      } mb-4 ml-2`}
       key={uid}
       onClick={onClickToIngredient}
       onKeyPress={onClickToIngredient}
       data-id={id}
       data-uid={uid}
-      ref={(node) => dragRef(drop(node))}
-      style={{ ...style, opacity }}
+      ref={(node) => dragRef(dropTarget(node))}
     >
       <DragIcon type="primary" />
       <DragPreviewImage src={image} connect={dragPreview} />
@@ -82,6 +92,8 @@ DraggableItem.propTypes = {
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   onClickToIngredient: PropTypes.func.isRequired,
+  findDraggableElement: PropTypes.func.isRequired,
+  moveDraggableElement: PropTypes.func.isRequired,
 };
 
 export default DraggableItem;

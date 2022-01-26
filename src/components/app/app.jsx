@@ -1,9 +1,3 @@
-/**
- * *TODO
- * * 1. сортировка ингредиентов внутри конструктора
- * * 2. запрет добавление ингредиента без булочки (модальное окно?)
- */
-
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';

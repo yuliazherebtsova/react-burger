@@ -33,13 +33,6 @@ export default (state = constructorInitialState, action) => {
       };
     }
     case UPDATE_ELEMENTS_ORDER: {
-      // //debugger;
-      // const draggedElement = state.draggableElements.find(
-      //   (item) => item.uid === action.uid
-      // );
-      // const draggedElementIndex =
-      //   state.draggableElements.indexOf(draggedElement);
-      // console.log('dispatch', draggedElement, draggedElementIndex);
       const newCards = update(state.draggableElements, {
         $splice: [
           [action.oldIndex, 1],

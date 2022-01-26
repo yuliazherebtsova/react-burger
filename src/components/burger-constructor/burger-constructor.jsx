@@ -4,17 +4,16 @@ import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {
   ADD_BUN_ELEMENT,
   ADD_NON_BUN_ELEMENT,
-  DELETE_ELEMENT,
 } from 'services/actions/constructor';
 import { postOrder } from 'services/actions/order';
 import { v4 as uuidv4 } from 'uuid';
+import DraggableItem from 'components/draggable-item/draggable-item';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 
@@ -51,20 +50,28 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     // если в конструкторе еще нет булки, добавить начинку нельзя
   };
 
-  const [{ isHover, isCanDrop, isDragging }, dropTarget] = useDrop({
-    accept: 'ingredient',
-    drop(itemId) {
-      handleIngredientDrop(itemId);
+  const [{ isHover, isCanDrop, isDragging }, dropTarget] = useDrop(
+    {
+      accept: 'BurgerIngredient',
+      drop(itemId) {
+        handleIngredientDrop(itemId);
+      },
+      canDrop(itemId) {
+        return handleCanIngredientDrop(itemId);
+      },
+      collect: (monitor) => ({
+        isHover: monitor.isOver(),
+        isCanDrop: monitor.canDrop(),
+        isDragging: monitor.canDrop() && !monitor.isOver(),
+      }),
     },
-    canDrop(itemId) {
-      return handleCanIngredientDrop(itemId);
-    },
-    collect: (monitor) => ({
-      isHover: monitor.isOver(),
-      isCanDrop: monitor.canDrop(),
-      isDragging: monitor.canDrop() && !monitor.isOver(),
-    }),
-  });
+    [handleIngredientDrop, handleCanIngredientDrop]
+  );
+
+  const handleIngredientSort = () => {};
+
+  const [, drop] = useDrop(() => ({ accept: ItemTypes.CARD }));
+  
 
   const isConstructorEmpty = !bunElement._id && !draggableElements.length;
 
@@ -82,12 +89,10 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
 
   const totalPrice = useMemo(() => {
     const bunsPrice = bunElement.type === 'bun' ? bunElement.price * 2 : 0;
-
     const nonBunElementsPrice = draggableElements.reduce(
       (acc, item) => acc + item.price,
       0
     );
-
     return bunsPrice + nonBunElementsPrice;
   }, [bunElement, draggableElements]);
 
@@ -96,14 +101,6 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
   };
 
   const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
-
-  const handleIngredientDelete = (e) => {
-    const itemToDeleteUid = e.target.closest('li').dataset.uid;
-    dispatch({
-      type: DELETE_ELEMENT,
-      uid: itemToDeleteUid,
-    });
-  };
 
   return (
     <section className="pt-25 pb-2 pl-4">
@@ -126,6 +123,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         )}
         <ul
           className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll} pt-4`}
+          ref={sortTarget}
         >
           {isConstructorEmpty && (
             <p
@@ -136,22 +134,15 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
             </p>
           )}
           {draggableElements.map((item) => (
-            <li
-              className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
+            <DraggableItem
               key={item.uid}
-              onClick={onClickToIngredient}
-              onKeyPress={onClickToIngredient}
-              data-id={item._id}
-              data-uid={item.uid}
-            >
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={handleIngredientDelete}
-              />
-            </li>
+              id={item._id}
+              uid={item.uid}
+              name={item.name}
+              price={item.price}
+              image={item.image}
+              onClickToIngredient={onClickToIngredient}
+            />
           ))}
         </ul>
         {bunElement.type === 'bun' && (

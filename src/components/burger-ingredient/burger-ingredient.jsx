@@ -20,13 +20,16 @@ function BurgerIngredient({
     state.burgerConstructor.bunElement,
   ]);
 
-  const [{ isDrag }, dragRef, dragPreview] = useDrag({
-    type: 'ingredient',
-    item: { id },
-    collect: (monitor) => ({
-      isDrag: monitor.isDragging(),
-    }),
-  });
+  const [{ isDrag }, dragRef, dragPreview] = useDrag(
+    {
+      type: 'BurgerIngredient',
+      item: { id },
+      collect: (monitor) => ({
+        isDrag: monitor.isDragging(),
+      }),
+    },
+    [id]
+  );
 
   const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
 

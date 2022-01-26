@@ -42,15 +42,6 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-.constructor__nonBunElement {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.constructor__nonBunElement:last-of-type {
-  margin-bottom: 0;
-}
 
 .constructor__totalPriceContainer {
   display: flex;

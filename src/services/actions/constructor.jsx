@@ -26,14 +26,12 @@ export function deleteElement(elementUid) {
 
 export function udpadeElementsOrder({
   draggableElement,
-  draggableElementIndex,
-  atIndex,
+  newIndex,
 }) {
   return {
     type: UPDATE_ELEMENTS_ORDER,
-    element: draggableElement,
-    oldIndex: draggableElementIndex,
-    newIndex: atIndex,
+    draggableElement,
+    newIndex,
   };
 }
 

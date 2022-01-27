@@ -33,12 +33,13 @@ export default (state = constructorInitialState, action) => {
       };
     }
     case UPDATE_ELEMENTS_ORDER: {
+      const oldIndex = state.draggableElements.indexOf(action.draggableElement);
       return {
         ...state,
         draggableElements: update(state.draggableElements, {
           $splice: [
-            [action.oldIndex, 1],
-            [action.newIndex, 0, action.element],
+            [oldIndex, 1],
+            [action.newIndex, 0, action.draggableElement],
           ],
         }),
       };

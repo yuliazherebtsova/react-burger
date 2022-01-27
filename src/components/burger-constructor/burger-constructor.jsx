@@ -77,14 +77,13 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
   );
 
   const moveDraggableElement = useCallback(
-    (uid, atIndex) => {
-      const { draggableElement, draggableElementIndex } =
+    (uid, newIndex) => {
+      const { draggableElement } =
         findDraggableElement(uid);
       dispatch(
         udpadeElementsOrder({
           draggableElement,
-          draggableElementIndex,
-          atIndex,
+          newIndex,
         })
       );
     },

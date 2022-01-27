@@ -1,158 +1,193 @@
-import { useMemo, useContext, useEffect, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { api } from 'utils/api';
+import {
+  addBunElement,
+  addNonBunElement,
+  udpadeElementsOrder,
+} from 'services/actions/constructor';
+import { postOrder } from 'services/actions/order';
 import { v4 as uuidv4 } from 'uuid';
+import DraggableItem from 'components/draggable-item/draggable-item';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
-import {
-  IngredientsContext,
-  ConstructorContext,
-  OrderContext,
-} from '../../utils/appContext';
 
 function BurgerConstructor({ onOpenModalWithIngredient }) {
-  const { ingredientsState } = useContext(IngredientsContext);
-  const { constructorState, setConstructorState } =
-    useContext(ConstructorContext);
-  const { orderState, setOrderState } = useContext(OrderContext);
+  const { ingredients, bunElement, draggableElements, orderRequest } =
+    useSelector((state) => ({
+      ingredients: state.burgerIngredients.ingredients,
+      bunElement: state.burgerConstructor.bunElement,
+      draggableElements: state.burgerConstructor.draggableElements,
+      orderRequest: state.order.orderRequest,
+    }));
 
-  const nonBunElementsClass = `${
-    constructorStyles.constructor__nonBunElements
-  } ${
-    constructorState.draggableItems.length === 0
-      ? constructorStyles.constructor__nonBunElements_empty
-      : ''
-  } ${appStyles.scroll} pt-4`;
+  const dispatch = useDispatch();
 
-  const totalPrice = useMemo(() => {
-    const bunsPrice =
-      constructorState.bun.type === 'bun' ? constructorState.bun.price * 2 : 0;
-
-    const nonBunElementsPrice = constructorState.draggableItems.reduce(
-      (acc, item) => acc + item.price,
-      0
-    );
-
-    return bunsPrice + nonBunElementsPrice;
-  }, [constructorState]);
-
-  useEffect(() => {
-    setConstructorState({
-      type: 'ADD_BUN',
-      payload: ingredientsState.data.find((item) => item.type === 'bun'),
-    });
-
-    setConstructorState({
-      /**
-       * Т.к. в конструкторе могут быть повторяющиеся элементы с одинаковыми _id, а значит для React key он не подходит.
-       * На текущем этапе сгенерируем уникальный uid ингредиенту в момент создания массива draggableItems в state конструктора.
-       */
-      type: 'ADD_NON_BUN_ELEMENT',
-      payload: ingredientsState.data
-        .filter((item) => item.type !== 'bun')
-        .map((item) => ({ ...item, uid: uuidv4() }))
-        .slice(2, 9),
-    });
-  }, [ingredientsState]);
-
-  const createOrder = async () => {
-    setOrderState({
-      ...orderState,
-      hasError: false,
-      isLoading: true,
-    });
-    try {
-      const res = await api.postOrder([
-        constructorState.bun,
-        ...constructorState.draggableItems,
-      ]);
-      setOrderState((prevState) => ({
-        ...prevState,
-        number: res.order.number,
-        isLoading: false,
-      }));
-      setConstructorState({
-        type: 'RESET',
-      });
-    } catch (err) {
-      setOrderState((prevState) => ({
-        ...prevState,
-        hasError: true,
-        isLoading: false,
-      }));
+  const handleIngredientDrop = ({ id }) => {
+    const draggedItem = ingredients.find((item) => item._id === id);
+    if (draggedItem.type === 'bun') {
+      dispatch(addBunElement({ ...draggedItem, uid: uuidv4() }));
+    } else if (bunElement._id) {
+      // в конструкторе уже есть булка, можно добавить начинку
+      dispatch(addNonBunElement({ ...draggedItem, uid: uuidv4() }));
     }
   };
 
-  const onClickToIngredient = useCallback(
-    (uid) => () => onOpenModalWithIngredient({ itemId: uid }),
-    []
-  );
-
-  const onOrderButtonClick = () => {
-    createOrder();
+  const handleCanIngredientDrop = ({ id }) => {
+    const draggedItem = ingredients.find((item) => item._id === id);
+    return !(!bunElement._id && draggedItem.type !== 'bun');
+    // если в конструкторе еще нет булки, добавить начинку нельзя
   };
 
-  return (
-    <section
-      className={`${constructorStyles.constructor__container} pt-25 pb-2 pl-4`}
-    >
-      {constructorState.bun.type === 'bun' && (
-        <div
-          className={`${constructorStyles.constructor__bunTop} mr-4`}
-          onClick={onClickToIngredient(constructorState.bun._id)}
-          onKeyPress={onClickToIngredient(constructorState.bun._id)}
-        >
-          <ConstructorElement
-            type={constructorState.bun.type}
-            text={`${constructorState.bun.name} (верх)`}
-            price={constructorState.bun.price}
-            thumbnail={constructorState.bun.image}
-            isLocked
-          />
-        </div>
-      )}
+  const [{ isHover, isCanDrop, isDragging }, dropTarget] = useDrop(
+    {
+      accept: 'BurgerIngredient',
+      drop(itemId) {
+        handleIngredientDrop(itemId);
+      },
+      canDrop(itemId) {
+        return handleCanIngredientDrop(itemId);
+      },
+      collect: (monitor) => ({
+        isHover: monitor.isOver(),
+        isCanDrop: monitor.canDrop(),
+        isDragging: monitor.canDrop() && !monitor.isOver(),
+      }),
+    },
+    [handleIngredientDrop, handleCanIngredientDrop]
+  );
 
-      <ul className={nonBunElementsClass}>
-        {constructorState.draggableItems.map((item) => (
+  const findDraggableElement = useCallback(
+    (uid) => {
+      const draggableElement = draggableElements.find(
+        (item) => item.uid === uid
+      );
+      return {
+        draggableElement,
+        draggableElementIndex: draggableElements.indexOf(draggableElement),
+      };
+    },
+    [draggableElements]
+  );
+
+  const moveDraggableElement = useCallback(
+    (uid, atIndex) => {
+      const { draggableElement, draggableElementIndex } =
+        findDraggableElement(uid);
+      dispatch(
+        udpadeElementsOrder({
+          draggableElement,
+          draggableElementIndex,
+          atIndex,
+        })
+      );
+    },
+    [findDraggableElement, dispatch]
+  );
+
+  const [, sortTarget] = useDrop(() => ({
+    accept: 'DraggableItem',
+  }));
+
+  const isConstructorEmpty = !bunElement._id && !draggableElements.length;
+
+  const constructorElementsClass = `${constructorStyles.constructor__elements} 
+  ${
+    (isConstructorEmpty || isDragging) &&
+    constructorStyles.constructor__elements_dropArea
+  } 
+  ${isHover && isCanDrop ? constructorStyles.constructor__elements_canDrop : ''}
+  ${
+    isHover && !isCanDrop
+      ? constructorStyles.constructor__elements_canNotDrop
+      : ''
+  }`;
+
+  const totalPrice = useMemo(() => {
+    const bunsPrice = bunElement.type === 'bun' ? bunElement.price * 2 : 0;
+    const nonBunElementsPrice = draggableElements.reduce(
+      (acc, item) => acc + item.price,
+      0
+    );
+    return bunsPrice + nonBunElementsPrice;
+  }, [bunElement, draggableElements]);
+
+  const onClickToOrderButton = () => {
+    dispatch(postOrder([bunElement, ...draggableElements]));
+  };
+
+  const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
+
+  return (
+    <section className="pt-25 pb-2 pl-4">
+      <ul className={constructorElementsClass} ref={dropTarget}>
+        {bunElement.type === 'bun' && (
           <li
-            className={`${constructorStyles.constructor__nonBunElement} mb-4 ml-2`}
-            key={item.uid}
-            onClick={onClickToIngredient(item._id)}
-            onKeyPress={onClickToIngredient(item._id)}
+            className={`${constructorStyles.constructor__bunElement} mr-4 mb-4`}
+            onClick={onClickToIngredient}
+            onKeyPress={onClickToIngredient}
+            data-id={bunElement._id}
           >
-            <DragIcon type="primary" />
             <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
+              type="top"
+              text={`${bunElement.name} (верх)`}
+              price={bunElement.price}
+              thumbnail={bunElement.image}
+              isLocked
             />
           </li>
-        ))}
-      </ul>
-
-      {constructorState.bun.type === 'bun' && (
-        <div
-          className={`${constructorStyles.constructor__bunBottom} mr-4`}
-          onClick={onClickToIngredient(constructorState.bun._id)}
-          onKeyPress={onClickToIngredient(constructorState.bun._id)}
+        )}
+        <ul
+          className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll}`}
+          ref={sortTarget}
         >
-          <ConstructorElement
-            type={constructorState.bun.type}
-            text={`${constructorState.bun.name} (низ)`}
-            price={constructorState.bun.price}
-            thumbnail={constructorState.bun.image}
-            isLocked
-          />
-        </div>
-      )}
+          {isConstructorEmpty && (
+            <p
+              className={`${constructorStyles.constructor__text} mt-10
+              text text text_type_main-medium text_color_inactive`}
+            >
+              Перетащите элемент в конструктор. Сначала добавьте булочку
+            </p>
+          )}
+          {draggableElements.map((item) => (
+            <DraggableItem
+              key={item.uid}
+              id={item._id}
+              uid={item.uid}
+              name={item.name}
+              price={item.price}
+              image={item.image}
+              onClickToIngredient={onClickToIngredient}
+              findDraggableElement={findDraggableElement}
+              moveDraggableElement={moveDraggableElement}
+            />
+          ))}
+        </ul>
+        {bunElement.type === 'bun' && (
+          <li
+            className={`${constructorStyles.constructor__bunElement} mt-4 mr-4`}
+            onClick={onClickToIngredient}
+            onKeyPress={onClickToIngredient}
+            data-id={bunElement._id}
+          >
+            <ConstructorElement
+              type="bottom"
+              text={`${bunElement.name} (низ)`}
+              price={bunElement.price}
+              thumbnail={bunElement.image}
+              isLocked
+            />
+          </li>
+        )}
+      </ul>
       <div
-        className={`${constructorStyles.constructor__totalContainer} mt-10 mr-4`}
+        className={`${constructorStyles.constructor__totalPriceContainer} mt-10 mr-4`}
       >
         <div className={`${constructorStyles.constructor__totalPrice} mr-10`}>
           <span className="text text_type_digits-medium mr-2">
@@ -163,12 +198,12 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
         <Button
           type="primary"
           size="medium"
-          onClick={onOrderButtonClick}
+          onClick={onClickToOrderButton}
           disabled={totalPrice === 0}
           name="orderSubmitButton"
           htmlType="submit"
         >
-          {orderState.isLoading ? 'Создаем заказ...' : 'Оформить заказ'}
+          {orderRequest ? 'Создаем заказ...' : 'Оформить заказ'}
         </Button>
       </div>
     </section>

@@ -1,0 +1,13 @@
+.draggableElement {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.draggableElement:last-of-type {
+  margin-bottom: 0;
+}
+
+.draggableElement_isDragging {
+  opacity: 0.6;
+}

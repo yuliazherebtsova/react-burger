@@ -8,9 +8,12 @@
 }
 
 .ingredients__list {
+  position: relative;
   max-height: calc(100vh - 280px);
+  height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
+  list-style: none;
 }
 
 .ingredient__category {

@@ -11,12 +11,12 @@ import OrderDetails from 'components/order-details/order-details';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import LoadingIndicatorHOC from 'components/loading-indicator-hoc/loading-indicator-hoc';
 import {
-  RESET_INGREDIENTS,
-  RESET_INGREDIENT_TO_VIEW,
-  SET_INGREDIENT_TO_VIEW,
+  resetIngredientToView,
+  resetIngredients,
+  setIngredientToView,
   getIngredientsData,
 } from 'services/actions/ingredients';
-import { RESET_ORDER } from 'services/actions/order';
+import { resetOrder } from 'services/actions/order';
 
 function App() {
   const {
@@ -45,23 +45,24 @@ function App() {
     if (!e.target.closest('.constructor-element__action')) {
       // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
       const ingredientId = e.target.closest('li').dataset.id;
-      dispatch({
-        type: SET_INGREDIENT_TO_VIEW,
-        payload: ingredients.find((item) => item._id === ingredientId),
-      });
+      dispatch(
+        setIngredientToView(
+          ingredients.find((item) => item._id === ingredientId)
+        )
+      );
     }
   };
 
   const handleIngredientModalClose = () => {
-    dispatch({ type: RESET_INGREDIENT_TO_VIEW });
+    dispatch(resetIngredientToView());
   };
 
   const handleErrorModalClose = () => {
-    dispatch({ type: RESET_INGREDIENTS });
+    dispatch(resetIngredients());
   };
 
   const handleOrderModalClose = () => {
-    dispatch({ type: RESET_ORDER });
+    dispatch(resetOrder());
   };
 
   /* eslint-disable react/jsx-no-constructed-context-values */

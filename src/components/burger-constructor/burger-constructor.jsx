@@ -8,9 +8,9 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {
-  ADD_BUN_ELEMENT,
-  ADD_NON_BUN_ELEMENT,
-  UPDATE_ELEMENTS_ORDER,
+  addBunElement,
+  addNonBunElement,
+  udpadeElementsOrder,
 } from 'services/actions/constructor';
 import { postOrder } from 'services/actions/order';
 import { v4 as uuidv4 } from 'uuid';
@@ -32,16 +32,10 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
   const handleIngredientDrop = ({ id }) => {
     const draggedItem = ingredients.find((item) => item._id === id);
     if (draggedItem.type === 'bun') {
-      dispatch({
-        type: ADD_BUN_ELEMENT,
-        payload: { ...draggedItem, uid: uuidv4() },
-      });
+      dispatch(addBunElement({ ...draggedItem, uid: uuidv4() }));
     } else if (bunElement._id) {
       // в конструкторе уже есть булка, можно добавить начинку
-      dispatch({
-        type: ADD_NON_BUN_ELEMENT,
-        payload: { ...draggedItem, uid: uuidv4() },
-      });
+      dispatch(addNonBunElement({ ...draggedItem, uid: uuidv4() }));
     }
   };
 
@@ -86,12 +80,13 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     (uid, atIndex) => {
       const { draggableElement, draggableElementIndex } =
         findDraggableElement(uid);
-      dispatch({
-        type: UPDATE_ELEMENTS_ORDER,
-        element: draggableElement,
-        oldIndex: draggableElementIndex,
-        newIndex: atIndex,
-      });
+      dispatch(
+        udpadeElementsOrder({
+          draggableElement,
+          draggableElementIndex,
+          atIndex,
+        })
+      );
     },
     [findDraggableElement, dispatch]
   );

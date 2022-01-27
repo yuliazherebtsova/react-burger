@@ -33,15 +33,14 @@ export default (state = constructorInitialState, action) => {
       };
     }
     case UPDATE_ELEMENTS_ORDER: {
-      const newCards = update(state.draggableElements, {
-        $splice: [
-          [action.oldIndex, 1],
-          [action.newIndex, 0, action.element],
-        ],
-      });
       return {
         ...state,
-        draggableElements: newCards,
+        draggableElements: update(state.draggableElements, {
+          $splice: [
+            [action.oldIndex, 1],
+            [action.newIndex, 0, action.element],
+          ],
+        }),
       };
     }
     case RESET_CONSTRUCTOR: {

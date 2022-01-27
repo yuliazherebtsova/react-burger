@@ -82,35 +82,33 @@ function BurgerIngredients({ onOpenModalWithIngredient }) {
           ))}
         </ul>
       </nav>
-      <section
-        className={`${ingredientsStyles.ingredients__list} ${appStyles.scroll} pr-4 pl-4`}
-        onScroll={handleSectionScroll}
-      >
-        {ingredientsByType.map(({ name, items, ref }, index) => (
-          <>
-            <h2
-              className="text text_type_main-medium mt-10 mb-6"
-              key={index}
-              ref={ref}
-            >
-              {name}
-            </h2>
-            <ul
-              className={`${ingredientsStyles.ingredient__category} pr-4 pl-4`}
-            >
-              {items.map((item) => (
-                <BurgerIngredient
-                  key={item._id}
-                  id={item._id}
-                  name={item.name}
-                  price={item.price}
-                  image={item.image}
-                  onOpenModalWithIngredient={onOpenModalWithIngredient}
-                />
-              ))}
-            </ul>
-          </>
-        ))}
+      <section>
+        <ul
+          className={`${ingredientsStyles.ingredients__list} ${appStyles.scroll} pr-4 pl-4`}
+          onScroll={handleSectionScroll}
+        >
+          {ingredientsByType.map(({ name, items, ref }, index) => (
+            <li key={index}>
+              <h2 className="text text_type_main-medium mt-6 mb-6" ref={ref}>
+                {name}
+              </h2>
+              <ul
+                className={`${ingredientsStyles.ingredient__category} pr-4 pl-4`}
+              >
+                {items.map((item) => (
+                  <BurgerIngredient
+                    key={item._id}
+                    id={item._id}
+                    name={item.name}
+                    price={item.price}
+                    image={item.image}
+                    onOpenModalWithIngredient={onOpenModalWithIngredient}
+                  />
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
       </section>
     </section>
   );

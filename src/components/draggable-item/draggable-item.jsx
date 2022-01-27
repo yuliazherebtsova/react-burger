@@ -5,7 +5,7 @@ import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DELETE_ELEMENT } from 'services/actions/constructor';
+import { deleteElement } from 'services/actions/constructor';
 import draggableItemStyles from './draggable-item.module.css';
 
 function DraggableItem({
@@ -54,10 +54,7 @@ function DraggableItem({
 
   const handleIngredientDelete = (e) => {
     const itemToDeleteUid = e.target.closest('li').dataset.uid;
-    dispatch({
-      type: DELETE_ELEMENT,
-      uid: itemToDeleteUid,
-    });
+    dispatch(deleteElement(itemToDeleteUid));
   };
 
   return (

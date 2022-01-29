@@ -66,7 +66,6 @@ function DraggableItem({
       onClick={onClickToIngredient}
       onKeyPress={onClickToIngredient}
       data-id={id}
-      data-uid={uid}
       ref={(node) => dragRef(dropTarget(node))}
     >
       <DragIcon type="primary" />

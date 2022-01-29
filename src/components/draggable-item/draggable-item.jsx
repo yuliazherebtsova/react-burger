@@ -52,9 +52,8 @@ function DraggableItem({
     [findDraggableElement, moveDraggableElement]
   );
 
-  const handleIngredientDelete = (e) => {
-    const itemToDeleteUid = e.target.closest('li').dataset.uid;
-    dispatch(deleteElement(itemToDeleteUid));
+  const handleIngredientDelete = () => {
+    dispatch(deleteElement(uid));
   };
 
   return (

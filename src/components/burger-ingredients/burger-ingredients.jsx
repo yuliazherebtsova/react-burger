@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -37,29 +38,36 @@ function BurgerIngredients({ onOpenModalWithIngredient }) {
     []
   );
 
-  const groupIngredientsByType = () =>
-    Object.keys(ingredientTypes).map((key) => ({
-      name: ingredientTypes[key].name,
-      items: ingredients.filter((el) => el.type === key),
-      ref: ingredientTypes[key].ref,
-    }));
+  const groupIngredientsByType = useCallback(
+    () =>
+      Object.keys(ingredientTypes).map((key) => ({
+        name: ingredientTypes[key].name,
+        items: ingredients.filter((el) => el.type === key),
+        ref: ingredientTypes[key].ref,
+      })),
+    [ingredientTypes, ingredients]
+  );
 
   const ingredientsByType = groupIngredientsByType();
 
-  const handleSectionScroll = (e) => {
-    const container = e.target;
-    const scrollPosition = container.scrollTop;
-    const scrollOffset = 120;
-    const positionOfSauseSection = ingredientTypes.sauce.ref.current.offsetTop;
-    const positionOfMainSection = ingredientTypes.main.ref.current.offsetTop;
-    if (scrollPosition + scrollOffset <= positionOfSauseSection) {
-      setCurrentTab('Булки');
-    } else if (scrollPosition + scrollOffset <= positionOfMainSection) {
-      setCurrentTab('Соусы');
-    } else {
-      setCurrentTab('Начинки');
-    }
-  };
+  const handleSectionScroll = useCallback(
+    (e) => {
+      const container = e.target;
+      const scrollPosition = container.scrollTop;
+      const scrollOffset = 120;
+      const positionOfSauseSection =
+        ingredientTypes.sauce.ref.current.offsetTop;
+      const positionOfMainSection = ingredientTypes.main.ref.current.offsetTop;
+      if (scrollPosition + scrollOffset <= positionOfSauseSection) {
+        setCurrentTab('Булки');
+      } else if (scrollPosition + scrollOffset <= positionOfMainSection) {
+        setCurrentTab('Соусы');
+      } else {
+        setCurrentTab('Начинки');
+      }
+    },
+    [setCurrentTab, ingredientTypes.sauce.ref, ingredientTypes.main.ref]
+  );
 
   return (
     <section className={ingredientsStyles.ingredients__container}>
@@ -118,4 +126,4 @@ BurgerIngredients.propTypes = {
   onOpenModalWithIngredient: PropTypes.func.isRequired,
 };
 
-export default BurgerIngredients;
+export default React.memo(BurgerIngredients);

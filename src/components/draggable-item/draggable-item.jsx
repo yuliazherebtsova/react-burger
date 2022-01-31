@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
@@ -91,4 +92,4 @@ DraggableItem.propTypes = {
   moveDraggableElement: PropTypes.func.isRequired,
 };
 
-export default DraggableItem;
+export default React.memo(DraggableItem);

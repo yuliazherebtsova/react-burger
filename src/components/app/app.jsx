@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -41,7 +41,7 @@ function App() {
     dispatch(getIngredientsData());
   }, [dispatch]);
 
-  const handleIngredientModalOpen = (e) => {
+  const handleIngredientModalOpen = useCallback((e) => {
     if (!e.target.closest('.constructor-element__action')) {
       // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
       const ingredientId = e.target.closest('li').dataset.id;
@@ -51,19 +51,19 @@ function App() {
         )
       );
     }
-  };
+  }, [dispatch, ingredients]);
 
-  const handleIngredientModalClose = () => {
+  const handleIngredientModalClose = useCallback(() => {
     dispatch(resetIngredientToView());
-  };
+  }, [dispatch]);
 
-  const handleErrorModalClose = () => {
+  const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
-  };
+  }, [dispatch]);
 
-  const handleOrderModalClose = () => {
+  const handleOrderModalClose = useCallback(() => {
     dispatch(resetOrder());
-  };
+  }, [dispatch]);
 
   /* eslint-disable react/jsx-no-constructed-context-values */
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import NavigationLink from 'components/navigation-link/navigation-link';
 import {
   BurgerIcon,
@@ -76,4 +76,4 @@ function AppHeader() {
   );
 }
 
-export default AppHeader;
+export default React.memo(AppHeader);

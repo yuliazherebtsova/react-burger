@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -72,4 +73,5 @@ BurgerIngredient.propTypes = {
   image: PropTypes.string.isRequired,
 };
 
-export default BurgerIngredient;
+export default React.memo(BurgerIngredient);
+// using memo will cause React to skip rendering a component if its props have not changed

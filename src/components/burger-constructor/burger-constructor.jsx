@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
@@ -78,8 +78,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
 
   const moveDraggableElement = useCallback(
     (uid, newIndex) => {
-      const { draggableElement } =
-        findDraggableElement(uid);
+      const { draggableElement } = findDraggableElement(uid);
       dispatch(
         udpadeElementsOrder({
           draggableElement,
@@ -121,7 +120,10 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     dispatch(postOrder([bunElement, ...draggableElements]));
   };
 
-  const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
+  const onClickToIngredient = useCallback(
+    (e) => onOpenModalWithIngredient(e),
+    [onOpenModalWithIngredient]
+  );
 
   return (
     <section className="pt-25 pb-2 pl-4">
@@ -213,4 +215,4 @@ BurgerConstructor.propTypes = {
   onOpenModalWithIngredient: PropTypes.func.isRequired,
 };
 
-export default BurgerConstructor;
+export default React.memo(BurgerConstructor);

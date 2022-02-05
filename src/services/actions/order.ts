@@ -35,7 +35,7 @@ export interface IResetOrder {
   readonly type: typeof RESET_ORDER;
 }
 
-export function postOrderRequest() {
+export function postOrderRequest(): IPostOrderRequest {
   return {
     type: POST_ORDER_REQUEST,
   };

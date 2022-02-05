@@ -5,7 +5,7 @@ import {
   GET_INGREDIENTS_FAILED,
   SET_INGREDIENT_TO_VIEW,
   RESET_INGREDIENT_TO_VIEW,
-  RESET_INGREDIENTS
+  RESET_INGREDIENTS,
 } from 'services/actions/ingredients';
 
 const ingredientsInitialState = {
@@ -35,7 +35,7 @@ export default (state = ingredientsInitialState, action) => {
       return { ...state, ingredientsFailed: true, ingredientsRequest: false };
     }
     case SET_INGREDIENT_TO_VIEW: {
-      return { ...state, ingredientToView: action.payload };
+      return { ...state, ingredientToView: action.ingredient };
     }
     case RESET_INGREDIENT_TO_VIEW: {
       return { ...state, ingredientToView: null };

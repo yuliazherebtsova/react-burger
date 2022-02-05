@@ -29,11 +29,22 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["src"]
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
   },
   "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "no-unused-vars": "warn",
     "no-use-before-define": "warn",
     "no-underscore-dangle": "off",
@@ -42,7 +53,10 @@
     "react-hooks/exhaustive-deps": "warn", // Проверяем зависимости эффекта
     "react/react-in-jsx-scope": "off",
     "react/no-array-index-key": "warn",
-    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx", ".ts"] }],
+    "react/jsx-filename-extension": [
+      "warn",
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "jsx-a11y/no-static-element-interactions": "off"
   }

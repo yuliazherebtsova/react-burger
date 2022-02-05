@@ -18,11 +18,11 @@ import {
 } from 'services/actions/ingredients';
 import { resetOrder } from 'services/actions/order';
 
-export interface IOnModalOpen {
+interface IOnModalOpen {
   (evt: React.ChangeEvent<HTMLInputElement>): void;
 }
 
-export interface IOnModalClose {
+interface IOnModalClose {
   (): void;
 }
 

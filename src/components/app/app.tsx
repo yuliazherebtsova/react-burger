@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -18,7 +18,15 @@ import {
 } from 'services/actions/ingredients';
 import { resetOrder } from 'services/actions/order';
 
-function App() {
+export interface IOnModalOpen {
+  (evt: React.ChangeEvent<HTMLInputElement>): void;
+}
+
+export interface IOnModalClose {
+  (): void;
+}
+
+const App: React.FC = () => {
   const {
     ingredients,
     ingredientToView,
@@ -26,7 +34,7 @@ function App() {
     ingredientsFailed,
     orderNumber,
     orderFailed,
-  } = useSelector((state) => ({
+  } = useSelector((state: any) => ({
     ingredients: state.burgerIngredients.ingredients,
     ingredientToView: state.burgerIngredients.ingredientToView,
     ingredientsRequest: state.burgerIngredients.ingredientsRequest,
@@ -41,27 +49,30 @@ function App() {
     dispatch(getIngredientsData());
   }, [dispatch]);
 
-  const handleIngredientModalOpen = useCallback((e) => {
-    if (!e.target.closest('.constructor-element__action')) {
-      // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
-      const ingredientId = e.target.closest('li').dataset.id;
-      dispatch(
-        setIngredientToView(
-          ingredients.find((item) => item._id === ingredientId)
-        )
-      );
-    }
-  }, [dispatch, ingredients]);
+  const handleIngredientModalOpen = useCallback<IOnModalOpen>(
+    (evt) => {
+      if (!evt.target.closest('.constructor-element__action')) {
+        // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
+        const ingredientId = evt.target.closest('li')!.dataset.id;
+        dispatch(
+          setIngredientToView(
+            ingredients.find((item: any) => item._id === ingredientId)
+          )
+        );
+      }
+    },
+    [dispatch, ingredients]
+  );
 
-  const handleIngredientModalClose = useCallback(() => {
+  const handleIngredientModalClose = useCallback<IOnModalClose>(() => {
     dispatch(resetIngredientToView());
   }, [dispatch]);
 
-  const handleErrorModalClose = useCallback(() => {
+  const handleErrorModalClose = useCallback<IOnModalClose>(() => {
     dispatch(resetIngredients());
   }, [dispatch]);
 
-  const handleOrderModalClose = useCallback(() => {
+  const handleOrderModalClose = useCallback<IOnModalClose>(() => {
     dispatch(resetOrder());
   }, [dispatch]);
 
@@ -113,6 +124,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

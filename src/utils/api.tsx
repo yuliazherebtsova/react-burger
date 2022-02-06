@@ -1,9 +1,19 @@
+import { IIngredientsData } from 'services/types/data';
 import { BASE_URL } from './constants';
 
-export default class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
+interface IApi {
+  readonly baseUrl: string;
+  readonly headers: Headers;
+}
+
+export default class Api implements IApi {
+  public readonly baseUrl: string;
+
+  public readonly headers: Headers;
+
+  constructor(baseUrl: string, headers: Headers) {
+    this.baseUrl = baseUrl;
+    this.headers = headers;
   }
 
   /**
@@ -13,10 +23,10 @@ export default class Api {
 
   /**
    * @params res - промис полученный от сервера с помощью fetch
-   * @returns в случае успешного ответа - json с данными, иначе - реджект промиса
+   * @returns в случае успешного ответа возвращается json с данными, иначе - отклоненный промис
    */
   // eslint-disable-next-line class-methods-use-this
-  _checkResponse(res) {
+  private checkResponse(res: Response): Promise<Response> {
     if (res.ok) return res.json();
     return Promise.reject(new Error(`Ошибка запроса на сервер: ${res.status}`));
   }
@@ -27,10 +37,10 @@ export default class Api {
   /**
    * @returns промис полученный от сервера с помощью fetch
    */
-  getIngredients() {
-    return fetch(`${this._baseUrl}/ingredients`, {
-      headers: this._headers,
-    }).then(this._checkResponse);
+  getIngredients(): Promise<Response> {
+    return fetch(`${this.baseUrl}/ingredients`, {
+      headers: this.headers,
+    }).then(this.checkResponse);
   }
 
   /**
@@ -39,20 +49,18 @@ export default class Api {
   /**
    * @returns промис полученный от сервера с помощью fetch
    */
-  postOrder(ingredients) {
-    return fetch(`${this._baseUrl}/orders`, {
+  postOrder(ingredients: IIngredientsData): Promise<Response> {
+    return fetch(`${this.baseUrl}/orders`, {
       method: 'POST',
-      headers: this._headers,
+      headers: this.headers,
       body: JSON.stringify({
         ingredients,
       }),
-    }).then(this._checkResponse);
+    }).then(this.checkResponse);
   }
 }
 
-export const api = new Api({
-  baseUrl: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const requestHeaders: HeadersInit = new Headers();
+requestHeaders.set('Content-Type', 'application/json');
+
+export const api = new Api(BASE_URL, requestHeaders);

@@ -1,3 +1,13 @@
+/**
+ * * TODO
+ * * 1.1. типизация хуков редакс
+ * * 1.2. типизация хуков реакт
+ * * 2. проверить redux-devtools
+ * * 3. проверить все any
+ * * 4. типизировать оставшиеся компоненты
+ * * 5. протестировать функционал и warnings
+ */
+
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';

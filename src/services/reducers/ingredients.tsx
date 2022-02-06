@@ -6,16 +6,28 @@ import {
   SET_INGREDIENT_TO_VIEW,
   RESET_INGREDIENT_TO_VIEW,
   RESET_INGREDIENTS,
+  TIngredientsActions,
 } from 'services/actions/ingredients';
+import { IIngredientsData } from '../types/data';
 
-const ingredientsInitialState = {
+type TIngredientsState = {
+  ingredients: ReadonlyArray<IIngredientsData>;
+  ingredientToView: IIngredientsData | null;
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+};
+
+const ingredientsInitialState: TIngredientsState = {
   ingredients: [],
   ingredientToView: null,
   ingredientsRequest: false,
   ingredientsFailed: false,
 };
 
-export default (state = ingredientsInitialState, action) => {
+export default (
+  state = ingredientsInitialState,
+  action: TIngredientsActions
+): TIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

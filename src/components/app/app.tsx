@@ -14,7 +14,7 @@ import {
   resetIngredientToView,
   resetIngredients,
   setIngredientToView,
-  getIngredientsData,
+  geIIngredientsData,
 } from 'services/actions/ingredients';
 import { resetOrder } from 'services/actions/order';
 
@@ -46,7 +46,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getIngredientsData());
+    dispatch(geIIngredientsData());
   }, [dispatch]);
 
   const handleIngredientModalOpen = useCallback<IOnModalOpen>(

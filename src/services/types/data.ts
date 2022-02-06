@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 // типизация данных (приходящих с сервера, например)
-export type TIngredientsData = {
+export interface IIngredientsData {
   _id: string;
   name: string;
   type: string;
@@ -12,5 +13,4 @@ export type TIngredientsData = {
   image_mobile: string;
   image_large: string;
   __v: number;
-  uid?: string;
-};
+}

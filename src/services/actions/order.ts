@@ -1,8 +1,9 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
+import { AppDispatch, AppThunk } from 'services/types';
 import { api } from 'utils/api';
 import { resetConstructor } from 'services/actions/constructor';
-import { TIngredientsData } from 'services/types//data';
+import { IIngredientsData } from 'services/types//data';
 
 /*
  * типы экшенов
@@ -35,6 +36,12 @@ export interface IResetOrder {
   readonly type: typeof RESET_ORDER;
 }
 
+export type TOrderActions =
+  | IPostOrderRequest
+  | IPostOrderSuccess
+  | IPostOrderFailed
+  | IResetOrder;
+
 export function postOrderRequest(): IPostOrderRequest {
   return {
     type: POST_ORDER_REQUEST,
@@ -60,8 +67,8 @@ export function resetOrder(): IResetOrder {
   };
 }
 
-export function postOrder(ingredientsData : TIngredientsData) {
-  return function (dispatch: any) {
+export const postOrder: AppThunk =
+  (ingredientsData: IIngredientsData) => (dispatch: AppDispatch) => {
     dispatch(postOrderRequest());
     api
       .postOrder(ingredientsData)
@@ -80,4 +87,3 @@ export function postOrder(ingredientsData : TIngredientsData) {
         console.log(`Ошибка оформления заказа: ${err}`);
       });
   };
-}

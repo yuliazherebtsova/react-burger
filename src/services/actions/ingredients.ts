@@ -1,7 +1,8 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
+import { AppDispatch, AppThunk } from 'services/types';
 import { api } from 'utils/api';
-import { TIngredientsData } from 'services/types/data';
+import { IIngredientsData } from 'services/types/data';
 
 /*
  * типы экшенов
@@ -29,7 +30,7 @@ export interface IGetIngredientsRequest {
 
 export interface IGetIngredientsSuccess {
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  readonly ingredients: ReadonlyArray<TIngredientsData>;
+  readonly ingredients: ReadonlyArray<IIngredientsData>;
 }
 
 export interface IGetIngredientsFailed {
@@ -38,7 +39,7 @@ export interface IGetIngredientsFailed {
 
 export interface ISetIngredientToView {
   readonly type: typeof SET_INGREDIENT_TO_VIEW;
-  readonly ingredient: TIngredientsData;
+  readonly ingredient: IIngredientsData;
 }
 
 export interface IResetIngredientToView {
@@ -49,6 +50,14 @@ export interface IResetIngredients {
   readonly type: typeof RESET_INGREDIENTS;
 }
 
+export type TIngredientsActions =
+  | IGetIngredientsRequest
+  | IGetIngredientsSuccess
+  | IGetIngredientsFailed
+  | ISetIngredientToView
+  | IResetIngredientToView
+  | IResetIngredients;
+
 function getIngredientsRequest(): IGetIngredientsRequest {
   return {
     type: GET_INGREDIENTS_REQUEST,
@@ -56,7 +65,7 @@ function getIngredientsRequest(): IGetIngredientsRequest {
 }
 
 function getIngredientsSuccess(
-  ingredients: ReadonlyArray<TIngredientsData>
+  ingredients: ReadonlyArray<IIngredientsData>
 ): IGetIngredientsSuccess {
   return {
     type: GET_INGREDIENTS_SUCCESS,
@@ -71,7 +80,7 @@ function getIngredientsFailed(): IGetIngredientsFailed {
 }
 
 export function setIngredientToView(
-  ingredient: TIngredientsData
+  ingredient: IIngredientsData
 ): ISetIngredientToView {
   return {
     type: SET_INGREDIENT_TO_VIEW,
@@ -91,21 +100,19 @@ export function resetIngredients(): IResetIngredients {
   };
 }
 
-export function getIngredientsData() {
-  return function (dispatch: any) {
-    dispatch(getIngredientsRequest());
-    api
-      .getIngredients()
-      .then((res) => {
-        if (res && res.success) {
-          dispatch(getIngredientsSuccess(res.data));
-        } else {
-          dispatch(getIngredientsFailed());
-        }
-      })
-      .catch((err) => {
+export const geIIngredientsData: AppThunk = () => (dispatch: AppDispatch) => {
+  dispatch(getIngredientsRequest());
+  api
+    .getIngredients()
+    .then((res) => {
+      if (res && res.success) {
+        dispatch(getIngredientsSuccess(res.data));
+      } else {
         dispatch(getIngredientsFailed());
-        console.log(`Ошибка загрузки ингредиентов: ${err}`);
-      });
-  };
-}
+      }
+    })
+    .catch((err) => {
+      dispatch(getIngredientsFailed());
+      console.log(`Ошибка загрузки ингредиентов: ${err}`);
+    });
+};

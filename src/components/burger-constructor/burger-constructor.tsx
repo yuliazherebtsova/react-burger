@@ -15,12 +15,17 @@ import {
 import { postOrder } from 'services/actions/order';
 import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
+import { IIngredientsData } from 'services/types/data';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 
-function BurgerConstructor({ onOpenModalWithIngredient }) {
+export interface IConsructorElement extends IIngredientsData {
+  uid: string;
+}
+
+const BurgerConstructor = ({ onOpenModalWithIngredient }) => {
   const { ingredients, bunElement, draggableElements, orderRequest } =
-    useSelector((state) => ({
+    useSelector((state: any) => ({
       ingredients: state.burgerIngredients.ingredients,
       bunElement: state.burgerConstructor.bunElement,
       draggableElements: state.burgerConstructor.draggableElements,
@@ -209,7 +214,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       </div>
     </section>
   );
-}
+};
 
 BurgerConstructor.propTypes = {
   onOpenModalWithIngredient: PropTypes.func.isRequired,

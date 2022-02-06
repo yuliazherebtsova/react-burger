@@ -1,4 +1,4 @@
-import { TIngredientsData } from 'services/types/data';
+import { IConsructorElement } from 'components/burger-constructor/burger-constructor';
 /*
  * типы экшенов
  */
@@ -16,12 +16,12 @@ export const RESET_CONSTRUCTOR = 'RESET_CONSTRUCTOR';
 // Типизация экшенов
 export interface IAddBunElement {
   readonly type: typeof ADD_BUN_ELEMENT;
-  readonly payload: TIngredientsData;
+  readonly payload: IConsructorElement;
 }
 
 export interface IAddNonBunElement {
   readonly type: typeof ADD_NON_BUN_ELEMENT;
-  readonly payload: TIngredientsData;
+  readonly payload: IConsructorElement;
 }
 
 export interface IDeleteElement {
@@ -31,7 +31,7 @@ export interface IDeleteElement {
 
 export interface IUdpadeElementsOrder {
   readonly type: typeof UPDATE_ELEMENTS_ORDER;
-  readonly draggableElement: TIngredientsData;
+  readonly draggableElement: IConsructorElement;
   readonly newIndex: number;
 }
 
@@ -39,14 +39,23 @@ export interface IResetConstructor {
   readonly type: typeof RESET_CONSTRUCTOR;
 }
 
-export function addBunElement(element: TIngredientsData): IAddBunElement {
+export type TConstructorActions =
+  | IAddBunElement
+  | IAddNonBunElement
+  | IDeleteElement
+  | IUdpadeElementsOrder
+  | IResetConstructor;
+
+export function addBunElement(element: IConsructorElement): IAddBunElement {
   return {
     type: ADD_BUN_ELEMENT,
     payload: element,
   };
 }
 
-export function addNonBunElement(element: TIngredientsData): IAddNonBunElement {
+export function addNonBunElement(
+  element: IConsructorElement
+): IAddNonBunElement {
   return {
     type: ADD_NON_BUN_ELEMENT,
     payload: element,
@@ -64,7 +73,7 @@ export function udpadeElementsOrder({
   draggableElement,
   newIndex,
 }: {
-  draggableElement: TIngredientsData;
+  draggableElement: IConsructorElement;
   newIndex: number;
 }): IUdpadeElementsOrder {
   return {

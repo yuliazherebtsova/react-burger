@@ -3,16 +3,26 @@ import {
   POST_ORDER_REQUEST,
   POST_ORDER_SUCCESS,
   POST_ORDER_FAILED,
-  RESET_ORDER
+  RESET_ORDER,
+  TOrderActions,
 } from 'services/actions/order';
 
-const orderInitialState = {
+type TOrderState = {
+  orderNumber: string | null;
+  orderRequest: boolean;
+  orderFailed: boolean;
+};
+
+const orderInitialState: TOrderState = {
   orderNumber: null,
   orderRequest: false,
   orderFailed: false,
 };
 
-export default (state = orderInitialState, action) => {
+export default (
+  state = orderInitialState,
+  action: TOrderActions
+): TOrderState => {
   switch (action.type) {
     case POST_ORDER_REQUEST: {
       return {

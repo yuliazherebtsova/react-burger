@@ -5,15 +5,25 @@ import {
   DELETE_ELEMENT,
   UPDATE_ELEMENTS_ORDER,
   RESET_CONSTRUCTOR,
+  TConstructorActions,
 } from 'services/actions/constructor';
 import update from 'immutability-helper';
+import { IConsructorElement } from 'components/burger-constructor/burger-constructor';
 
-const constructorInitialState = {
-  bunElement: {},
+type TConstructorState = {
+  bunElement: IConsructorElement;
+  draggableElements: ReadonlyArray<IConsructorElement>;
+};
+
+const constructorInitialState: TConstructorState = {
+  bunElement: {} as IConsructorElement,
   draggableElements: [],
 };
 
-export default (state = constructorInitialState, action) => {
+export default (
+  state = constructorInitialState,
+  action: TConstructorActions
+): TConstructorState => {
   switch (action.type) {
     case ADD_BUN_ELEMENT: {
       return { ...state, bunElement: action.payload };

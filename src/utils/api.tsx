@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IIngredientsData } from 'services/types/data';
 import { BASE_URL } from './constants';
 
@@ -26,7 +27,7 @@ export default class Api implements IApi {
    * @returns в случае успешного ответа возвращается json с данными, иначе - отклоненный промис
    */
   // eslint-disable-next-line class-methods-use-this
-  private checkResponse(res: Response): Promise<Response> {
+  private checkResponse(res: Response): Promise<any> {
     if (res.ok) return res.json();
     return Promise.reject(new Error(`Ошибка запроса на сервер: ${res.status}`));
   }
@@ -37,7 +38,7 @@ export default class Api implements IApi {
   /**
    * @returns промис полученный от сервера с помощью fetch
    */
-  getIngredients(): Promise<Response> {
+  getIngredients(): Promise<any> {
     return fetch(`${this.baseUrl}/ingredients`, {
       headers: this.headers,
     }).then(this.checkResponse);
@@ -49,7 +50,7 @@ export default class Api implements IApi {
   /**
    * @returns промис полученный от сервера с помощью fetch
    */
-  postOrder(ingredients: IIngredientsData): Promise<Response> {
+  postOrder(ingredients: IIngredientsData): Promise<any> {
     return fetch(`${this.baseUrl}/orders`, {
       method: 'POST',
       headers: this.headers,

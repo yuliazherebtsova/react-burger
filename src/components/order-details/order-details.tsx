@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
+import { TRootState } from 'services/types';
 import orderStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
 
 const OrderDetails:React.FC = () => {
-  const orderNumber = useSelector((state: any) => state.order.orderNumber);
+  const orderNumber = useSelector((state: TRootState) => state.order.orderNumber);
 
   return (
     <div className={orderStyles.order}>

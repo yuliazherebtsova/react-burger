@@ -2,10 +2,9 @@
  * * TODO
  * * 1.1. типизация хуков редакс
  * * 1.2. типизация хуков реакт
- * * 2. проверить redux-devtools
- * * 3. проверить все any
- * * 4. типизировать оставшиеся компоненты
- * * 5. протестировать функционал и warnings
+ * * 2. проверить все any
+ * * 3. типизировать оставшиеся компоненты: 
+ * * 4. протестировать функционал и warnings
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -28,14 +27,6 @@ import {
 } from 'services/actions/ingredients';
 import { resetOrder } from 'services/actions/order';
 
-interface IOnModalOpen {
-  (evt: React.ChangeEvent<HTMLInputElement>): void;
-}
-
-interface IOnModalClose {
-  (): void;
-}
-
 const App: React.FC = () => {
   const {
     ingredients,
@@ -53,17 +44,17 @@ const App: React.FC = () => {
     orderFailed: state.order.orderFailed,
   }));
 
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
   useEffect(() => {
     dispatch(geIIngredientsData());
   }, [dispatch]);
 
-  const handleIngredientModalOpen = useCallback<IOnModalOpen>(
+  const handleIngredientModalOpen = useCallback(
     (evt) => {
       if (!evt.target.closest('.constructor-element__action')) {
         // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
-        const ingredientId = evt.target.closest('li')!.dataset.id;
+        const ingredientId = evt.target.closest('li').dataset.id;
         dispatch(
           setIngredientToView(
             ingredients.find((item: any) => item._id === ingredientId)
@@ -74,15 +65,15 @@ const App: React.FC = () => {
     [dispatch, ingredients]
   );
 
-  const handleIngredientModalClose = useCallback<IOnModalClose>(() => {
+  const handleIngredientModalClose = useCallback(() => {
     dispatch(resetIngredientToView());
   }, [dispatch]);
 
-  const handleErrorModalClose = useCallback<IOnModalClose>(() => {
+  const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
   }, [dispatch]);
 
-  const handleOrderModalClose = useCallback<IOnModalClose>(() => {
+  const handleOrderModalClose = useCallback(() => {
     dispatch(resetOrder());
   }, [dispatch]);
 

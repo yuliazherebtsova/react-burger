@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDrop } from 'react-dnd';
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -10,8 +10,8 @@ import {
   addBunElement,
   addNonBunElement,
   udpadeElementsOrder,
-} from 'services/actions/constructor';
-import { postOrder } from 'services/actions/order';
+} from 'services/slices/constructor';
+import postOrder from 'services/thunks/order';
 import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
 import { IIngredientsData } from 'services/types/data';
@@ -68,7 +68,7 @@ const BurgerConstructor = ({
       canDrop(itemId: { id: string }) {
         return handleCanIngredientDrop(itemId);
       },
-      collect: (monitor: DropTargetMonitor) => ({
+      collect: (monitor) => ({
         isHover: monitor.isOver(),
         isCanDrop: monitor.canDrop(),
         isDragging: monitor.canDrop() && !monitor.isOver(),
@@ -85,7 +85,9 @@ const BurgerConstructor = ({
       return {
         draggableElement,
         draggableElementIndex: draggableElement
-          ? draggableElements.indexOf(draggableElement)
+          ? draggableElements.findIndex(
+              (item) => item.uid === draggableElement.uid
+            )
           : -1,
       };
     },
@@ -213,7 +215,7 @@ const BurgerConstructor = ({
           <span className="text text_type_digits-medium mr-2">
             {totalPrice}
           </span>
-          <CurrencyIcon type="primary"/>
+          <CurrencyIcon type="primary" />
         </div>
         <Button
           type="primary"

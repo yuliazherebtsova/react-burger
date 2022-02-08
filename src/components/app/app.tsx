@@ -1,10 +1,9 @@
 /**
  * * TODO
- * * 1.1. типизация хуков редакс
- * * 1.2. типизация хуков реакт
+ * * 1. типизация хуков редакс
  * * 2. проверить все any
- * * 3. типизировать оставшиеся компоненты: 
- * * 4. протестировать функционал и warnings
+ * * 3. типизировать оставшиеся компоненты (6 штук)
+ * * 4. протестировать функционал и убрать warnings
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -23,9 +22,11 @@ import {
   resetIngredientToView,
   resetIngredients,
   setIngredientToView,
-  geIIngredientsData,
-} from 'services/actions/ingredients';
-import { resetOrder } from 'services/actions/order';
+} from 'services/slices/ingredients';
+import { resetOrder } from 'services/slices/order';
+import getIngredientsData from 'services/thunks/ingredients';
+import { TRootState } from 'services/types';
+import { IIngredientsData } from 'services/types/data';
 
 const App: React.FC = () => {
   const {
@@ -35,7 +36,7 @@ const App: React.FC = () => {
     ingredientsFailed,
     orderNumber,
     orderFailed,
-  } = useSelector((state: any) => ({
+  } = useSelector((state: TRootState) => ({
     ingredients: state.burgerIngredients.ingredients,
     ingredientToView: state.burgerIngredients.ingredientToView,
     ingredientsRequest: state.burgerIngredients.ingredientsRequest,
@@ -47,19 +48,20 @@ const App: React.FC = () => {
   const dispatch: any = useDispatch();
 
   useEffect(() => {
-    dispatch(geIIngredientsData());
+    dispatch(getIngredientsData());
   }, [dispatch]);
 
   const handleIngredientModalOpen = useCallback(
     (evt) => {
       if (!evt.target.closest('.constructor-element__action')) {
         // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
-        const ingredientId = evt.target.closest('li').dataset.id;
-        dispatch(
-          setIngredientToView(
-            ingredients.find((item: any) => item._id === ingredientId)
-          )
+        const ingredientId: string = evt.target.closest('li').dataset.id;
+        const ingredient = ingredients.find(
+          (item: IIngredientsData) => item._id === ingredientId
         );
+        if (ingredient) {
+          dispatch(setIngredientToView(ingredient));
+        }
       }
     },
     [dispatch, ingredients]
@@ -77,7 +79,6 @@ const App: React.FC = () => {
     dispatch(resetOrder());
   }, [dispatch]);
 
-  /* eslint-disable react/jsx-no-constructed-context-values */
   return (
     <>
       <AppHeader />
@@ -85,7 +86,7 @@ const App: React.FC = () => {
         <LoadingIndicatorHOC
           isLoading={ingredientsRequest}
           hasError={ingredientsFailed}
-          gotData={Boolean(ingredients.length)}
+          gotData={Boolean(ingredients?.length)}
           onErrorModalClose={handleErrorModalClose}
         >
           <DndProvider backend={HTML5Backend}>

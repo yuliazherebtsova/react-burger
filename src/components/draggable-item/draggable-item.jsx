@@ -6,7 +6,7 @@ import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { deleteElement } from 'services/actions/constructor';
+import { deleteElement } from 'services/slices/constructor';
 import draggableItemStyles from './draggable-item.module.css';
 
 function DraggableItem({

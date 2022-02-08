@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-// типизация данных (приходящих с сервера, например)
+// Типизация данных (приходящих с сервера)
 export interface IIngredientsData {
   readonly _id: string;
   readonly name: string;

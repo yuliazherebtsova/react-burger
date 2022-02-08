@@ -2,9 +2,8 @@
  * * TODO
  * * 1. типизация хуков редакс
  * * 2. проверить все any
- * * 3. типизировать оставшиеся компоненты (5 штук)
- * * 4. протестировать функционал (в т.ч. окно ошибки загрузки)
- * * 5. убрать warnings
+ * * 3. протестировать функционал (в т.ч. окно ошибки загрузки)
+ * * 4. убрать warnings
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -29,6 +28,15 @@ import getIngredientsData from 'services/thunks/ingredients';
 import { TRootState } from 'services/types';
 import { IIngredientsData } from 'services/types/data';
 
+export interface IHandleIngredientModalOpen {
+  // eslint-disable-next-line no-unused-vars
+  (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>): void;
+}
+
+export interface IHandleModalClose {
+  (): void;
+}
+
 const App: React.FC = () => {
   const {
     ingredients,
@@ -52,11 +60,12 @@ const App: React.FC = () => {
     dispatch(getIngredientsData());
   }, [dispatch]);
 
-  const handleIngredientModalOpen = useCallback(
+  const handleIngredientModalOpen = useCallback<IHandleIngredientModalOpen>(
     (evt) => {
-      if (!evt.target.closest('.constructor-element__action')) {
+      const eventTarget = evt.target as HTMLDivElement;
+      if (!eventTarget.closest('.constructor-element__action')) {
         // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
-        const ingredientId: string = evt.target.closest('li').dataset.id;
+        const ingredientId = eventTarget.closest('li')?.dataset.id;
         const ingredient = ingredients.find(
           (item: IIngredientsData) => item._id === ingredientId
         );
@@ -68,15 +77,15 @@ const App: React.FC = () => {
     [dispatch, ingredients]
   );
 
-  const handleIngredientModalClose = useCallback(() => {
+  const handleIngredientModalClose = useCallback<IHandleModalClose>(() => {
     dispatch(resetIngredientToView());
   }, [dispatch]);
 
-  const handleErrorModalClose = useCallback(() => {
+  const handleErrorModalClose = useCallback<IHandleModalClose>(() => {
     dispatch(resetIngredients());
   }, [dispatch]);
 
-  const handleOrderModalClose = useCallback(() => {
+  const handleOrderModalClose = useCallback<IHandleModalClose>(() => {
     dispatch(resetOrder());
   }, [dispatch]);
 

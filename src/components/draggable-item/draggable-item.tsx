@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
 import {
@@ -6,9 +6,25 @@ import {
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { deleteElement } from 'services/slices/constructor';
+import {
+  IFindDraggableElement,
+  IMoveDraggableElement,
+} from 'components/burger-constructor/burger-constructor';
+import { IHandleIngredientModalOpen } from 'components/app/app';
 import draggableItemStyles from './draggable-item.module.css';
 
-function DraggableItem({
+interface IDraggableItemProps {
+  id: string;
+  uid: string;
+  image: string;
+  name: string;
+  price: number;
+  onClickToIngredient: IHandleIngredientModalOpen;
+  findDraggableElement: IFindDraggableElement;
+  moveDraggableElement: IMoveDraggableElement;
+}
+
+const DraggableItem: React.FC<IDraggableItemProps> = ({
   id,
   uid,
   name,
@@ -17,8 +33,8 @@ function DraggableItem({
   onClickToIngredient,
   findDraggableElement,
   moveDraggableElement,
-}) {
-  const dispatch = useDispatch();
+}) => {
+  const dispatch: any = useDispatch();
 
   const originalIndex = findDraggableElement(uid).draggableElementIndex;
 
@@ -41,7 +57,7 @@ function DraggableItem({
   const [, dropTarget] = useDrop(
     () => ({
       accept: 'DraggableItem',
-      hover({ uid: draggedUid }) {
+      hover({ uid: draggedUid }: { uid: string }) {
         if (draggedUid !== uid) {
           const { draggableElementIndex: overIndex } =
             findDraggableElement(uid);
@@ -52,9 +68,9 @@ function DraggableItem({
     [findDraggableElement, moveDraggableElement]
   );
 
-  const handleIngredientDelete = () => {
+  const handleIngredientDelete = useCallback(() => {
     dispatch(deleteElement(uid));
-  };
+  }, [uid, dispatch]);
 
   return (
     <li
@@ -78,6 +94,6 @@ function DraggableItem({
       />
     </li>
   );
-}
+};
 
 export default React.memo(DraggableItem);

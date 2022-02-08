@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
@@ -16,18 +17,27 @@ import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
 import { IIngredientsData } from 'services/types/data';
 import { TRootState } from 'services/types';
+import { IHandleIngredientModalOpen } from 'components/app/app';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 
 interface IBurgerConstructorProps {
-  onOpenModalWithIngredient: (
-    // eslint-disable-next-line no-unused-vars
-    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
-  ) => void;
+  onOpenModalWithIngredient: IHandleIngredientModalOpen;
 }
 
 export interface IConsructorElement extends IIngredientsData {
   readonly uid: string;
+}
+
+export interface IFindDraggableElement {
+  (uid: string): {
+    draggableElement: IConsructorElement | undefined;
+    draggableElementIndex: number;
+  };
+}
+
+export interface IMoveDraggableElement {
+  (uid: string, newIndex: number): void;
 }
 
 const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
@@ -77,7 +87,7 @@ const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
     [handleIngredientDrop, handleCanIngredientDrop]
   );
 
-  const findDraggableElement = useCallback(
+  const findDraggableElement = useCallback<IFindDraggableElement>(
     (uid: string) => {
       const draggableElement = draggableElements.find(
         (item) => item.uid === uid
@@ -94,7 +104,7 @@ const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
     [draggableElements]
   );
 
-  const moveDraggableElement = useCallback(
+  const moveDraggableElement = useCallback<IMoveDraggableElement>(
     (uid: string, newIndex: number) => {
       const { draggableElement } = findDraggableElement(uid);
       if (draggableElement) {

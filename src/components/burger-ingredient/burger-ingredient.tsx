@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useCallback , useMemo } from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { TRootState } from 'services/types';
+import { IHandleIngredientModalOpen } from 'components/app/app';
 import ingredientStyles from './burger-ingredient.module.css';
 
-function BurgerIngredient({
+interface IBurgerIngredientProps {
+  id: string;
+  image: string;
+  price: number;
+  name: string;
+  onOpenModalWithIngredient: IHandleIngredientModalOpen;
+}
+
+const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({
   id,
   image,
   price,
   name,
   onOpenModalWithIngredient,
-}) {
-  const ingredientsInOrder = useSelector((state) => [
+}) => {
+  const ingredientsInOrder = useSelector((state: TRootState) => [
     state.burgerConstructor.bunElement,
     ...state.burgerConstructor.draggableElements,
     state.burgerConstructor.bunElement,
@@ -31,11 +41,15 @@ function BurgerIngredient({
     [id]
   );
 
-  const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
+  const onClickToIngredient = useCallback(
+    (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>) =>
+      onOpenModalWithIngredient(evt),
+    [onOpenModalWithIngredient]
+  );
 
-  const ingredientsCounter = ingredientsInOrder.filter(
+  const ingredientsCounter = useMemo(() => ingredientsInOrder.filter(
     (item) => item._id === id
-  ).length;
+  ).length, [id, ingredientsInOrder]);
 
   return (
     <li
@@ -53,7 +67,7 @@ function BurgerIngredient({
       )}
       <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
         <span className="text text_type_digits-default mr-2">{price}</span>
-        <CurrencyIcon />
+        <CurrencyIcon type="primary" />
       </div>
       <p
         className={`${ingredientStyles.ingredient__name} text text text_type_main-default`}
@@ -62,7 +76,7 @@ function BurgerIngredient({
       </p>
     </li>
   );
-}
+};
 
 export default React.memo(BurgerIngredient);
 // using memo will cause React to skip rendering a component if its props have not changed

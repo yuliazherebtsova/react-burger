@@ -1,13 +1,21 @@
-import PropTypes from 'prop-types';
 import navigationStyles from './navigation-link.module.css';
 
-function NavigationLink({
+interface INavigationLinkProps {
+  children: React.ReactNode;
+  title: string;
+  icon: React.ReactNode;
+  isActive: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onNavigationClick: (title: string) => void;
+}
+
+const NavigationLink: React.FC<INavigationLinkProps> = ({
   children,
   title,
   icon,
   isActive,
   onNavigationClick,
-}) {
+}) => {
   const navigationClickHandler = () => {
     onNavigationClick(title);
   };
@@ -28,14 +36,6 @@ function NavigationLink({
       </p>
     </a>
   );
-}
-
-NavigationLink.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.element.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  onNavigationClick: PropTypes.func.isRequired,
 };
 
 export default NavigationLink;

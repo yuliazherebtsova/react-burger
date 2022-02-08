@@ -1,3 +1,4 @@
+import { IHandleModalClose } from 'components/app/app';
 import Modal from 'components/modal/modal';
 
 interface ILoadingIndicatorHOCProps {
@@ -5,7 +6,7 @@ interface ILoadingIndicatorHOCProps {
   hasError: boolean;
   gotData: boolean;
   children: React.ReactNode;
-  onErrorModalClose: () => void;
+  onErrorModalClose: IHandleModalClose;
 }
 
 const LoadingIndicatorHOC: React.FC<ILoadingIndicatorHOCProps> = ({

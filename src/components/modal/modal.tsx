@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IHandleModalClose } from 'components/app/app';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import modalStyles from './modal.module.css';
 import { portal } from '../../utils/constants';
@@ -9,7 +8,7 @@ import { portal } from '../../utils/constants';
 interface IModalProps {
   title?: string;
   children: React.ReactNode;
-  onClose: IHandleModalClose
+  onClose: () => void;
 }
 
 const Modal: React.FC<IModalProps> = ({ children, title = '', onClose }) => {

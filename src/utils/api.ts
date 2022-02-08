@@ -8,9 +8,9 @@ interface IApi {
 }
 
 export default class Api implements IApi {
-  public readonly baseUrl: string;
+  readonly baseUrl: string;
 
-  public readonly headers: Headers;
+  readonly headers: Headers;
 
   constructor(baseUrl: string, headers: Headers) {
     this.baseUrl = baseUrl;

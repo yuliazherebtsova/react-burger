@@ -1,9 +1,8 @@
-import { IHandleModalClose } from 'components/app/app';
 import React from 'react';
 import overlayStyles from './modal-overlay.module.css';
 
 interface IModalOverlayProps {
-  onClose: IHandleModalClose
+  onClose: () => void;
 }
 
 const ModalOverlay: React.FC<IModalOverlayProps> = ({ onClose }) => (

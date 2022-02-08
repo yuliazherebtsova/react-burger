@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'services/types/hooks';
 import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
 import {
   ConstructorElement,
@@ -10,7 +10,6 @@ import {
   IFindDraggableElement,
   IMoveDraggableElement,
 } from 'components/burger-constructor/burger-constructor';
-import { IHandleIngredientModalOpen } from 'components/app/app';
 import draggableItemStyles from './draggable-item.module.css';
 
 interface IDraggableItemProps {
@@ -19,7 +18,10 @@ interface IDraggableItemProps {
   image: string;
   name: string;
   price: number;
-  onClickToIngredient: IHandleIngredientModalOpen;
+  onClickToIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
   findDraggableElement: IFindDraggableElement;
   moveDraggableElement: IMoveDraggableElement;
 }
@@ -34,7 +36,7 @@ const DraggableItem: React.FC<IDraggableItemProps> = ({
   findDraggableElement,
   moveDraggableElement,
 }) => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const originalIndex = findDraggableElement(uid).draggableElementIndex;
 

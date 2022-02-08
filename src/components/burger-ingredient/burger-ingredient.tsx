@@ -1,12 +1,11 @@
 import React, { useCallback , useMemo } from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
-import { useSelector } from 'react-redux';
+import { useSelector } from 'services/types/hooks';
 import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { TRootState } from 'services/types';
-import { IHandleIngredientModalOpen } from 'components/app/app';
 import ingredientStyles from './burger-ingredient.module.css';
 
 interface IBurgerIngredientProps {
@@ -14,7 +13,10 @@ interface IBurgerIngredientProps {
   image: string;
   price: number;
   name: string;
-  onOpenModalWithIngredient: IHandleIngredientModalOpen;
+  onOpenModalWithIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
 }
 
 const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({

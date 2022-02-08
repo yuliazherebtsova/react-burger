@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useMemo, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'services/types/hooks';
 import { useDrop } from 'react-dnd';
 import {
   ConstructorElement,
@@ -17,12 +17,14 @@ import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
 import { IIngredientsData } from 'services/types/data';
 import { TRootState } from 'services/types';
-import { IHandleIngredientModalOpen } from 'components/app/app';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 
 interface IBurgerConstructorProps {
-  onOpenModalWithIngredient: IHandleIngredientModalOpen;
+  onOpenModalWithIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
 }
 
 export interface IConsructorElement extends IIngredientsData {
@@ -51,7 +53,7 @@ const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
       orderRequest: state.order.orderRequest,
     }));
 
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const handleIngredientDrop = ({ id }: { id: string }): void => {
     const draggedItem = ingredients.find((item) => item._id === id);

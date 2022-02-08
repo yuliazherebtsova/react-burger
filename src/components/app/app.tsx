@@ -1,13 +1,4 @@
-/**
- * * TODO
- * * 1. типизация хуков редакс
- * * 2. проверить все any
- * * 3. протестировать функционал (в т.ч. окно ошибки загрузки)
- * * 4. убрать warnings
- */
-
 import React, { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Modal from 'components/modal/modal';
@@ -27,15 +18,7 @@ import { resetOrder } from 'services/slices/order';
 import getIngredientsData from 'services/thunks/ingredients';
 import { TRootState } from 'services/types';
 import { IIngredientsData } from 'services/types/data';
-
-export interface IHandleIngredientModalOpen {
-  // eslint-disable-next-line no-unused-vars
-  (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>): void;
-}
-
-export interface IHandleModalClose {
-  (): void;
-}
+import { useSelector, useDispatch } from 'services/types/hooks';
 
 const App: React.FC = () => {
   const {
@@ -54,13 +37,13 @@ const App: React.FC = () => {
     orderFailed: state.order.orderFailed,
   }));
 
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredientsData());
   }, [dispatch]);
 
-  const handleIngredientModalOpen = useCallback<IHandleIngredientModalOpen>(
+  const handleIngredientModalOpen = useCallback(
     (evt) => {
       const eventTarget = evt.target as HTMLDivElement;
       if (!eventTarget.closest('.constructor-element__action')) {
@@ -77,15 +60,15 @@ const App: React.FC = () => {
     [dispatch, ingredients]
   );
 
-  const handleIngredientModalClose = useCallback<IHandleModalClose>(() => {
+  const handleIngredientModalClose = useCallback(() => {
     dispatch(resetIngredientToView());
   }, [dispatch]);
 
-  const handleErrorModalClose = useCallback<IHandleModalClose>(() => {
+  const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
   }, [dispatch]);
 
-  const handleOrderModalClose = useCallback<IHandleModalClose>(() => {
+  const handleOrderModalClose = useCallback(() => {
     dispatch(resetOrder());
   }, [dispatch]);
 

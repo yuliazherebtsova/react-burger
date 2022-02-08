@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from 'services/types/hooks';
 import { TRootState } from 'services/types';
 import orderStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';

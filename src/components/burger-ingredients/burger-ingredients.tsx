@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from 'services/types/hooks';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import { TRootState } from 'services/types';
-import { IHandleIngredientModalOpen } from 'components/app/app';
 import ingredientsStyles from './burger-ingredients.module.css';
 import appStyles from '../app/app.module.css';
 
 interface IBurgerIngredientsProps {
-  onOpenModalWithIngredient: IHandleIngredientModalOpen;
+  onOpenModalWithIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
 }
 
 interface IIngredientCategory {

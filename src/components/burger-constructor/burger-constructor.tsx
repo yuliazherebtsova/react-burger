@@ -30,9 +30,9 @@ export interface IConsructorElement extends IIngredientsData {
   readonly uid: string;
 }
 
-const BurgerConstructor = ({
+const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
   onOpenModalWithIngredient,
-}: IBurgerConstructorProps) => {
+}) => {
   const { ingredients, bunElement, draggableElements, orderRequest } =
     useSelector((state: TRootState) => ({
       ingredients: state.burgerIngredients.ingredients,

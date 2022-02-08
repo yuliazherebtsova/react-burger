@@ -113,7 +113,6 @@ const App: React.FC = () => {
             </Modal>
           )}
           <LoadingIndicatorHOC
-            isLoading={false}
             hasError={orderFailed}
             gotData={Boolean(orderNumber)}
             onErrorModalClose={handleOrderModalClose}

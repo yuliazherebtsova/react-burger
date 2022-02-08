@@ -71,6 +71,7 @@
     "no-param-reassign": [
       "error",
       { "props": true, "ignorePropertyModificationsFor": ["state"] }
-    ]
+    ],
+    "react/prop-types": "off"
   }
 }

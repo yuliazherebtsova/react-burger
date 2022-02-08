@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
-import PropTypes from 'prop-types';
 import {
   ConstructorElement,
   DragIcon,
@@ -80,16 +79,5 @@ function DraggableItem({
     </li>
   );
 }
-
-DraggableItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  uid: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  onClickToIngredient: PropTypes.func.isRequired,
-  findDraggableElement: PropTypes.func.isRequired,
-  moveDraggableElement: PropTypes.func.isRequired,
-};
 
 export default React.memo(DraggableItem);

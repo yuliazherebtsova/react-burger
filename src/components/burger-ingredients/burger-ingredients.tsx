@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import ingredientsStyles from './burger-ingredients.module.css';
@@ -121,9 +120,5 @@ function BurgerIngredients({ onOpenModalWithIngredient }) {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  onOpenModalWithIngredient: PropTypes.func.isRequired,
-};
 
 export default React.memo(BurgerIngredients);

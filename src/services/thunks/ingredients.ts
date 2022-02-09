@@ -7,7 +7,7 @@ import {
 } from '../slices/ingredients';
 
 
-const getIngredientsData: AppThunk = () => (dispatch: AppDispatch) => {
+const getIngredientsData: AppThunk = () => (dispatch) => {
   dispatch(getIngredientsRequest());
   api
     .getIngredients()

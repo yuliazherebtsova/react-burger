@@ -11,7 +11,7 @@ import {
 
 const postOrder: AppThunk =
   (ingredientsData: IIngredientsData) =>
-  (dispatch: AppDispatch) => {
+  (dispatch) => {
     dispatch(postOrderRequest());
     api
       .postOrder(ingredientsData)

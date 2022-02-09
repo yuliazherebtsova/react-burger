@@ -28,7 +28,7 @@ const App: React.FC = () => {
     ingredientsFailed,
     orderNumber,
     orderFailed,
-  } = useSelector((state: TRootState) => ({
+  } = useSelector((state) => ({
     ingredients: state.burgerIngredients.ingredients,
     ingredientToView: state.burgerIngredients.ingredientToView,
     ingredientsRequest: state.burgerIngredients.ingredientsRequest,

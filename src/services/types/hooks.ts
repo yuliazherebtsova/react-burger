@@ -1,4 +1,3 @@
-import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import {
   TypedUseSelectorHook,
   useSelector as selectorHook,
@@ -10,5 +9,5 @@ import { AppDispatch, AppThunk, TRootState } from '.';
 export const useSelector: TypedUseSelectorHook<TRootState> = selectorHook;
 
 // Хук не даст отправить экшен, который ему не знаком
-export const useDispatch: () => Dispatch<AnyAction> | AppThunk<void> = () =>
-  dispatchHook<AppDispatch | AppThunk>();
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();

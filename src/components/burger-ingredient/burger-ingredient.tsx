@@ -26,7 +26,7 @@ const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({
   name,
   onOpenModalWithIngredient,
 }) => {
-  const ingredientsInOrder = useSelector((state: TRootState) => [
+  const ingredientsInOrder = useSelector((state) => [
     state.burgerConstructor.bunElement,
     ...state.burgerConstructor.draggableElements,
     state.burgerConstructor.bunElement,

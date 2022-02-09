@@ -29,7 +29,7 @@ const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
   onOpenModalWithIngredient,
 }) => {
   const ingredients = useSelector(
-    (state: TRootState) => state.burgerIngredients.ingredients
+    (state) => state.burgerIngredients.ingredients
   );
 
   const ingredientCategories: IIngredientCategories = {

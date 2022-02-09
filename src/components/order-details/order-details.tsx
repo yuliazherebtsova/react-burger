@@ -4,7 +4,7 @@ import orderStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
 
 const OrderDetails:React.FC = () => {
-  const orderNumber = useSelector((state: TRootState) => state.order.orderNumber);
+  const orderNumber = useSelector((state) => state.order.orderNumber);
 
   return (
     <div className={orderStyles.order}>

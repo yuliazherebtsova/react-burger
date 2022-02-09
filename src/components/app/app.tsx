@@ -16,7 +16,6 @@ import {
 } from 'services/slices/ingredients';
 import { resetOrder } from 'services/slices/order';
 import getIngredientsData from 'services/thunks/ingredients';
-import { TRootState } from 'services/types';
 import { IIngredientsData } from 'services/types/data';
 import { useSelector, useDispatch } from 'services/types/hooks';
 

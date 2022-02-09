@@ -16,7 +16,6 @@ import postOrder from 'services/thunks/order';
 import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
 import { IIngredientsData } from 'services/types/data';
-import { TRootState } from 'services/types';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 

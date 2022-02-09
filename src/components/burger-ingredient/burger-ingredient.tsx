@@ -5,7 +5,6 @@ import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { TRootState } from 'services/types';
 import ingredientStyles from './burger-ingredient.module.css';
 
 interface IBurgerIngredientProps {

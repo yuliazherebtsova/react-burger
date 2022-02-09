@@ -1,15 +1,32 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'services/types/hooks';
 import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
-import PropTypes from 'prop-types';
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { deleteElement } from 'services/actions/constructor';
+import { deleteElement } from 'services/slices/constructor';
+import {
+  IFindDraggableElement,
+  IMoveDraggableElement,
+} from 'components/burger-constructor/burger-constructor';
 import draggableItemStyles from './draggable-item.module.css';
 
-function DraggableItem({
+interface IDraggableItemProps {
+  id: string;
+  uid: string;
+  image: string;
+  name: string;
+  price: number;
+  onClickToIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
+  findDraggableElement: IFindDraggableElement;
+  moveDraggableElement: IMoveDraggableElement;
+}
+
+const DraggableItem: React.FC<IDraggableItemProps> = ({
   id,
   uid,
   name,
@@ -18,7 +35,7 @@ function DraggableItem({
   onClickToIngredient,
   findDraggableElement,
   moveDraggableElement,
-}) {
+}) => {
   const dispatch = useDispatch();
 
   const originalIndex = findDraggableElement(uid).draggableElementIndex;
@@ -42,7 +59,7 @@ function DraggableItem({
   const [, dropTarget] = useDrop(
     () => ({
       accept: 'DraggableItem',
-      hover({ uid: draggedUid }) {
+      hover({ uid: draggedUid }: { uid: string }) {
         if (draggedUid !== uid) {
           const { draggableElementIndex: overIndex } =
             findDraggableElement(uid);
@@ -53,9 +70,9 @@ function DraggableItem({
     [findDraggableElement, moveDraggableElement]
   );
 
-  const handleIngredientDelete = () => {
+  const handleIngredientDelete = useCallback(() => {
     dispatch(deleteElement(uid));
-  };
+  }, [uid, dispatch]);
 
   return (
     <li
@@ -79,17 +96,6 @@ function DraggableItem({
       />
     </li>
   );
-}
-
-DraggableItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  uid: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  onClickToIngredient: PropTypes.func.isRequired,
-  findDraggableElement: PropTypes.func.isRequired,
-  moveDraggableElement: PropTypes.func.isRequired,
 };
 
 export default React.memo(DraggableItem);

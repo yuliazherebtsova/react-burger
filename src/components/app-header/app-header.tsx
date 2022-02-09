@@ -8,10 +8,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import headerStyles from './app-header.module.css';
 
-function AppHeader() {
-  const [currentPage, setCurrentPage] = useState('constructor');
+const AppHeader: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<string>('constructor');
 
-  const handleNavigationClick = (title) => {
+  const handleNavigationClick = (title: string) => {
     setCurrentPage(title);
   };
 
@@ -74,6 +74,6 @@ function AppHeader() {
       </div>
     </header>
   );
-}
+};
 
 export default React.memo(AppHeader);

@@ -1,72 +1,99 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'services/types/hooks';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import ingredientsStyles from './burger-ingredients.module.css';
 import appStyles from '../app/app.module.css';
 
-function BurgerIngredients({ onOpenModalWithIngredient }) {
+interface IBurgerIngredientsProps {
+  onOpenModalWithIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
+}
+
+interface IIngredientCategory {
+  name: string;
+  ref: React.RefObject<HTMLHeadingElement>;
+}
+
+interface IIngredientCategories {
+  bun: IIngredientCategory;
+  sauce: IIngredientCategory;
+  main: IIngredientCategory;
+}
+
+const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
+  onOpenModalWithIngredient,
+}) => {
   const ingredients = useSelector(
     (state) => state.burgerIngredients.ingredients
   );
 
-  const ingredientTypes = {
+  const ingredientCategories: IIngredientCategories = {
     bun: {
       name: 'Булки',
-      ref: useRef(null),
+      ref: useRef<HTMLHeadingElement>(null),
     },
     sauce: {
       name: 'Соусы',
-      ref: useRef(null),
+      ref: useRef<HTMLHeadingElement>(null),
     },
     main: {
       name: 'Начинки',
-      ref: useRef(null),
+      ref: useRef<HTMLHeadingElement>(null),
     },
   };
 
   const [currentTab, setCurrentTab] = useState('Булки');
 
   const handleTabClick = useCallback(
-    ({ tabName, element }) =>
+    ({ name, ref }: IIngredientCategory) =>
       () => {
-        setCurrentTab(tabName);
-        element.current.scrollIntoView({ behavior: 'smooth' });
+        setCurrentTab(name);
+        ref.current?.scrollIntoView({ behavior: 'smooth' });
       },
     []
   );
 
   const groupIngredientsByType = useCallback(
     () =>
-      Object.keys(ingredientTypes).map((key) => ({
-        name: ingredientTypes[key].name,
+      (
+        Object.keys(ingredientCategories) as (keyof IIngredientCategories)[]
+      ).map((key) => ({
+        name: ingredientCategories[key].name,
         items: ingredients.filter((el) => el.type === key),
-        ref: ingredientTypes[key].ref,
+        ref: ingredientCategories[key].ref,
       })),
-    [ingredientTypes, ingredients]
+    [ingredientCategories, ingredients]
   );
 
   const ingredientsByType = groupIngredientsByType();
 
   const handleSectionScroll = useCallback(
-    (e) => {
-      const container = e.target;
+    (evt: React.UIEvent) => {
+      const container = evt.target as HTMLElement;
       const scrollPosition = container.scrollTop;
       const scrollOffset = 120;
       const positionOfSauseSection =
-        ingredientTypes.sauce.ref.current.offsetTop;
-      const positionOfMainSection = ingredientTypes.main.ref.current.offsetTop;
-      if (scrollPosition + scrollOffset <= positionOfSauseSection) {
+      ingredientCategories.sauce.ref.current?.offsetTop;
+      const positionOfMainSection = ingredientCategories.main.ref.current?.offsetTop;
+      if (
+        positionOfSauseSection &&
+        scrollPosition + scrollOffset <= positionOfSauseSection
+      ) {
         setCurrentTab('Булки');
-      } else if (scrollPosition + scrollOffset <= positionOfMainSection) {
+      } else if (
+        positionOfMainSection &&
+        scrollPosition + scrollOffset <= positionOfMainSection
+      ) {
         setCurrentTab('Соусы');
       } else {
         setCurrentTab('Начинки');
       }
     },
-    [setCurrentTab, ingredientTypes.sauce.ref, ingredientTypes.main.ref]
+    [setCurrentTab, ingredientCategories.sauce.ref, ingredientCategories.main.ref]
   );
 
   return (
@@ -74,14 +101,14 @@ function BurgerIngredients({ onOpenModalWithIngredient }) {
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <nav>
         <ul className={ingredientsStyles.ingredients__tabContainer}>
-          {Object.values(ingredientTypes).map((type, index) => (
+          {Object.values(ingredientCategories).map((type, index) => (
             <li key={index}>
               <Tab
                 value={type.name}
                 active={currentTab === type.name}
                 onClick={handleTabClick({
-                  tabName: type.name,
-                  element: type.ref,
+                  name: type.name,
+                  ref: type.ref,
                 })}
               >
                 {type.name}
@@ -120,10 +147,6 @@ function BurgerIngredients({ onOpenModalWithIngredient }) {
       </section>
     </section>
   );
-}
-
-BurgerIngredients.propTypes = {
-  onOpenModalWithIngredient: PropTypes.func.isRequired,
 };
 
 export default React.memo(BurgerIngredients);

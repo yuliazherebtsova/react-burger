@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from 'services/types/hooks';
 import orderStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
 
-function OrderDetails() {
+const OrderDetails:React.FC = () => {
   const orderNumber = useSelector((state) => state.order.orderNumber);
 
   return (

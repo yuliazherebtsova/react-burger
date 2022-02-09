@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'services/types/hooks';
 import { useDrop } from 'react-dnd';
-import PropTypes from 'prop-types';
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -11,14 +11,39 @@ import {
   addBunElement,
   addNonBunElement,
   udpadeElementsOrder,
-} from 'services/actions/constructor';
-import { postOrder } from 'services/actions/order';
+} from 'services/slices/constructor';
+import postOrder from 'services/thunks/order';
 import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
+import { IIngredientsData } from 'services/types/data';
 import constructorStyles from './burger-constructor.module.css';
 import appStyles from '../app/app.module.css';
 
-function BurgerConstructor({ onOpenModalWithIngredient }) {
+interface IBurgerConstructorProps {
+  onOpenModalWithIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
+}
+
+export interface IConsructorElement extends IIngredientsData {
+  readonly uid: string;
+}
+
+export interface IFindDraggableElement {
+  (uid: string): {
+    draggableElement: IConsructorElement | undefined;
+    draggableElementIndex: number;
+  };
+}
+
+export interface IMoveDraggableElement {
+  (uid: string, newIndex: number): void;
+}
+
+const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
+  onOpenModalWithIngredient,
+}) => {
   const { ingredients, bunElement, draggableElements, orderRequest } =
     useSelector((state) => ({
       ingredients: state.burgerIngredients.ingredients,
@@ -29,29 +54,29 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
 
   const dispatch = useDispatch();
 
-  const handleIngredientDrop = ({ id }) => {
+  const handleIngredientDrop = ({ id }: { id: string }): void => {
     const draggedItem = ingredients.find((item) => item._id === id);
-    if (draggedItem.type === 'bun') {
+    if (draggedItem?.type === 'bun') {
       dispatch(addBunElement({ ...draggedItem, uid: uuidv4() }));
-    } else if (bunElement._id) {
+    } else if (draggedItem && bunElement._id) {
       // в конструкторе уже есть булка, можно добавить начинку
       dispatch(addNonBunElement({ ...draggedItem, uid: uuidv4() }));
     }
   };
 
-  const handleCanIngredientDrop = ({ id }) => {
+  const handleCanIngredientDrop = ({ id }: { id: string }): boolean => {
     const draggedItem = ingredients.find((item) => item._id === id);
-    return !(!bunElement._id && draggedItem.type !== 'bun');
+    return !(!bunElement._id && draggedItem?.type !== 'bun');
     // если в конструкторе еще нет булки, добавить начинку нельзя
   };
 
   const [{ isHover, isCanDrop, isDragging }, dropTarget] = useDrop(
     {
       accept: 'BurgerIngredient',
-      drop(itemId) {
+      drop(itemId: { id: string }) {
         handleIngredientDrop(itemId);
       },
-      canDrop(itemId) {
+      canDrop(itemId: { id: string }) {
         return handleCanIngredientDrop(itemId);
       },
       collect: (monitor) => ({
@@ -63,28 +88,34 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     [handleIngredientDrop, handleCanIngredientDrop]
   );
 
-  const findDraggableElement = useCallback(
-    (uid) => {
+  const findDraggableElement = useCallback<IFindDraggableElement>(
+    (uid: string) => {
       const draggableElement = draggableElements.find(
         (item) => item.uid === uid
       );
       return {
         draggableElement,
-        draggableElementIndex: draggableElements.indexOf(draggableElement),
+        draggableElementIndex: draggableElement
+          ? draggableElements.findIndex(
+              (item) => item.uid === draggableElement.uid
+            )
+          : -1,
       };
     },
     [draggableElements]
   );
 
-  const moveDraggableElement = useCallback(
-    (uid, newIndex) => {
+  const moveDraggableElement = useCallback<IMoveDraggableElement>(
+    (uid: string, newIndex: number) => {
       const { draggableElement } = findDraggableElement(uid);
-      dispatch(
-        udpadeElementsOrder({
-          draggableElement,
-          newIndex,
-        })
-      );
+      if (draggableElement) {
+        dispatch(
+          udpadeElementsOrder({
+            draggableElement,
+            newIndex,
+          })
+        );
+      }
     },
     [findDraggableElement, dispatch]
   );
@@ -107,7 +138,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       : ''
   }`;
 
-  const totalPrice = useMemo(() => {
+  const totalPrice = useMemo<number>(() => {
     const bunsPrice = bunElement.type === 'bun' ? bunElement.price * 2 : 0;
     const nonBunElementsPrice = draggableElements.reduce(
       (acc, item) => acc + item.price,
@@ -116,12 +147,13 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
     return bunsPrice + nonBunElementsPrice;
   }, [bunElement, draggableElements]);
 
-  const onClickToOrderButton = () => {
+  const onClickToOrderButton: () => void = () => {
     dispatch(postOrder([bunElement, ...draggableElements]));
   };
 
   const onClickToIngredient = useCallback(
-    (e) => onOpenModalWithIngredient(e),
+    (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>) =>
+      onOpenModalWithIngredient(evt),
     [onOpenModalWithIngredient]
   );
 
@@ -194,7 +226,7 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
           <span className="text text_type_digits-medium mr-2">
             {totalPrice}
           </span>
-          <CurrencyIcon />
+          <CurrencyIcon type="primary" />
         </div>
         <Button
           type="primary"
@@ -209,10 +241,6 @@ function BurgerConstructor({ onOpenModalWithIngredient }) {
       </div>
     </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  onOpenModalWithIngredient: PropTypes.func.isRequired,
 };
 
 export default React.memo(BurgerConstructor);

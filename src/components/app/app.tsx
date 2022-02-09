@@ -1,5 +1,4 @@
-import { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Modal from 'components/modal/modal';
@@ -14,11 +13,13 @@ import {
   resetIngredientToView,
   resetIngredients,
   setIngredientToView,
-  getIngredientsData,
-} from 'services/actions/ingredients';
-import { resetOrder } from 'services/actions/order';
+} from 'services/slices/ingredients';
+import { resetOrder } from 'services/slices/order';
+import getIngredientsData from 'services/thunks/ingredients';
+import { IIngredientsData } from 'services/types/data';
+import { useSelector, useDispatch } from 'services/types/hooks';
 
-function App() {
+const App: React.FC = () => {
   const {
     ingredients,
     ingredientToView,
@@ -41,17 +42,22 @@ function App() {
     dispatch(getIngredientsData());
   }, [dispatch]);
 
-  const handleIngredientModalOpen = useCallback((e) => {
-    if (!e.target.closest('.constructor-element__action')) {
-      // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
-      const ingredientId = e.target.closest('li').dataset.id;
-      dispatch(
-        setIngredientToView(
-          ingredients.find((item) => item._id === ingredientId)
-        )
-      );
-    }
-  }, [dispatch, ingredients]);
+  const handleIngredientModalOpen = useCallback(
+    (evt) => {
+      const eventTarget = evt.target as HTMLDivElement;
+      if (!eventTarget.closest('.constructor-element__action')) {
+        // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
+        const ingredientId = eventTarget.closest('li')?.dataset.id;
+        const ingredient = ingredients.find(
+          (item: IIngredientsData) => item._id === ingredientId
+        );
+        if (ingredient) {
+          dispatch(setIngredientToView(ingredient));
+        }
+      }
+    },
+    [dispatch, ingredients]
+  );
 
   const handleIngredientModalClose = useCallback(() => {
     dispatch(resetIngredientToView());
@@ -65,7 +71,6 @@ function App() {
     dispatch(resetOrder());
   }, [dispatch]);
 
-  /* eslint-disable react/jsx-no-constructed-context-values */
   return (
     <>
       <AppHeader />
@@ -73,7 +78,7 @@ function App() {
         <LoadingIndicatorHOC
           isLoading={ingredientsRequest}
           hasError={ingredientsFailed}
-          gotData={Boolean(ingredients.length)}
+          gotData={Boolean(ingredients?.length)}
           onErrorModalClose={handleErrorModalClose}
         >
           <DndProvider backend={HTML5Backend}>
@@ -100,7 +105,6 @@ function App() {
             </Modal>
           )}
           <LoadingIndicatorHOC
-            isLoading={false}
             hasError={orderFailed}
             gotData={Boolean(orderNumber)}
             onErrorModalClose={handleOrderModalClose}
@@ -113,6 +117,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

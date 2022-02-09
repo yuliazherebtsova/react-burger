@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useCallback , useMemo } from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'services/types/hooks';
 import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientStyles from './burger-ingredient.module.css';
 
-function BurgerIngredient({
+interface IBurgerIngredientProps {
+  id: string;
+  image: string;
+  price: number;
+  name: string;
+  onOpenModalWithIngredient: (
+    // eslint-disable-next-line no-unused-vars
+    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void;
+}
+
+const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({
   id,
   image,
   price,
   name,
   onOpenModalWithIngredient,
-}) {
+}) => {
   const ingredientsInOrder = useSelector((state) => [
     state.burgerConstructor.bunElement,
     ...state.burgerConstructor.draggableElements,
@@ -32,11 +42,15 @@ function BurgerIngredient({
     [id]
   );
 
-  const onClickToIngredient = (e) => onOpenModalWithIngredient(e);
+  const onClickToIngredient = useCallback(
+    (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>) =>
+      onOpenModalWithIngredient(evt),
+    [onOpenModalWithIngredient]
+  );
 
-  const ingredientsCounter = ingredientsInOrder.filter(
+  const ingredientsCounter = useMemo(() => ingredientsInOrder.filter(
     (item) => item._id === id
-  ).length;
+  ).length, [id, ingredientsInOrder]);
 
   return (
     <li
@@ -54,7 +68,7 @@ function BurgerIngredient({
       )}
       <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
         <span className="text text_type_digits-default mr-2">{price}</span>
-        <CurrencyIcon />
+        <CurrencyIcon type="primary" />
       </div>
       <p
         className={`${ingredientStyles.ingredient__name} text text text_type_main-default`}
@@ -63,14 +77,6 @@ function BurgerIngredient({
       </p>
     </li>
   );
-}
-
-BurgerIngredient.propTypes = {
-  onOpenModalWithIngredient: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
 };
 
 export default React.memo(BurgerIngredient);

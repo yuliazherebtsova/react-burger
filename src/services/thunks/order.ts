@@ -1,5 +1,5 @@
 import { IIngredientsData } from 'services/types/data';
-import { AppDispatch, AppThunk } from 'services/types';
+import { AppThunk } from 'services/types';
 import { api } from 'utils/api';
 import { resetConstructor } from 'services/slices/constructor';
 import {

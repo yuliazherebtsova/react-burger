@@ -1,4 +1,4 @@
-import { AppDispatch, AppThunk } from 'services/types';
+import { AppThunk } from 'services/types';
 import { api } from 'utils/api';
 import {
   getIngredientsRequest,

@@ -3,6 +3,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { useSelector } from 'services/types/hooks';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
+import { selectIngredients } from 'services/selectors/ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
 import appStyles from '../app/app.module.css';
 
@@ -27,9 +28,7 @@ interface IIngredientCategories {
 const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
   onOpenModalWithIngredient,
 }) => {
-  const ingredients = useSelector(
-    (state) => state.burgerIngredients.ingredients
-  );
+  const ingredients = useSelector(selectIngredients);
 
   const ingredientCategories: IIngredientCategories = {
     bun: {
@@ -77,8 +76,9 @@ const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
       const scrollPosition = container.scrollTop;
       const scrollOffset = 120;
       const positionOfSauseSection =
-      ingredientCategories.sauce.ref.current?.offsetTop;
-      const positionOfMainSection = ingredientCategories.main.ref.current?.offsetTop;
+        ingredientCategories.sauce.ref.current?.offsetTop;
+      const positionOfMainSection =
+        ingredientCategories.main.ref.current?.offsetTop;
       if (
         positionOfSauseSection &&
         scrollPosition + scrollOffset <= positionOfSauseSection
@@ -93,7 +93,11 @@ const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
         setCurrentTab('Начинки');
       }
     },
-    [setCurrentTab, ingredientCategories.sauce.ref, ingredientCategories.main.ref]
+    [
+      setCurrentTab,
+      ingredientCategories.sauce.ref,
+      ingredientCategories.main.ref,
+    ]
   );
 
   return (

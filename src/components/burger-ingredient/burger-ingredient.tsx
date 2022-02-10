@@ -1,10 +1,13 @@
-import React, { useCallback , useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
-import { useSelector } from 'services/types/hooks';
 import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  getIngredientCounter,
+} from 'services/selectors/constructor';
+import { useSelector } from 'react-redux';
 import ingredientStyles from './burger-ingredient.module.css';
 
 interface IBurgerIngredientProps {
@@ -25,11 +28,8 @@ const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({
   name,
   onOpenModalWithIngredient,
 }) => {
-  const ingredientsInOrder = useSelector((state) => [
-    state.burgerConstructor.bunElement,
-    ...state.burgerConstructor.draggableElements,
-    state.burgerConstructor.bunElement,
-  ]);
+
+  const ingredientCounter = useSelector(getIngredientCounter(id));
 
   const [{ isDragging }, dragRef, dragPreview] = useDrag(
     {
@@ -48,10 +48,6 @@ const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({
     [onOpenModalWithIngredient]
   );
 
-  const ingredientsCounter = useMemo(() => ingredientsInOrder.filter(
-    (item) => item._id === id
-  ).length, [id, ingredientsInOrder]);
-
   return (
     <li
       className={`${ingredientStyles.ingredient__сard} 
@@ -63,8 +59,8 @@ const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({
     >
       <DragPreviewImage src={image} connect={dragPreview} />
       <img src={image} alt={name} />
-      {ingredientsCounter !== 0 && (
-        <Counter count={ingredientsCounter} size="default" />
+      {ingredientCounter !== 0 && (
+        <Counter count={ingredientCounter} size="default" />
       )}
       <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
         <span className="text text_type_digits-default mr-2">{price}</span>

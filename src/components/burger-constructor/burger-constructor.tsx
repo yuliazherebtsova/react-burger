@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'services/types/hooks';
 import { useDrop } from 'react-dnd';
 import {
@@ -16,8 +16,15 @@ import postOrder from 'services/thunks/order';
 import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
 import { IIngredientsData } from 'services/types/data';
-import constructorStyles from './burger-constructor.module.css';
+import { selectIngredients } from 'services/selectors/ingredients';
+import {
+  getTotalPrice,
+  selectBunElement,
+  selectDraggableElements,
+} from 'services/selectors/constructor';
+import { selectOrderRequest } from 'services/selectors/order';
 import appStyles from '../app/app.module.css';
+import constructorStyles from './burger-constructor.module.css';
 
 interface IBurgerConstructorProps {
   onOpenModalWithIngredient: (
@@ -44,14 +51,11 @@ export interface IMoveDraggableElement {
 const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
   onOpenModalWithIngredient,
 }) => {
-  const { ingredients, bunElement, draggableElements, orderRequest } =
-    useSelector((state) => ({
-      ingredients: state.burgerIngredients.ingredients,
-      bunElement: state.burgerConstructor.bunElement,
-      draggableElements: state.burgerConstructor.draggableElements,
-      orderRequest: state.order.orderRequest,
-    }));
-
+  const ingredients = useSelector(selectIngredients);
+  const bunElement = useSelector(selectBunElement);
+  const draggableElements = useSelector(selectDraggableElements);
+  const orderRequest = useSelector(selectOrderRequest);
+  const totalPrice = useSelector(getTotalPrice);
   const dispatch = useDispatch();
 
   const handleIngredientDrop = ({ id }: { id: string }): void => {
@@ -137,15 +141,6 @@ const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
       ? constructorStyles.constructor__elements_canNotDrop
       : ''
   }`;
-
-  const totalPrice = useMemo<number>(() => {
-    const bunsPrice = bunElement.type === 'bun' ? bunElement.price * 2 : 0;
-    const nonBunElementsPrice = draggableElements.reduce(
-      (acc, item) => acc + item.price,
-      0
-    );
-    return bunsPrice + nonBunElementsPrice;
-  }, [bunElement, draggableElements]);
 
   const onClickToOrderButton: () => void = () => {
     dispatch(postOrder([bunElement, ...draggableElements]));

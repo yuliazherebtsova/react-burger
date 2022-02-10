@@ -1,9 +1,10 @@
 import { useSelector } from 'services/types/hooks';
+import { selectOrderNumber } from 'services/selectors/order';
 import orderStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
 
-const OrderDetails:React.FC = () => {
-  const orderNumber = useSelector((state) => state.order.orderNumber);
+const OrderDetails: React.FC = () => {
+  const orderNumber = useSelector(selectOrderNumber);
 
   return (
     <div className={orderStyles.order}>
@@ -24,6 +25,6 @@ const OrderDetails:React.FC = () => {
       </p>
     </div>
   );
-}
+};
 
 export default OrderDetails;

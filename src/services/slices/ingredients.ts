@@ -1,7 +1,7 @@
 import { IIngredientsData } from 'services/types/data';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type TIngredientsState = {
+export type TIngredientsState = {
   ingredients: ReadonlyArray<IIngredientsData>;
   ingredientToView: IIngredientsData | null;
   ingredientsRequest: boolean;

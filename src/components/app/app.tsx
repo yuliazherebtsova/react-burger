@@ -18,23 +18,21 @@ import { resetOrder } from 'services/slices/order';
 import getIngredientsData from 'services/thunks/ingredients';
 import { IIngredientsData } from 'services/types/data';
 import { useSelector, useDispatch } from 'services/types/hooks';
+import {
+  selectIngredients,
+  selectIngredientsFailed,
+  selectIngredientsRequest,
+  selectIngredientToView,
+} from 'services/selectors/ingredients';
+import { selectOrderFailed, selectOrderNumber } from 'services/selectors/order';
 
 const App: React.FC = () => {
-  const {
-    ingredients,
-    ingredientToView,
-    ingredientsRequest,
-    ingredientsFailed,
-    orderNumber,
-    orderFailed,
-  } = useSelector((state) => ({
-    ingredients: state.burgerIngredients.ingredients,
-    ingredientToView: state.burgerIngredients.ingredientToView,
-    ingredientsRequest: state.burgerIngredients.ingredientsRequest,
-    ingredientsFailed: state.burgerIngredients.ingredientsFailed,
-    orderNumber: state.order.orderNumber,
-    orderFailed: state.order.orderFailed,
-  }));
+  const ingredients = useSelector(selectIngredients);
+  const ingredientToView = useSelector(selectIngredientToView);
+  const ingredientsRequest = useSelector(selectIngredientsRequest);
+  const ingredientsFailed = useSelector(selectIngredientsFailed);
+  const orderNumber = useSelector(selectOrderNumber);
+  const orderFailed = useSelector(selectOrderFailed);
 
   const dispatch = useDispatch();
 

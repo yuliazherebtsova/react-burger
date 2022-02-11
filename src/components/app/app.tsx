@@ -8,7 +8,7 @@ import BurgerIngredients from 'components/burger-ingredients/burger-ingredients'
 import BurgerConstructor from 'components/burger-constructor/burger-constructor';
 import OrderDetails from 'components/order-details/order-details';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
-import LoadingIndicatorHOC from 'components/loading-indicator-hoc/loading-indicator-hoc';
+import ErrorIndicator from 'components/error-indicator/error-indicator';
 import {
   resetIngredientToView,
   resetIngredients,
@@ -73,10 +73,10 @@ const App: React.FC = () => {
     <>
       <AppHeader />
       <main className={appStyles.page}>
-        <LoadingIndicatorHOC
+        <ErrorIndicator
           isLoading={ingredientsRequest}
           hasError={ingredientsFailed}
-          gotData={Boolean(ingredients?.length)}
+          hasData={Boolean(ingredients?.length)}
           onErrorModalClose={handleErrorModalClose}
         >
           <DndProvider backend={HTML5Backend}>
@@ -102,16 +102,16 @@ const App: React.FC = () => {
               />
             </Modal>
           )}
-          <LoadingIndicatorHOC
+          <ErrorIndicator
             hasError={orderFailed}
-            gotData={Boolean(orderNumber)}
+            hasData={Boolean(orderNumber)}
             onErrorModalClose={handleOrderModalClose}
           >
             <Modal onClose={handleOrderModalClose}>
               <OrderDetails />
             </Modal>
-          </LoadingIndicatorHOC>
-        </LoadingIndicatorHOC>
+          </ErrorIndicator>
+        </ErrorIndicator>
       </main>
     </>
   );

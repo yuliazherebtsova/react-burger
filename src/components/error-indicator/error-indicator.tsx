@@ -1,17 +1,17 @@
 import Modal from 'components/modal/modal';
 
-interface ILoadingIndicatorHOCProps {
+interface IErrorIndicatorProps {
   isLoading?: boolean;
   hasError: boolean;
-  gotData: boolean;
+  hasData: boolean;
   children: React.ReactNode;
   onErrorModalClose: () => void;
 }
 
-const LoadingIndicatorHOC: React.FC<ILoadingIndicatorHOCProps> = ({
+const ErrorIndicator: React.FC<IErrorIndicatorProps> = ({
   isLoading,
   hasError,
-  gotData,
+  hasData,
   children,
   onErrorModalClose,
 }) => (
@@ -28,8 +28,8 @@ const LoadingIndicatorHOC: React.FC<ILoadingIndicatorHOCProps> = ({
         </p>
       </Modal>
     )}
-    {!isLoading && !hasError && gotData && children}
+    {!isLoading && !hasError && hasData && children}
   </>
 );
 
-export default LoadingIndicatorHOC;
+export default ErrorIndicator;

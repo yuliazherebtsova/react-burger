@@ -13,3 +13,17 @@
   --interface-error: #ee3737;
   --link-text-color-primary: #fff;
 }
+
+.customScroll::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border-radius: 6px;
+}
+
+.customScroll::-webkit-scrollbar-thumb:hover {
+  background: #8b8bcf;
+}

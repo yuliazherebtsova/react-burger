@@ -23,7 +23,7 @@ import {
   selectDraggableElements,
 } from 'services/selectors/constructor';
 import { selectOrderRequest } from 'services/selectors/order';
-import appStyles from '../app/app.module.css';
+import homePageStyles from '../../index.css';
 import constructorStyles from './burger-constructor.module.css';
 
 interface IBurgerConstructorProps {
@@ -172,7 +172,7 @@ const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
           </li>
         )}
         <ul
-          className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll}`}
+          className={`${constructorStyles.constructor__nonBunElements} ${homePageStyles.customScroll}`}
           ref={sortTarget}
         >
           {isConstructorEmpty && (

@@ -1,4 +1,4 @@
-.loginPage {
+.form__container {
   height: 100vh;
   max-height: calc(100vh - 88px);
   display: flex;
@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-.loginPage__form {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,15 +14,15 @@
   width: 100%;
   height: 100%;
   max-width: 480px;
-  max-height: 430px;
+  max-height: 478px;
   border: 1px solid red;
 }
 
-.loginPage__field {
+.form__field {
   width: 100%;
 }
 
-.loginPage__link {
+.form__link {
   text-decoration: none;
   color: var(--interface-accent);
 }
@@ -31,3 +31,7 @@
 :global .input {
   width: 100%;
 }
+
+/* .loginPage__form div {
+  width: 100%;
+} */

@@ -5,7 +5,7 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import styles from './login.module.css';
+import styles from './form.module.css';
 
 // interface LoginPage {
 // }
@@ -20,12 +20,12 @@ const LoginPage: React.FC = () => {
   const onIconClick = () => (e: any) => setValue(e.target.value);
 
   return (
-    <main className={`${styles.loginPage}`}>
-      <form className={`${styles.loginPage__form}`}>
+    <main className={`${styles.form__container}`}>
+      <form className={`${styles.form}`}>
         <h1 className="text_type_main-medium pb-6">Вход</h1>
-        <div className={`${styles.loginPage__field} pb-6`}>
+        <div className={`${styles.form__field} pb-6`}>
           <Input
-            type="text"
+            type="email"
             placeholder="E-mail"
             onChange={onIconClick}
             value={value}
@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
           />
         </div>
         <div
-          className={`${styles.loginPage__field} ${styles.input_size_default} pb-6`}
+          className={`${styles.form__field} pb-6`}
         >
           <PasswordInput onChange={onChange} value={password} name="password" />
         </div>
@@ -45,13 +45,13 @@ const LoginPage: React.FC = () => {
         </Button>
         <p className="text_type_main-default text_color_inactive pt-20 pb-4">
           Вы - новый пользователь?&nbsp;
-          <Link className={`${styles.loginPage__link}`} to="/register">
+          <Link className={`${styles.form__link}`} to="/register">
             Зарегистрироваться
           </Link>
         </p>
         <p className="text_type_main-default text_color_inactive">
           Забыли пароль?&nbsp;
-          <Link className={`${styles.loginPage__link}`} to="/forgot-password">
+          <Link className={`${styles.form__link}`} to="/forgot-password">
             Восстановить пароль
           </Link>
         </p>

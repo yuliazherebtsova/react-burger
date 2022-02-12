@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import {
   Button,
-  EmailInput,
+  Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import styles from './auth-forms.module.css';
@@ -10,16 +10,25 @@ import styles from './auth-forms.module.css';
 // }
 
 const ForgotPasswordPage: React.FC = () => {
-  const [email, setValue] = useState('bob@example.com');
-  const onChangeEmail = (e: any) => {
-    setValue(e.target.value);
-  };
+  const [value, setValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const onIconClick = () => (e: any) => setValue(e.target.value);
+
   return (
     <main className={`${styles.form__container}`}>
       <form className={`${styles.form}`}>
         <h1 className="text_type_main-medium pb-6">Восстановление пароля</h1>
         <div className={`${styles.form__field} pb-6`}>
-          <EmailInput onChange={onChangeEmail} value={email} name="email" />
+          <Input
+            type="email"
+            placeholder="Укажите e-mail"
+            onChange={onIconClick}
+            value={value}
+            name="email"
+            error={false}
+            ref={inputRef}
+            errorText="Ошибка"
+          />
         </div>
         <Button type="primary" size="medium">
           Восстановить

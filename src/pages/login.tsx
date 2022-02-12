@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import {
   Button,
-  EmailInput,
+  Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
@@ -11,12 +11,9 @@ import styles from './auth-forms.module.css';
 // }
 
 const LoginPage: React.FC = () => {
-  const [email, setValue] = useState('bob@example.com');
-  const onChangeEmail = (e: any) => {
-    setValue(e.target.value);
-  };
-  const [password, setPassword] = useState('');
-  const onChangePassword = (e: any) => {
+  const [value, setValue] = useState('');
+  const [password, setPassword] = React.useState('');
+  const onChange = (e: any) => {
     setPassword(e.target.value);
   };
   const inputRef = useRef<HTMLInputElement>(null);
@@ -27,14 +24,19 @@ const LoginPage: React.FC = () => {
       <form className={`${styles.form}`}>
         <h1 className="text_type_main-medium pb-6">Вход</h1>
         <div className={`${styles.form__field} pb-6`}>
-          <EmailInput onChange={onChangeEmail} value={email} name="email" />
+          <Input
+            type="email"
+            placeholder="E-mail"
+            onChange={onIconClick}
+            value={value}
+            name="email"
+            error={false}
+            ref={inputRef}
+            errorText="Ошибка"
+          />
         </div>
         <div className={`${styles.form__field} pb-6`}>
-          <PasswordInput
-            onChange={onChangePassword}
-            value={password}
-            name="password"
-          />
+          <PasswordInput onChange={onChange} value={password} name="password" />
         </div>
         <Button type="primary" size="medium">
           Войти

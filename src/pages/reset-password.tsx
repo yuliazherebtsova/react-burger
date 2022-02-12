@@ -24,17 +24,7 @@ const ResetPasswordPage: React.FC = () => {
       <form className={`${styles.form}`}>
         <h1 className="text_type_main-medium pb-6">Восстановление пароля</h1>
         <div className={`${styles.form__field} pb-6`}>
-          <Input
-            type="password"
-            placeholder="Введите новый пароль"
-            icon="ShowIcon"
-            onChange={onChange}
-            value={password}
-            name="password"
-            error={false}
-            ref={inputRef}
-            errorText="Ошибка"
-          />
+          <PasswordInput onChange={onChange} value={password} name="password" />
         </div>
         <div className={`${styles.form__field} pb-6`}>
           <Input

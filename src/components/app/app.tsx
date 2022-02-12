@@ -6,6 +6,7 @@ import AppHeader from 'components/app-header/app-header';
 import RegisterPage from 'pages/register';
 import ForgotPasswordPage from 'pages/forgot-password';
 import ResetPasswordPage from 'pages/reset-password';
+import NotFound404 from 'pages/not-found-404';
 
 const App: React.FC = () => (
   <>
@@ -26,6 +27,9 @@ const App: React.FC = () => (
       </Route>
       <Route path="/reset-password">
         <ResetPasswordPage />
+      </Route>
+      <Route>
+        <NotFound404 />
       </Route>
     </Switch>
   </Router>

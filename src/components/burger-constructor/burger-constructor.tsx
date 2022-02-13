@@ -29,7 +29,7 @@ import constructorStyles from './burger-constructor.module.css';
 interface IBurgerConstructorProps {
   onOpenModalWithIngredient: (
     // eslint-disable-next-line no-unused-vars
-    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+    evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
 }
 
@@ -147,7 +147,7 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
   };
 
   const onClickToIngredient = useCallback(
-    (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>) =>
+    (evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) =>
       onOpenModalWithIngredient(evt),
     [onOpenModalWithIngredient]
   );

@@ -17,7 +17,7 @@ interface IBurgerIngredientProps {
   name: string;
   onOpenModalWithIngredient: (
     // eslint-disable-next-line no-unused-vars
-    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+    evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
 }
 
@@ -43,7 +43,7 @@ const BurgerIngredient: React.VFC<IBurgerIngredientProps> = ({
   );
 
   const onClickToIngredient = useCallback(
-    (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>) =>
+    (evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) =>
       onOpenModalWithIngredient(evt),
     [onOpenModalWithIngredient]
   );

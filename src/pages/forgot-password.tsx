@@ -12,7 +12,7 @@ import styles from './auth-forms.module.css';
 const ForgotPasswordPage: React.VFC = () => {
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const onIconClick = () => (e: any) => setValue(e.target.value);
+  const onIconClick = () => (evt: any) => setValue(evt.target.value);
 
   return (
     <main className={`${styles.form__container}`}>

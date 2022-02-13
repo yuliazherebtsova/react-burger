@@ -13,11 +13,11 @@ import styles from './auth-forms.module.css';
 const LoginPage: React.VFC = () => {
   const [value, setValue] = useState('');
   const [password, setPassword] = React.useState('');
-  const onChange = (e: any) => {
-    setPassword(e.target.value);
+  const onChange = (evt: any) => {
+    setPassword(evt.target.value);
   };
   const inputRef = useRef<HTMLInputElement>(null);
-  const onIconClick = () => (e: any) => setValue(e.target.value);
+  const onIconClick = () => (evt: any) => setValue(evt.target.value);
 
   return (
     <main className={`${styles.form__container}`}>

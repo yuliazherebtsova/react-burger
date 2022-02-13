@@ -1,7 +1,6 @@
 import navigationStyles from './navigation-link.module.css';
 
 interface INavigationLinkProps {
-  children: React.ReactNode;
   title: string;
   icon: React.ReactNode;
   isActive: boolean;

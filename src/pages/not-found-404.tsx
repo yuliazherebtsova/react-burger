@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './not-found-404.module.css';
 
-export const NotFound404 = () => (
+export const NotFound404: React.VFC = () => (
   <main className={styles.notFound__container}>
     <div className={styles.notFound__info}>
       <h1 className="text text_type_digits-large text_color_inactive pb-4">

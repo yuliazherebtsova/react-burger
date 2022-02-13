@@ -5,7 +5,7 @@ interface IModalOverlayProps {
   onClose: () => void;
 }
 
-const ModalOverlay: React.FC<IModalOverlayProps> = ({ onClose }) => (
+const ModalOverlay: React.VFC<IModalOverlayProps> = ({ onClose }) => (
   <div
     className={overlayStyles.overlay}
     onClick={onClose}

@@ -4,7 +4,6 @@ interface IErrorIndicatorProps {
   isLoading?: boolean;
   hasError: boolean;
   hasData: boolean;
-  children: React.ReactNode;
   onErrorModalClose: () => void;
 }
 

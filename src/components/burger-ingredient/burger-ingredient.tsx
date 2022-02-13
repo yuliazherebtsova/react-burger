@@ -21,7 +21,7 @@ interface IBurgerIngredientProps {
   ) => void;
 }
 
-const BurgerIngredient: React.FC<IBurgerIngredientProps> = ({
+const BurgerIngredient: React.VFC<IBurgerIngredientProps> = ({
   id,
   image,
   price,

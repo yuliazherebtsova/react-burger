@@ -25,7 +25,7 @@ interface IIngredientCategories {
   main: IIngredientCategory;
 }
 
-const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
+const BurgerIngredients: React.VFC<IBurgerIngredientsProps> = ({
   onOpenModalWithIngredient,
 }) => {
   const ingredients = useSelector(selectIngredients);

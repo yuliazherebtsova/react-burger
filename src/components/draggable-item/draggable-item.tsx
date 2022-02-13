@@ -26,7 +26,7 @@ interface IDraggableItemProps {
   moveDraggableElement: IMoveDraggableElement;
 }
 
-const DraggableItem: React.FC<IDraggableItemProps> = ({
+const DraggableItem: React.VFC<IDraggableItemProps> = ({
   id,
   uid,
   name,

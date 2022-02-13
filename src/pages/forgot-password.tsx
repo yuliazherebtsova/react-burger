@@ -9,7 +9,7 @@ import styles from './auth-forms.module.css';
 // interface LoginPage {
 // }
 
-const ForgotPasswordPage: React.FC = () => {
+const ForgotPasswordPage: React.VFC = () => {
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const onIconClick = () => (e: any) => setValue(e.target.value);

@@ -3,7 +3,7 @@ import { selectOrderNumber } from 'services/selectors/order';
 import orderStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
 
-const OrderDetails: React.FC = () => {
+const OrderDetails: React.VFC = () => {
   const orderNumber = useSelector(selectOrderNumber);
 
   return (

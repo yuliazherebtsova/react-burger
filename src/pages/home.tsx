@@ -25,7 +25,7 @@ import {
 import { selectOrderFailed, selectOrderNumber } from 'services/selectors/order';
 import styles from './home.module.css';
 
-const HomePage: React.FC = () => {
+const HomePage: React.VFC = () => {
   const ingredients = useSelector(selectIngredients);
   const ingredientToView = useSelector(selectIngredientToView);
   const ingredientsRequest = useSelector(selectIngredientsRequest);

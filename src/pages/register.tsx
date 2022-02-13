@@ -10,7 +10,7 @@ import styles from './auth-forms.module.css';
 // interface LoginPage {
 // }
 
-const RegisterPage: React.FC = () => {
+const RegisterPage: React.VFC = () => {
   const [value, setValue] = useState('');
   const [password, setPassword] = React.useState('');
   const onChange = (e: any) => {

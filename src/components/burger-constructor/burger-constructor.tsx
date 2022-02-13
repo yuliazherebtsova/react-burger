@@ -48,7 +48,7 @@ export interface IMoveDraggableElement {
   (uid: string, newIndex: number): void;
 }
 
-const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
+const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
   onOpenModalWithIngredient,
 }) => {
   const ingredients = useSelector(selectIngredients);

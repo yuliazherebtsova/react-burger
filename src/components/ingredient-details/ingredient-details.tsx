@@ -9,7 +9,7 @@ interface IngredientDetailsProps {
   proteins: number;
 }
 
-const IngredientDetails: React.FC<IngredientDetailsProps> = ({
+const IngredientDetails: React.VFC<IngredientDetailsProps> = ({
   image,
   name,
   fat,

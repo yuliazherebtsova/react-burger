@@ -7,7 +7,6 @@ import { portal } from '../../utils/constants';
 
 interface IModalProps {
   title?: string;
-  children: React.ReactNode;
   onClose: () => void;
 }
 

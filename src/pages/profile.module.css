@@ -1,0 +1,15 @@
+.profile__container {
+  margin: 0 auto;
+  max-width: var(--max-content-width-desktop);
+  display: grid;
+  grid-template-columns: 320px 480px;
+  column-gap: 90px;
+}
+
+.profile__navigation {
+  list-style: none;
+}
+
+.profile__description {
+  opacity: 0.4;
+}

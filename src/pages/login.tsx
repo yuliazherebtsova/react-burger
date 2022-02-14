@@ -5,55 +5,63 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import styles from './auth-forms.module.css';
+import formStyles from './forms.module.css';
 
 // interface LoginPage {
 // }
 
 const LoginPage: React.VFC = () => {
-  const [value, setValue] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = React.useState('');
-  const onChange = (evt: any) => {
+  const onChangePassword = (evt: any) => {
     setPassword(evt.target.value);
   };
   const inputRef = useRef<HTMLInputElement>(null);
-  const onIconClick = () => (evt: any) => setValue(evt.target.value);
+  const onChangeEmail = (evt: any) => {
+    setEmail(evt.target.value);
+  };
 
   return (
-    <main className={`${styles.form__container}`}>
-      <form className={`${styles.form}`}>
-        <h1 className="text_type_main-medium pb-6">Вход</h1>
-        <div className={`${styles.form__field} pb-6`}>
-          <Input
-            type="email"
-            placeholder="E-mail"
-            onChange={onIconClick}
-            value={value}
-            name="email"
-            error={false}
-            ref={inputRef}
-            errorText="Ошибка"
-          />
-        </div>
-        <div className={`${styles.form__field} pb-6`}>
-          <PasswordInput onChange={onChange} value={password} name="password" />
-        </div>
-        <Button type="primary" size="medium">
-          Войти
-        </Button>
-        <p className="text_type_main-default text_color_inactive pt-20 pb-4">
-          Вы - новый пользователь?&nbsp;
-          <Link className={`${styles.form__link}`} to="/register">
-            Зарегистрироваться
-          </Link>
-        </p>
-        <p className="text_type_main-default text_color_inactive">
-          Забыли пароль?&nbsp;
-          <Link className={`${styles.form__link}`} to="/forgot-password">
-            Восстановить пароль
-          </Link>
-        </p>
-      </form>
+    <main>
+      <div className={`${formStyles.form__container}`}>
+        <form className={`${formStyles.form}`}>
+          <h1 className="text_type_main-medium pb-6">Вход</h1>
+          <div className={`${formStyles.form__field} pb-6`}>
+            <Input
+              type="email"
+              placeholder="E-mail"
+              onChange={onChangeEmail}
+              value={email}
+              name="email"
+              error={false}
+              ref={inputRef}
+              errorText="Ошибка"
+            />
+          </div>
+          <div className={`${formStyles.form__field} pb-6`}>
+            <PasswordInput
+              onChange={onChangePassword}
+              value={password}
+              name="password"
+            />
+          </div>
+          <Button type="primary" size="medium">
+            Войти
+          </Button>
+          <p className="text_type_main-default text_color_inactive pt-20 pb-4">
+            Вы - новый пользователь?&nbsp;
+            <Link className={`${formStyles.form__link}`} to="/register">
+              Зарегистрироваться
+            </Link>
+          </p>
+          <p className="text_type_main-default text_color_inactive">
+            Забыли пароль?&nbsp;
+            <Link className={`${formStyles.form__link}`} to="/forgot-password">
+              Восстановить пароль
+            </Link>
+          </p>
+        </form>
+      </div>
     </main>
   );
 };

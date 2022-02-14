@@ -5,7 +5,7 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import styles from './auth-forms.module.css';
+import styles from './forms.module.css';
 
 // interface LoginPage {
 // }

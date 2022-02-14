@@ -12,7 +12,7 @@ export const NotFound404: React.VFC = () => (
       </p>
 
       <Link
-        to="/home"
+        to="/"
         className={`${styles.notFound__link} text_type_main-medium text_color_inactive`}
       >
         На главную

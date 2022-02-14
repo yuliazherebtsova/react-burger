@@ -9,7 +9,7 @@ import {
 import headerStyles from './app-header.module.css';
 
 const AppHeader: React.VFC = () => {
-  const [currentPage, setCurrentPage] = useState<string>('constructor');
+  const [currentPage, setCurrentPage] = useState<string>('');
 
   const handleNavigationClick = (title: string) => {
     setCurrentPage(title);
@@ -22,15 +22,15 @@ const AppHeader: React.VFC = () => {
           <ul className={headerStyles.header__navigation}>
             <li>
               <NavigationLink
-                title="constructor"
+                title=""
                 icon={
                   <BurgerIcon
                     type={
-                      currentPage === 'constructor' ? 'primary' : 'secondary'
+                      currentPage === '' ? 'primary' : 'secondary'
                     }
                   />
                 }
-                isActive={currentPage === 'constructor'}
+                isActive={currentPage === ''}
                 onNavigationClick={handleNavigationClick}
               >
                 Конструктор
@@ -38,13 +38,13 @@ const AppHeader: React.VFC = () => {
             </li>
             <li>
               <NavigationLink
-                title="orderList"
+                title="feed"
                 icon={
                   <ListIcon
-                    type={currentPage === 'orderList' ? 'primary' : 'secondary'}
+                    type={currentPage === 'feed' ? 'primary' : 'secondary'}
                   />
                 }
-                isActive={currentPage === 'orderList'}
+                isActive={currentPage === 'feed'}
                 onNavigationClick={handleNavigationClick}
               >
                 Лента заказов

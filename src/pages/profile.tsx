@@ -10,7 +10,7 @@ import styles from './profile.module.css';
 // }
 
 const ProfilePage: React.VFC = () => {
-  const [login, setLogin] = useState('mail@mail.ru');
+  const [login, setLogin] = useState('rey.skywalker@jakku.space');
   const [password, setPassword] = React.useState('********');
   const onChange = (evt: any) => {
     setPassword(evt.target.value);
@@ -74,7 +74,7 @@ const ProfilePage: React.VFC = () => {
             icon="EditIcon"
             onChange={onIconClick}
             onIconClick={onIconClick}
-            value={login}
+            value="Rey Skywalker"
             name="name"
             error={false}
             ref={inputRef}

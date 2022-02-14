@@ -2,12 +2,16 @@
   margin: 0 auto;
   max-width: var(--max-content-width-desktop);
   display: grid;
-  grid-template-columns: 320px 480px;
+  grid-template-columns: 320px 1fr;
   column-gap: 90px;
 }
 
 .profile__navigation {
   list-style: none;
+}
+
+.profile__field {
+  max-width: 480px;
 }
 
 .profile__description {

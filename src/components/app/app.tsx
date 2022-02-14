@@ -28,7 +28,7 @@ const App: React.FC = () => (
       <Route path="/reset-password" exact>
         <ResetPasswordPage />
       </Route>
-      <Route path="/profile" exact>
+      <Route path="/profile">
         <ProfilePage />
       </Route>
       <Route>

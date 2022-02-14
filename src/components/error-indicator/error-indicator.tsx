@@ -1,3 +1,4 @@
+import Loader from 'components/loader/loader';
 import Modal from 'components/modal/modal';
 
 interface IErrorIndicatorProps {
@@ -15,11 +16,7 @@ const ErrorIndicator: React.FC<IErrorIndicatorProps> = ({
   onErrorModalClose,
 }) => (
   <>
-    {isLoading && (
-      <p className="text text_type_main-medium text_color_inactive pt-10">
-        Загрузка...
-      </p>
-    )}
+    {isLoading && <Loader />}
     {hasError && (
       <Modal title="Произошла ошибка" onClose={onErrorModalClose}>
         <p className="text text_type_main-medium text_color_inactive pt-10">

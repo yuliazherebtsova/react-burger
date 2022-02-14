@@ -11,11 +11,11 @@ import OrdersPage from './orders';
 const ProfilePage: React.VFC = () => {
   const [currentPage, setCurrentPage] = useState<string>('profile');
 
-  const handleNavigationClick = (title: string) => {
-    setCurrentPage(title);
+  const handleNavigationClick = () => {
+    setCurrentPage(path);
   };
 
-  const { path } = useRouteMatch();
+  const { path, url } = useRouteMatch();
   console.log(path);
 
   return (
@@ -26,7 +26,7 @@ const ProfilePage: React.VFC = () => {
             <NavigationLink
               title="profile"
               size="medium"
-              isActive={currentPage === 'profile'}
+              isActive={currentPage === '/profile'}
               onNavigationClick={handleNavigationClick}
             >
               Профиль
@@ -34,9 +34,9 @@ const ProfilePage: React.VFC = () => {
           </li>
           <li>
             <NavigationLink
-              title="profile/orders"
+              title={`${url}/orders`}
               size="medium"
-              isActive={currentPage === 'profile/orders'}
+              isActive={currentPage === `${url}/orders`}
               onNavigationClick={handleNavigationClick}
             >
               История заказов

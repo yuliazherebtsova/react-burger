@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './navigation-link.module.css';
 
 interface INavigationLinkProps {
@@ -25,8 +25,9 @@ const NavigationLink: React.FC<INavigationLinkProps> = ({
   const textStyle = !isActive ? 'text_color_inactive' : '';
 
   return (
-    <Link
+    <NavLink
       to={title}
+      exact
       className={`${styles.navigation__link} pt-4 pr-5 pb-4 pl-5`}
       onClick={navigationClickHandler}
     >
@@ -34,7 +35,7 @@ const NavigationLink: React.FC<INavigationLinkProps> = ({
       <p className={`text text text_type_main-${size} ml-2 ${textStyle}`}>
         {children}
       </p>
-    </Link>
+    </NavLink>
   );
 };
 

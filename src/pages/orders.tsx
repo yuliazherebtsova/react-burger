@@ -3,7 +3,6 @@ import { useRouteMatch } from 'react-router-dom';
 
 const OrdersPage: React.VFC = () => {
   const { path } = useRouteMatch();
-  console.log(path);
 
   return (
     <section>

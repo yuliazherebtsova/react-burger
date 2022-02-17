@@ -16,7 +16,7 @@ const ProfilePage: React.VFC = () => {
   };
 
   const { path, url } = useRouteMatch();
-  console.log(path);
+  console.log(path, url);
 
   return (
     <main className={`${styles.profile__container}`}>
@@ -36,7 +36,7 @@ const ProfilePage: React.VFC = () => {
             <NavigationLink
               title={`${url}/orders`}
               size="medium"
-              isActive={currentPage === `${url}/orders`}
+              isActive={currentPage === `orders`}
               onNavigationClick={handleNavigationClick}
             >
               История заказов

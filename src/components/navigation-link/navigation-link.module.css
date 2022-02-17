@@ -1,10 +1,14 @@
 .navigation__link {
   display: flex;
   cursor: pointer;
-  color: var(--link-text-color-primary);
+  color: var(--link-text-color-secondary);
   text-decoration: none;
 }
 
 .navigation__link:hover {
   opacity: 0.8;
+}
+
+.navigation__link_active {
+  color: var(--link-text-color-primary);
 }

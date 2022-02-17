@@ -1,54 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NavigationLink from 'components/navigation-link/navigation-link';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import styles from './profile.module.css';
 import ProfileEditPage from './profile-edit';
 import OrdersPage from './orders';
 
-// interface LoginPage {
-// }
-
 const ProfilePage: React.VFC = () => {
-  const [currentPage, setCurrentPage] = useState<string>('profile');
-
-  const handleNavigationClick = () => {
-    setCurrentPage(path);
-  };
-
-  const { path, url } = useRouteMatch();
-  console.log(path, url);
+  const { path } = useRouteMatch();
+  // console.log(path, url);
 
   return (
     <main className={`${styles.profile__container}`}>
       <nav>
         <ul className={`${styles.profile__navigation} mt-30`}>
           <li>
-            <NavigationLink
-              title="profile"
-              size="medium"
-              isActive={currentPage === '/profile'}
-              onNavigationClick={handleNavigationClick}
-            >
+            <NavigationLink title="Профиль" size="medium">
               Профиль
             </NavigationLink>
           </li>
           <li>
-            <NavigationLink
-              title={`${url}/orders`}
-              size="medium"
-              isActive={currentPage === `orders`}
-              onNavigationClick={handleNavigationClick}
-            >
+            <NavigationLink title="История заказов" size="medium">
               История заказов
             </NavigationLink>
           </li>
           <li>
-            <NavigationLink
-              title="logout"
-              size="medium"
-              isActive={currentPage === 'logout'}
-              onNavigationClick={handleNavigationClick}
-            >
+            <NavigationLink title="Выход" size="medium">
               Выход
             </NavigationLink>
           </li>

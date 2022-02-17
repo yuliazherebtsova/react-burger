@@ -11,7 +11,8 @@
   --modal-background: #1c1c21;
   --interface-accent: #4c4cff;
   --interface-error: #ee3737;
-  --link-text-color-primary: #fff;
+  --link-text-color-primary: #F2F2F3;
+  --link-text-color-secondary: #8585AD;
 }
 
 .customScroll::-webkit-scrollbar {

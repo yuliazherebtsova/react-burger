@@ -1,40 +1,62 @@
 import { NavLink, useRouteMatch } from 'react-router-dom';
+import {
+  BurgerIcon,
+  ListIcon,
+  ProfileIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './navigation-link.module.css';
 
 interface INavigationLinkProps {
   title: string;
-  icon?: React.ReactNode;
-  isActive: boolean;
   size?: string;
-  // eslint-disable-next-line no-unused-vars
-  onNavigationClick: (title: string) => void;
+}
+
+interface ITitleToPath {
+  [title: string]: string;
+}
+
+interface ITitleToIcon {
+  [title: string]: React.ReactNode;
 }
 
 const NavigationLink: React.FC<INavigationLinkProps> = ({
   title,
-  icon,
-  isActive,
   size = 'default',
   children,
-  onNavigationClick,
 }) => {
-  const navigationClickHandler = () => {
-    onNavigationClick(title);
+  const { path, url } = useRouteMatch();
+
+  const titleToPath: ITitleToPath = {
+    Конструктор: '/',
+    'Лента заказов': '/feed',
+    'Личный кабинет': '/profile',
+    Профиль: '/profile',
+    'История заказов': `${url}/orders`,
+    Выход: '/login',
+    Лого: '/',
+    'На главную': '/',
   };
 
-  const textStyle = !isActive ? 'text_color_inactive' : '';
+  const isActive = useRouteMatch({
+    path: titleToPath[title],
+    strict: true,
+    sensitive: true,
+  })?.isExact;
 
-  const { path, url } = useRouteMatch();
+  const titleToIcon: ITitleToIcon = {
+    Конструктор: <BurgerIcon type={isActive ? 'primary' : 'secondary'} />,
+    'Лента заказов': <ListIcon type={isActive ? 'primary' : 'secondary'} />,
+    'Личный кабинет': <ProfileIcon type={isActive ? 'primary' : 'secondary'} />,
+  };
 
   return (
     <NavLink
-      to={{ pathname: title }}
+      to={{ pathname: titleToPath[title] }}
       exact
-      className={`${styles.navigation__link} pt-4 pr-5 pb-4 pl-5 text_color_inactive`}
-      activeClassName="text_color_active"
-      onClick={navigationClickHandler}
+      className={`${styles.navigation__link} pt-4 pr-5 pb-4 pl-5`}
+      activeClassName={styles.navigation__link_active}
     >
-      {icon}
+      {titleToIcon[title]}
       <span className={`text text_type_main-${size} ml-2`}>{children}</span>
     </NavLink>
   );

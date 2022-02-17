@@ -19,7 +19,7 @@ const ProfileEditPage: React.VFC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const onIconClick = () => (evt: any) => setLogin(evt.target.value);
 
-  const { path } = useRouteMatch();
+  // const { path } = useRouteMatch();
   // console.log(path);
 
   return (

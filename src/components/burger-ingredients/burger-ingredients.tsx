@@ -4,8 +4,8 @@ import { useSelector } from 'services/types/hooks';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import { selectIngredients } from 'services/selectors/ingredients';
+import appStyles from 'components/app/app.module.css';
 import ingredientsStyles from './burger-ingredients.module.css';
-import homePageStyles from '../../index.css';
 
 interface IBurgerIngredientsProps {
   onOpenModalWithIngredient: (
@@ -123,7 +123,7 @@ const BurgerIngredients: React.VFC<IBurgerIngredientsProps> = ({
       </nav>
       <section>
         <ul
-          className={`${ingredientsStyles.ingredients__list} ${homePageStyles.customScroll} pr-4 pl-4`}
+          className={`${ingredientsStyles.ingredients__list} ${appStyles.scroll} pr-4 pl-4`}
           onScroll={handleSectionScroll}
         >
           {ingredientsByType.map(({ name, items, ref }, index) => (

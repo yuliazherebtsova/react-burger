@@ -14,17 +14,3 @@
   --link-text-color-primary: #F2F2F3;
   --link-text-color-secondary: #8585AD;
 }
-
-.customScroll::-webkit-scrollbar {
-  width: 8px;
-  background: #2f2f37;
-}
-
-.customScroll::-webkit-scrollbar-thumb {
-  background: #8585ad;
-  border-radius: 6px;
-}
-
-.customScroll::-webkit-scrollbar-thumb:hover {
-  background: #8b8bcf;
-}

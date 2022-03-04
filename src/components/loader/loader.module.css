@@ -19,7 +19,7 @@
     var(--interface-accent),
     var(--main-background) 60%
   );
-  animation: spin 0.5s infinite linear;
+  animation: spin 0.9s infinite linear;
 }
 
 .loader:after {

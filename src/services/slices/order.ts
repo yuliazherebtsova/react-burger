@@ -20,9 +20,9 @@ export const orderSlice = createSlice({
       state.orderRequest = true;
     },
     postOrderSuccess(state, action: PayloadAction<string>) {
+      state.orderNumber = action.payload;
       state.orderFailed = false;
       state.orderRequest = false;
-      state.orderNumber = action.payload;
     },
     postOrderFailed(state) {
       state.orderFailed = true;

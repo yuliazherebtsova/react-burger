@@ -69,47 +69,49 @@ const HomePage: React.VFC = () => {
   }, [dispatch]);
 
   return (
-      <main className={styles.homePage}>
-        <ErrorIndicator
-          isLoading={ingredientsRequest}
-          hasError={ingredientsFailed}
-          hasData={Boolean(ingredients?.length)}
-          onErrorModalClose={handleErrorModalClose}
-        >
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients
-              onOpenModalWithIngredient={handleIngredientModalOpen}
-            />
-            <BurgerConstructor
-              onOpenModalWithIngredient={handleIngredientModalOpen}
-            />
-          </DndProvider>
-          {ingredientToView && (
-            <Modal
-              title="Детали ингредиента"
-              onClose={handleIngredientModalClose}
-            >
-              <IngredientDetails
-                image={ingredientToView.image}
-                name={ingredientToView.name}
-                fat={ingredientToView.fat}
-                carbohydrates={ingredientToView.carbohydrates}
-                calories={ingredientToView.calories}
-                proteins={ingredientToView.proteins}
-              />
-            </Modal>
-          )}
-          <ErrorIndicator
-            hasError={orderFailed}
-            hasData={Boolean(orderNumber)}
-            onErrorModalClose={handleOrderModalClose}
+    <main className={styles.homePage}>
+      <ErrorIndicator
+        isLoading={ingredientsRequest}
+        hasError={ingredientsFailed}
+        hasData={Boolean(ingredients?.length)}
+        errorMessage="Пожалуйста, повторите попытку позднее"
+        onErrorModalClose={handleErrorModalClose}
+      >
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients
+            onOpenModalWithIngredient={handleIngredientModalOpen}
+          />
+          <BurgerConstructor
+            onOpenModalWithIngredient={handleIngredientModalOpen}
+          />
+        </DndProvider>
+        {ingredientToView && (
+          <Modal
+            title="Детали ингредиента"
+            onClose={handleIngredientModalClose}
           >
-            <Modal onClose={handleOrderModalClose}>
-              <OrderDetails />
-            </Modal>
-          </ErrorIndicator>
+            <IngredientDetails
+              image={ingredientToView.image}
+              name={ingredientToView.name}
+              fat={ingredientToView.fat}
+              carbohydrates={ingredientToView.carbohydrates}
+              calories={ingredientToView.calories}
+              proteins={ingredientToView.proteins}
+            />
+          </Modal>
+        )}
+        <ErrorIndicator
+          hasError={orderFailed}
+          hasData={Boolean(orderNumber)}
+          onErrorModalClose={handleOrderModalClose}
+          errorMessage="Пожалуйста, повторите попытку позднее"
+        >
+          <Modal onClose={handleOrderModalClose}>
+            <OrderDetails />
+          </Modal>
         </ErrorIndicator>
-      </main>
+      </ErrorIndicator>
+    </main>
   );
 };
 

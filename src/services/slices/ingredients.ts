@@ -23,8 +23,8 @@ const ingreduentsSlice = createSlice({
       state.ingredientsRequest = true;
     },
     getIngredientsSuccess(state, action: PayloadAction<IIngredientsData[]>) {
-      state.ingredientsFailed = false;
       state.ingredients = action.payload;
+      state.ingredientsFailed = false;
       state.ingredientsRequest = false;
     },
     getIngredientsFailed(state) {

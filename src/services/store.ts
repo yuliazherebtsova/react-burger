@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import orderReducer from './slices/order';
 import ingredientsReducer from './slices/ingredients';
 import constructorReducer from './slices/constructor';
+import authReducer from './slices/auth';
 
 /**
  * Инициализируем хранилище с помощью  redux-toolkit, 
@@ -13,6 +14,7 @@ const store = configureStore({
     order: orderReducer,
     burgerIngredients: ingredientsReducer,
     burgerConstructor: constructorReducer,
+    auth: authReducer,
   },
   middleware: [thunk],
   devTools: process.env.NODE_ENV !== 'production',

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IIngredientsData } from 'services/types/data';
+import { IIngredientsData, TUserData } from 'services/types/data';
 import { BASE_URL } from './constants';
 
 interface IApi {
@@ -56,6 +56,25 @@ export default class Api implements IApi {
       headers: this.headers,
       body: JSON.stringify({
         ingredients,
+      }),
+    }).then(this.checkResponse);
+  }
+
+  /**
+   * POST запрос с данными пользователя на сервер для регистрации */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  postRegisterUser(user: TUserData): Promise<any> {
+    const { name, email, password } = user;
+    return fetch(`${this.baseUrl}/auth/register`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        name,
+        email,
+        password,
       }),
     }).then(this.checkResponse);
   }

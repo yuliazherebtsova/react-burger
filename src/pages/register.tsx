@@ -24,7 +24,6 @@ const RegisterPage: VFC = () => {
   const { name, email, password } = useSelector(selectUserData);
   const registerRequest = useSelector(selectRegisterRequest);
   const registerFailed = useSelector(selectRegisterFailed);
-  const hasAccessToken = 
   const dispatch = useDispatch();
   const onNameChange = (evt: React.FormEvent<HTMLInputElement>) => {
     const eventTarget = evt.target as HTMLInputElement;

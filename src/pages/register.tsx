@@ -16,7 +16,7 @@ import {
   selectRegisterRequest,
   selectUserData,
 } from 'services/selectors/auth';
-import postRegisterUser from 'services/thunks/auth';
+import signUp from 'services/thunks/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import styles from './forms.module.css';
 
@@ -24,6 +24,7 @@ const RegisterPage: VFC = () => {
   const { name, email, password } = useSelector(selectUserData);
   const registerRequest = useSelector(selectRegisterRequest);
   const registerFailed = useSelector(selectRegisterFailed);
+  const hasAccessToken = 
   const dispatch = useDispatch();
   const onNameChange = (evt: React.FormEvent<HTMLInputElement>) => {
     const eventTarget = evt.target as HTMLInputElement;
@@ -39,7 +40,7 @@ const RegisterPage: VFC = () => {
   };
   const onRegistrationFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(postRegisterUser({ name, email, password }));
+    dispatch(signUp({ name, email, password }));
   };
 
   const handleOrderModalClose = useCallback(() => {

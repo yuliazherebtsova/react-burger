@@ -8,7 +8,7 @@ import {
   postRegisterFailed,
 } from '../slices/auth';
 
-const postRegisterUser: AppThunk = (userData: TUserData) => (dispatch) => {
+const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
   dispatch(postRegisterRequest());
   api
     .postRegisterUser(userData)
@@ -28,4 +28,4 @@ const postRegisterUser: AppThunk = (userData: TUserData) => (dispatch) => {
     });
 };
 
-export default postRegisterUser;
+export default signUp;

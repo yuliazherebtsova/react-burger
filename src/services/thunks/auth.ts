@@ -6,9 +6,12 @@ import {
   postRegisterRequest,
   postRegisterSuccess,
   postRegisterFailed,
+  postLoginRequest,
+  postLoginSuccess,
+  postLoginFailed,
 } from '../slices/auth';
 
-const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
+export const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
   dispatch(postRegisterRequest());
   api
     .postRegisterUser(userData)
@@ -28,4 +31,22 @@ const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
     });
 };
 
-export default signUp;
+export const signIn: AppThunk = (userData: TUserData) => (dispatch) => {
+  dispatch(postLoginRequest());
+  api
+    .postLoginUser(userData)
+    .then((res) => {
+      if (res && res.success) {
+        localStorage.setItem('refreshToken', res.refreshToken);
+        setCookie('accessToken', res.accessToken);
+        dispatch(postLoginSuccess());
+      } else {
+        dispatch(postLoginFailed());
+      }
+    })
+    .catch((err) => {
+      dispatch(postLoginFailed());
+      // eslint-disable-next-line no-console
+      console.log(`Ошибка авторизации: ${err}`);
+    });
+};

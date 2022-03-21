@@ -16,7 +16,7 @@ import {
   selectRegisterRequest,
   selectUserData,
 } from 'services/selectors/auth';
-import signUp from 'services/thunks/auth';
+import { signUp } from 'services/thunks/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import styles from './forms.module.css';
 
@@ -42,17 +42,16 @@ const RegisterPage: VFC = () => {
     dispatch(signUp({ name, email, password }));
   };
 
-  const handleOrderModalClose = useCallback(() => {
+  const handleErrorModalClose = useCallback(() => {
     dispatch(resetAuth());
   }, [dispatch]);
-  
 
   return (
     <main className={`${styles.form__container}`}>
       <ErrorIndicator
         hasError={registerFailed}
         hasData
-        onErrorModalClose={handleOrderModalClose}
+        onErrorModalClose={handleErrorModalClose}
         errorMessage="Пользователь с таким Email уже существует."
       >
         <form className={`${styles.form}`} onSubmit={onRegistrationFormSubmit}>

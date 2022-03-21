@@ -5,12 +5,16 @@ type TAuthState = {
   user: TUserData;
   registerRequest: boolean;
   registerFailed: boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
 };
 
 const authInitialState: TAuthState = {
   user: { name: '', email: '', password: '' },
   registerRequest: false,
   registerFailed: false,
+  loginRequest: false,
+  loginFailed: false,
 };
 
 export const authSlice = createSlice({
@@ -37,6 +41,17 @@ export const authSlice = createSlice({
       state.registerFailed = true;
       state.registerRequest = false;
     },
+    postLoginRequest(state) {
+      state.loginRequest = true;
+    },
+    postLoginSuccess(state) {
+      state.loginFailed = false;
+      state.loginRequest = false;
+    },
+    postLoginFailed(state) {
+      state.loginFailed = true;
+      state.loginRequest = false;
+    },
     resetAuth() {
       return authInitialState;
     },
@@ -50,7 +65,10 @@ export const {
   postRegisterRequest,
   postRegisterSuccess,
   postRegisterFailed,
-  resetAuth
+  postLoginRequest,
+  postLoginSuccess,
+  postLoginFailed,
+  resetAuth,
 } = authSlice.actions;
 
 export default authSlice.reducer;

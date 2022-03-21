@@ -78,6 +78,24 @@ export default class Api implements IApi {
       }),
     }).then(this.checkResponse);
   }
+
+  /**
+   * POST запрос с данными пользователя на сервер для авторизации */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  postLoginUser(user: TUserData): Promise<any> {
+    const { email, password } = user;
+    return fetch(`${this.baseUrl}/auth/login`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    }).then(this.checkResponse);
+  }
 }
 
 const requestHeaders: HeadersInit = new Headers();

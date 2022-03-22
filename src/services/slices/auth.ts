@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TUserData } from 'services/types/data';
 
 type TAuthState = {
-  user: TUserData;
+  user: TUserData | null;
+  isAuthenticated: boolean;
   registerRequest: boolean;
   registerFailed: boolean;
   loginRequest: boolean;
@@ -10,7 +11,8 @@ type TAuthState = {
 };
 
 const authInitialState: TAuthState = {
-  user: { name: '', email: '', password: '' },
+  user: null,
+  isAuthenticated: false,
   registerRequest: false,
   registerFailed: false,
   loginRequest: false,
@@ -18,22 +20,31 @@ const authInitialState: TAuthState = {
 };
 
 export const authSlice = createSlice({
-  name: 'user',
+  name: 'auth',
   initialState: authInitialState,
   reducers: {
-    setUserName(state, action: PayloadAction<string>) {
-      state.user.name = action.payload;
-    },
-    setUserEmail(state, action: PayloadAction<string>) {
-      state.user.email = action.payload;
-    },
-    setUserPassword(state, action: PayloadAction<string>) {
-      state.user.password = action.payload;
-    },
+    // setUserName(state, action: PayloadAction<string>) {
+    //   state.user = {
+    //     ...state.user,
+    //     name: action.payload,
+    //   };
+    // },
+    // setUserEmail(state, action: PayloadAction<string>) {
+    //   state.user.email = action.payload;
+    // },
+    // setUserPassword(state, action: PayloadAction<string>) {
+    //   state.user.password = action.payload;
+    // },
     postRegisterRequest(state) {
       state.registerRequest = true;
     },
-    postRegisterSuccess(state) {
+    postRegisterSuccess(state, action: PayloadAction<TUserData>) {
+      const { name, email } = action.payload;
+      state.user = {
+        ...state.user,
+        name,
+        email,
+      };
       state.registerFailed = false;
       state.registerRequest = false;
     },
@@ -44,7 +55,13 @@ export const authSlice = createSlice({
     postLoginRequest(state) {
       state.loginRequest = true;
     },
-    postLoginSuccess(state) {
+    postLoginSuccess(state, action: PayloadAction<TUserData>) {
+      const { name, email } = action.payload;
+      state.user = {
+        ...state.user,
+        name,
+        email,
+      };
       state.loginFailed = false;
       state.loginRequest = false;
     },
@@ -59,9 +76,9 @@ export const authSlice = createSlice({
 });
 
 export const {
-  setUserName,
-  setUserEmail,
-  setUserPassword,
+  // setUserName,
+  // setUserEmail,
+  // setUserPassword,
   postRegisterRequest,
   postRegisterSuccess,
   postRegisterFailed,

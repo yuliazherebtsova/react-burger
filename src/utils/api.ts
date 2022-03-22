@@ -70,7 +70,12 @@ export default class Api implements IApi {
     const { name, email, password } = user;
     return fetch(`${this.baseUrl}/auth/register`, {
       method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: this.headers,
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         name,
         email,
@@ -89,7 +94,12 @@ export default class Api implements IApi {
     const { email, password } = user;
     return fetch(`${this.baseUrl}/auth/login`, {
       method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: this.headers,
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         email,
         password,

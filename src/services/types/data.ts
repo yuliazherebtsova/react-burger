@@ -18,5 +18,5 @@ export interface IIngredientsData {
 export type TUserData = {
   name: string;
   email: string;
-  password: string;
+  password?: string;
 };

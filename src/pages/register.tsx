@@ -1,16 +1,12 @@
-import { useCallback, VFC } from 'react';
+import { useCallback, useState, VFC } from 'react';
 import {
   Button,
   Input,
+  PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  resetAuth,
-  setUserEmail,
-  setUserName,
-  setUserPassword,
-} from 'services/slices/auth';
+import { resetAuth } from 'services/slices/auth';
 import {
   selectRegisterFailed,
   selectRegisterRequest,
@@ -21,30 +17,54 @@ import ErrorIndicator from 'components/error-indicator/error-indicator';
 import styles from './forms.module.css';
 
 const RegisterPage: VFC = () => {
-  const { name, email, password } = useSelector(selectUserData);
+  const { user } = useSelector(selectUserData);
+
   const registerRequest = useSelector(selectRegisterRequest);
+
   const registerFailed = useSelector(selectRegisterFailed);
+
   const dispatch = useDispatch();
-  const onNameChange = (evt: React.FormEvent<HTMLInputElement>) => {
-    const eventTarget = evt.target as HTMLInputElement;
-    dispatch(setUserName(eventTarget.value));
+
+  // const onNameChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  //   const eventTarget = evt.target as HTMLInputElement;
+  //   dispatch(setUserName(eventTarget.value));
+  // };
+
+  // const onEmailChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  //   const eventTarget = evt.target as HTMLInputElement;
+  //   dispatch(setUserEmail(eventTarget.value));
+  // };
+
+  // const onPasswordChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  //   const eventTarget = evt.target as HTMLInputElement;
+  //   dispatch(setUserPassword(eventTarget.value));
+  // };
+
+  const [form, setValue] = useState({ name: '', email: '', password: '' });
+
+  const onChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    const target = evt.target as HTMLInputElement;
+    setValue({ ...form, [target.name]: target.value });
   };
-  const onEmailChange = (evt: React.FormEvent<HTMLInputElement>) => {
-    const eventTarget = evt.target as HTMLInputElement;
-    dispatch(setUserEmail(eventTarget.value));
-  };
-  const onPasswordChange = (evt: React.FormEvent<HTMLInputElement>) => {
-    const eventTarget = evt.target as HTMLInputElement;
-    dispatch(setUserPassword(eventTarget.value));
-  };
+
   const onRegistrationFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(signUp({ name, email, password }));
+    dispatch(signUp(form));
   };
 
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetAuth());
   }, [dispatch]);
+
+  if (user) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/',
+        }}
+      />
+    );
+  }
 
   return (
     <main className={`${styles.form__container}`}>
@@ -52,7 +72,7 @@ const RegisterPage: VFC = () => {
         hasError={registerFailed}
         hasData
         onErrorModalClose={handleErrorModalClose}
-        errorMessage="Пользователь с таким Email уже существует."
+        errorMessage="Пользователь с таким логином уже существует."
       >
         <form className={`${styles.form}`} onSubmit={onRegistrationFormSubmit}>
           <h1 className="text_type_main-medium pb-6">Регистрация</h1>
@@ -60,8 +80,8 @@ const RegisterPage: VFC = () => {
             <Input
               type="text"
               placeholder="Имя"
-              onChange={onNameChange}
-              value={name}
+              onChange={onChange}
+              value={form.name}
               name="name"
               error={false}
               errorText=""
@@ -71,22 +91,18 @@ const RegisterPage: VFC = () => {
             <Input
               type="email"
               placeholder="E-mail"
-              onChange={onEmailChange}
-              value={email}
+              onChange={onChange}
+              value={form.email}
               name="email"
               error={false}
               errorText=""
             />
           </div>
           <div className={`${styles.form__field} pb-6`}>
-            <Input
-              type="password"
-              placeholder="Пароль"
-              onChange={onPasswordChange}
-              value={password}
+            <PasswordInput
+              onChange={onChange}
+              value={form.password}
               name="password"
-              error={false}
-              errorText=""
             />
           </div>
           <Button

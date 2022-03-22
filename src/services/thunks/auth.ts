@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import { AppThunk } from 'services/types';
 import { TUserData } from 'services/types/data';
 import { api } from 'utils/api';
@@ -19,7 +20,7 @@ export const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
       if (res && res.success) {
         localStorage.setItem('refreshToken', res.refreshToken);
         setCookie('accessToken', res.accessToken);
-        dispatch(postRegisterSuccess());
+        dispatch(postRegisterSuccess(res.user));
       } else {
         dispatch(postRegisterFailed());
       }
@@ -39,7 +40,7 @@ export const signIn: AppThunk = (userData: TUserData) => (dispatch) => {
       if (res && res.success) {
         localStorage.setItem('refreshToken', res.refreshToken);
         setCookie('accessToken', res.accessToken);
-        dispatch(postLoginSuccess());
+        dispatch(postLoginSuccess(res.user));
       } else {
         dispatch(postLoginFailed());
       }

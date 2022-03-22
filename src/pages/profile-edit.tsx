@@ -33,7 +33,11 @@ const ProfileEditPage: React.VFC = () => {
         />
       </div>
       <div className={`${styles.profile__field} pt-6`}>
-        <EmailInput onChange={onIconClick} value={user ? user.email : ''} name="email" />
+        <EmailInput
+          onChange={onIconClick}
+          value={user ? user.email : ''}
+          name="email"
+        />
       </div>
       <div className={`${styles.profile__field} pt-6 pb-6`}>
         <Input
@@ -42,7 +46,7 @@ const ProfileEditPage: React.VFC = () => {
           icon="EditIcon"
           onChange={onChange}
           onIconClick={onIconClick}
-          value="******"
+          value=""
           name="password"
           error={false}
           ref={inputRef}

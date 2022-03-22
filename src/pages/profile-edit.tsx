@@ -5,22 +5,15 @@ import {
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useRouteMatch } from 'react-router-dom';
+import { selectUserData } from 'services/selectors/auth';
+import { useSelector } from 'react-redux';
 import styles from './profile.module.css';
 
-// interface LoginPage {
-// }
-
 const ProfileEditPage: React.VFC = () => {
-  const [login, setLogin] = useState('rey.skywalker@jakku.space');
-  const [password, setPassword] = React.useState('********');
-  const onChange = (evt: any) => {
-    setPassword(evt.target.value);
-  };
+  const { user } = useSelector(selectUserData);
+  const onChange = (evt: any) => {};
   const inputRef = useRef<HTMLInputElement>(null);
-  const onIconClick = () => (evt: any) => setLogin(evt.target.value);
-
-  // const { path } = useRouteMatch();
-  // console.log(path);
+  const onIconClick = () => (evt: any) => {};
 
   return (
     <form className="mt-30">
@@ -31,7 +24,7 @@ const ProfileEditPage: React.VFC = () => {
           icon="EditIcon"
           onChange={onIconClick}
           onIconClick={onIconClick}
-          value="Rey Skywalker"
+          value={user ? user.name : ''}
           name="name"
           error={false}
           ref={inputRef}
@@ -40,7 +33,7 @@ const ProfileEditPage: React.VFC = () => {
         />
       </div>
       <div className={`${styles.profile__field} pt-6`}>
-        <EmailInput onChange={onIconClick} value={login} name="email" />
+        <EmailInput onChange={onIconClick} value={user ? user.email : ''} name="email" />
       </div>
       <div className={`${styles.profile__field} pt-6 pb-6`}>
         <Input
@@ -49,7 +42,7 @@ const ProfileEditPage: React.VFC = () => {
           icon="EditIcon"
           onChange={onChange}
           onIconClick={onIconClick}
-          value={password}
+          value="******"
           name="password"
           error={false}
           ref={inputRef}

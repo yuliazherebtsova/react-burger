@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import { AppThunk } from 'services/types';
 import { TUserData } from 'services/types/data';
 import { api } from 'utils/api';

@@ -10,3 +10,6 @@ export const selectRegisterFailed = (state: TRootState) =>
 export const selectLoginRequest = (state: TRootState) =>
   state.auth.loginRequest;
 export const selectLoginFailed = (state: TRootState) => state.auth.loginFailed;
+export const selectUserDataRequest = (state: TRootState) =>
+  state.auth.userDataRequest;
+export const selectUserDataFailed = (state: TRootState) => state.auth.userDataFailed;

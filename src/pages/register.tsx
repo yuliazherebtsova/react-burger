@@ -47,10 +47,10 @@ const RegisterPage: VFC = () => {
     setValue({ ...form, [target.name]: target.value });
   };
 
-  const onRegistrationFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+  const onRegistrationFormSubmit = useCallback((evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(signUp(form));
-  };
+  }, [dispatch, form]);
 
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetAuth());

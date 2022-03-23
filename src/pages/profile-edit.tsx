@@ -1,57 +1,77 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button,
   EmailInput,
   Input,
+  PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useRouteMatch } from 'react-router-dom';
-import { selectUserData } from 'services/selectors/auth';
-import { useSelector } from 'react-redux';
+import {
+  selectUserData,
+  selectUserDataFailed,
+  selectUserDataRequest,
+} from 'services/selectors/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { editUserData, getUserData } from 'services/thunks/auth';
 import styles from './profile.module.css';
 
 const ProfileEditPage: React.VFC = () => {
   const { user } = useSelector(selectUserData);
-  const onChange = (evt: any) => {};
-  const inputRef = useRef<HTMLInputElement>(null);
-  const onIconClick = () => (evt: any) => {};
+
+  const userDataRequest = useSelector(selectUserDataRequest);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserData());
+  }, [dispatch]);
+
+  const [form, setValue] = useState({ name: '', email: '', password: '' });
+
+  const onChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    const target = evt.target as HTMLInputElement;
+    setValue({ ...form, [target.name]: target.value });
+  };
+
+  const onEditFormSubmit = useCallback(
+    (evt: React.FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
+      dispatch(editUserData(form));
+    },
+    [dispatch, form]
+  );
 
   return (
-    <form className="mt-30">
+    <form className="mt-30" onSubmit={onEditFormSubmit}>
       <div className={`${styles.profile__field}`}>
         <Input
           type="text"
           placeholder="Имя"
           icon="EditIcon"
-          onChange={onIconClick}
-          onIconClick={onIconClick}
+          onChange={onChange}
           value={user ? user.name : ''}
           name="name"
           error={false}
-          ref={inputRef}
           errorText="Ошибка"
           disabled
         />
       </div>
       <div className={`${styles.profile__field} pt-6`}>
         <EmailInput
-          onChange={onIconClick}
+          onChange={onChange}
           value={user ? user.email : ''}
           name="email"
         />
       </div>
       <div className={`${styles.profile__field} pt-6 pb-6`}>
-        <Input
+      <Input
           type="password"
           placeholder="Пароль"
           icon="EditIcon"
           onChange={onChange}
-          onIconClick={onIconClick}
-          value=""
+          value=''
           name="password"
           error={false}
-          ref={inputRef}
           errorText="Ошибка"
-          disabled
         />
       </div>
       <Button
@@ -68,7 +88,7 @@ const ProfileEditPage: React.VFC = () => {
         name="profileEditSubmitButton"
         htmlType="submit"
       >
-        Сохранить
+        {userDataRequest ? 'Сохранение...' : 'Сохранить'}
       </Button>
     </form>
   );

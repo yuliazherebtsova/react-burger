@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IIngredientsData, TUserData } from 'services/types/data';
 import { BASE_URL } from './constants';
+import { getCookie } from './cookies';
 
 interface IApi {
   readonly baseUrl: string;
@@ -106,9 +107,51 @@ export default class Api implements IApi {
       }),
     }).then(this.checkResponse);
   }
+
+  /**
+   * GET запрос о данных пользователя */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  getUserData(): Promise<any> {
+    return fetch(`${this.baseUrl}/auth/user`, {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: this.headers,
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+    }).then(this.checkResponse);
+  }
+
+  /**
+   * PATCH запрос с обновленными данными пользователя */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  patchUserData(user: TUserData): Promise<any> {
+    const { email, password } = user;
+    return fetch(`${this.baseUrl}/auth/user`, {
+      method: 'PATCH',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: this.headers,
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    }).then(this.checkResponse);
+  }
 }
 
 const requestHeaders: HeadersInit = new Headers();
+const accessToken = getCookie('accessToken');
 requestHeaders.set('Content-Type', 'application/json');
+requestHeaders.set('authorization', `${accessToken}`);
 
 export const api = new Api(BASE_URL, requestHeaders);

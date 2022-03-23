@@ -9,6 +9,9 @@ import {
   postLoginRequest,
   postLoginSuccess,
   postLoginFailed,
+  updateUserRequest,
+  updateUserSuccess,
+  updateUserFailed,
 } from '../slices/auth';
 
 export const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
@@ -48,5 +51,41 @@ export const signIn: AppThunk = (userData: TUserData) => (dispatch) => {
       dispatch(postLoginFailed());
       // eslint-disable-next-line no-console
       console.log(`Ошибка авторизации: ${err}`);
+    });
+};
+
+export const getUserData: AppThunk = () => (dispatch) => {
+  dispatch(updateUserRequest());
+  api
+    .getUserData()
+    .then((res) => {
+      if (res && res.success) {
+        dispatch(updateUserSuccess(res.user));
+      } else {
+        dispatch(updateUserFailed());
+      }
+    })
+    .catch((err) => {
+      dispatch(updateUserFailed());
+      // eslint-disable-next-line no-console
+      console.log(`Ошибка получения данных пользователя: ${err}`);
+    });
+};
+
+export const editUserData: AppThunk = (userData: TUserData) => (dispatch) => {
+  dispatch(updateUserRequest());
+  api
+    .patchUserData(userData)
+    .then((res) => {
+      if (res && res.success) {
+        dispatch(updateUserSuccess(res.user));
+      } else {
+        dispatch(updateUserFailed());
+      }
+    })
+    .catch((err) => {
+      dispatch(updateUserFailed());
+      // eslint-disable-next-line no-console
+      console.log(`Ошибка обновления данных пользователя: ${err}`);
     });
 };

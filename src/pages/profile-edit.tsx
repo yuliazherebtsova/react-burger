@@ -1,43 +1,62 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Button,
   EmailInput,
   Input,
-  PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {
-  selectUserData,
-  selectUserDataFailed,
-  selectUserDataRequest,
-} from 'services/selectors/auth';
+import { selectUserData, selectUserDataRequest } from 'services/selectors/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { editUserData, getUserData } from 'services/thunks/auth';
+import { setUserEmail, setUserName } from 'services/slices/auth';
 import styles from './profile.module.css';
 
 const ProfileEditPage: React.VFC = () => {
+  const dispatch = useDispatch();
+  
   const { user } = useSelector(selectUserData);
 
   const userDataRequest = useSelector(selectUserDataRequest);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
 
-  const [form, setValue] = useState({ name: '', email: '', password: '' });
+  const [fieldDisabled, setDisabled] = useState(true);
 
-  const onChange = (evt: React.FormEvent<HTMLInputElement>) => {
-    const target = evt.target as HTMLInputElement;
-    setValue({ ...form, [target.name]: target.value });
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const onNameChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    const eventTarget = evt.target as HTMLInputElement;
+    dispatch(setUserName(eventTarget.value));
+  };
+
+  const onEmailChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    const eventTarget = evt.target as HTMLInputElement;
+    dispatch(setUserEmail(eventTarget.value));
+  };
+
+  const onBlur = () => {
+    setDisabled(true);
+  };
+
+  const onNameIconClick = () => {
+    setDisabled(false);
+    setTimeout(() => nameRef.current?.focus(), 0);
+  };
+
+  const onPasswordIconClick = () => {
+    setDisabled(false);
+    setTimeout(() => passwordRef.current?.focus(), 0);
   };
 
   const onEditFormSubmit = useCallback(
     (evt: React.FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
-      dispatch(editUserData(form));
+      dispatch(editUserData(user));
     },
-    [dispatch, form]
+    [dispatch, user]
   );
 
   return (
@@ -46,30 +65,36 @@ const ProfileEditPage: React.VFC = () => {
         <Input
           type="text"
           placeholder="Имя"
-          icon="EditIcon"
-          onChange={onChange}
-          value={user ? user.name : ''}
           name="name"
-          error={false}
-          errorText="Ошибка"
-          disabled
+          value={user ? user.name : ''}
+          icon="EditIcon"
+          onChange={onNameChange}
+          onBlur={onBlur}
+          onIconClick={onNameIconClick}
+          ref={nameRef}
+          disabled={fieldDisabled}
         />
       </div>
       <div className={`${styles.profile__field} pt-6`}>
         <EmailInput
-          onChange={onChange}
+          onChange={onEmailChange}
           value={user ? user.email : ''}
           name="email"
         />
       </div>
       <div className={`${styles.profile__field} pt-6 pb-6`}>
-      <Input
+        <Input
           type="password"
           placeholder="Пароль"
-          icon="EditIcon"
-          onChange={onChange}
-          value=''
           name="password"
+          value=""
+          icon="EditIcon"
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onChange={()=>{}}
+          onBlur={onBlur}
+          onIconClick={onPasswordIconClick}
+          ref={passwordRef}
+          disabled={fieldDisabled}
           error={false}
           errorText="Ошибка"
         />
@@ -88,7 +113,7 @@ const ProfileEditPage: React.VFC = () => {
         name="profileEditSubmitButton"
         htmlType="submit"
       >
-        {userDataRequest ? 'Сохранение...' : 'Сохранить'}
+        {userDataRequest ? 'Обновление...' : 'Сохранить'}
       </Button>
     </form>
   );

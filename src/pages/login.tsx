@@ -25,16 +25,6 @@ const LoginPage: React.VFC = () => {
 
   const dispatch = useDispatch();
 
-  // const onEmailChange = (evt: React.FormEvent<HTMLInputElement>) => {
-  //   const eventTarget = evt.target as HTMLInputElement;
-  //   dispatch(setUserEmail(eventTarget.value));
-  // };
-
-  // const onPasswordChange = (evt: React.FormEvent<HTMLInputElement>) => {
-  //   const eventTarget = evt.target as HTMLInputElement;
-  //   dispatch(setUserPassword(eventTarget.value));
-  // };
-
   const [form, setValue] = useState({ email: '', password: '' });
 
   const onChange = (evt: React.FormEvent<HTMLInputElement>) => {

@@ -27,15 +27,16 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: authInitialState,
   reducers: {
-    // setUserName(state, action: PayloadAction<string>) {
-    //   state.user = {
-    //     ...state.user,
-    //     name: action.payload,
-    //   };
-    // },
-    // setUserEmail(state, action: PayloadAction<string>) {
-    //   state.user.email = action.payload;
-    // },
+    setUserName(state, action: PayloadAction<string>) {
+      if (state.user) {
+        state.user.name = action.payload;
+      }
+    },
+    setUserEmail(state, action: PayloadAction<string>) {
+      if (state.user) {
+        state.user.email = action.payload;
+      }
+    },
     // setUserPassword(state, action: PayloadAction<string>) {
     //   state.user.password = action.payload;
     // },
@@ -97,8 +98,8 @@ export const authSlice = createSlice({
 });
 
 export const {
-  // setUserName,
-  // setUserEmail,
+  setUserName,
+  setUserEmail,
   // setUserPassword,
   postRegisterRequest,
   postRegisterSuccess,

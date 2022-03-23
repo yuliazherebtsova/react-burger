@@ -12,6 +12,12 @@ import {
   updateUserRequest,
   updateUserSuccess,
   updateUserFailed,
+  postForgotPasswordRequest,
+  postForgotPasswordSuccess,
+  postForgotPasswordFailed,
+  postResetPasswordRequest,
+  postResetPasswordSuccess,
+  postResetPasswordFailed,
 } from '../slices/auth';
 
 export const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
@@ -89,3 +95,42 @@ export const editUserData: AppThunk = (userData: TUserData) => (dispatch) => {
       console.log(`Ошибка обновления данных пользователя: ${err}`);
     });
 };
+
+export const forgotPassword: AppThunk =
+  ({ email }: { email: string }) =>
+  (dispatch) => {
+    dispatch(postForgotPasswordRequest());
+    api
+      .postForgotPassword({ email })
+      .then((res) => {
+        if (res && res.success) {
+          dispatch(postForgotPasswordSuccess());
+        } else {
+          dispatch(postForgotPasswordFailed());
+        }
+      })
+      .catch((err) => {
+        dispatch(postForgotPasswordFailed());
+        // eslint-disable-next-line no-console
+        console.log(`Ошибка восстановления пароля: ${err}`);
+      });
+  };
+
+export const resetPassword: AppThunk =
+  (password: string, token: string) => (dispatch) => {
+    dispatch(postResetPasswordRequest());
+    api
+      .postResetPassword(password, token)
+      .then((res) => {
+        if (res && res.success) {
+          dispatch(postResetPasswordSuccess());
+        } else {
+          dispatch(postResetPasswordFailed());
+        }
+      })
+      .catch((err) => {
+        dispatch(postResetPasswordFailed());
+        // eslint-disable-next-line no-console
+        console.log(`Ошибка обновления пароля: ${err}`);
+      });
+  };

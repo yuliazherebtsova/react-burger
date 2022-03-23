@@ -12,4 +12,17 @@ export const selectLoginRequest = (state: TRootState) =>
 export const selectLoginFailed = (state: TRootState) => state.auth.loginFailed;
 export const selectUserDataRequest = (state: TRootState) =>
   state.auth.userDataRequest;
-export const selectUserDataFailed = (state: TRootState) => state.auth.userDataFailed;
+export const selectUserDataFailed = (state: TRootState) =>
+  state.auth.userDataFailed;
+export const selectForgotPasswordRequest = (state: TRootState) =>
+  state.auth.forgotPasswordRequest;
+export const selectForgotPassword = (state: TRootState) =>
+  state.auth.forgotPassword;
+export const selectForgotPasswordFailed = (state: TRootState) =>
+  state.auth.forgotPasswordFailed;
+export const selectResetPassword = (state: TRootState) =>
+  state.auth.resetPassword;
+export const selectResetPasswordRequest = (state: TRootState) =>
+  state.auth.resetPasswordRequest;
+export const selectResetPasswordFailed = (state: TRootState) =>
+  state.auth.resetPasswordFailed;

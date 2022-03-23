@@ -147,6 +147,47 @@ export default class Api implements IApi {
       }),
     }).then(this.checkResponse);
   }
+  /**
+   * POST запрос на восстановление пароля пользователя */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  postForgotPassword({ email }: { email: string }): Promise<any> {
+    return fetch(`${this.baseUrl}/password-reset`, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: this.headers,
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        email,
+      }),
+    }).then(this.checkResponse);
+  }
+  /**
+   * POST запрос на обновление пароля пользователя */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  postResetPassword(password: string, token: string): Promise<any> {
+    return fetch(`${this.baseUrl}/password-reset/reset`, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: this.headers,
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        password,
+        token,
+      }),
+    }).then(this.checkResponse);
+  }
 }
 
 const requestHeaders: HeadersInit = new Headers();

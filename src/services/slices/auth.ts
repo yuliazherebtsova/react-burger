@@ -3,22 +3,34 @@ import { TUserData } from 'services/types/data';
 
 type TAuthState = {
   user: TUserData | null;
+  forgotPassword: boolean;
+  resetPassword: boolean;
   registerRequest: boolean;
   registerFailed: boolean;
   loginRequest: boolean;
   loginFailed: boolean;
   userDataRequest: boolean;
   userDataFailed: boolean;
+  forgotPasswordRequest: boolean;
+  forgotPasswordFailed: boolean;
+  resetPasswordRequest: boolean;
+  resetPasswordFailed: boolean;
 };
 
 const authInitialState: TAuthState = {
   user: null,
+  forgotPassword: false,
+  resetPassword: false,
   registerRequest: false,
   registerFailed: false,
   loginRequest: false,
   loginFailed: false,
   userDataRequest: false,
   userDataFailed: false,
+  forgotPasswordRequest: false,
+  forgotPasswordFailed: false,
+  resetPasswordRequest: false,
+  resetPasswordFailed: false,
 };
 
 export const authSlice = createSlice({
@@ -89,6 +101,30 @@ export const authSlice = createSlice({
       state.userDataFailed = true;
       state.userDataRequest = false;
     },
+    postForgotPasswordRequest(state) {
+      state.forgotPasswordRequest = true;
+    },
+    postForgotPasswordSuccess(state) {
+      state.forgotPassword = true;
+      state.forgotPasswordFailed = false;
+      state.forgotPasswordRequest = false;
+    },
+    postForgotPasswordFailed(state) {
+      state.forgotPasswordFailed = true;
+      state.forgotPasswordRequest = false;
+    },
+    postResetPasswordRequest(state) {
+      state.resetPasswordRequest = true;
+    },
+    postResetPasswordSuccess(state) {
+      state.resetPassword = true;
+      state.resetPasswordFailed = false;
+      state.resetPasswordRequest = false;
+    },
+    postResetPasswordFailed(state) {
+      state.registerFailed = true;
+      state.registerRequest = false;
+    },
     resetAuth() {
       return authInitialState;
     },
@@ -108,6 +144,12 @@ export const {
   updateUserRequest,
   updateUserSuccess,
   updateUserFailed,
+  postForgotPasswordRequest,
+  postForgotPasswordSuccess,
+  postForgotPasswordFailed,
+  postResetPasswordRequest,
+  postResetPasswordSuccess,
+  postResetPasswordFailed,
   resetAuth,
 } = authSlice.actions;
 

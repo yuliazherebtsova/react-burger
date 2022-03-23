@@ -3,7 +3,6 @@ import { TUserData } from 'services/types/data';
 
 type TAuthState = {
   user: TUserData | null;
-  isAuthenticated: boolean;
   registerRequest: boolean;
   registerFailed: boolean;
   loginRequest: boolean;
@@ -14,7 +13,6 @@ type TAuthState = {
 
 const authInitialState: TAuthState = {
   user: null,
-  isAuthenticated: false,
   registerRequest: false,
   registerFailed: false,
   loginRequest: false,

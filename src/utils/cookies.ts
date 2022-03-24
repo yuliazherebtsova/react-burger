@@ -24,7 +24,7 @@ export function getCookie(name: string): string | undefined {
 export function setCookie(
   name: string,
   value: string | number | boolean,
-  props: {
+  props?: {
     [name: string]: Date | number | string | boolean;
   }
 ): void {

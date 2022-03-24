@@ -117,10 +117,11 @@ export const forgotPassword: AppThunk =
   };
 
 export const resetPassword: AppThunk =
-  (password: string, token: string) => (dispatch) => {
+  ({ password, token }: { password: string; token: string }) =>
+  (dispatch) => {
     dispatch(postResetPasswordRequest());
     api
-      .postResetPassword(password, token)
+      .postResetPassword({ password, token })
       .then((res) => {
         if (res && res.success) {
           dispatch(postResetPasswordSuccess());

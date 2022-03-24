@@ -173,7 +173,13 @@ export default class Api implements IApi {
   /**
    * @returns промис полученный от сервера с помощью fetch
    */
-  postResetPassword(password: string, token: string): Promise<any> {
+  postResetPassword({
+    password,
+    token,
+  }: {
+    password: string;
+    token: string;
+  }): Promise<any> {
     return fetch(`${this.baseUrl}/password-reset/reset`, {
       method: 'POST',
       mode: 'cors',
@@ -192,7 +198,7 @@ export default class Api implements IApi {
 
 const requestHeaders: HeadersInit = new Headers();
 const accessToken = getCookie('accessToken');
-requestHeaders.set('Content-Type', 'application/json');
 requestHeaders.set('authorization', `${accessToken}`);
+requestHeaders.set('Content-Type', 'application/json');
 
 export const api = new Api(BASE_URL, requestHeaders);

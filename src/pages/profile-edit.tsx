@@ -7,12 +7,12 @@ import {
 import { selectUserData, selectUserDataRequest } from 'services/selectors/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { editUserData, getUserData } from 'services/thunks/auth';
-import { setUserEmail, setUserName } from 'services/slices/auth';
+import { setUserEmail, setUserName, setUserPassword } from 'services/slices/auth';
 import styles from './profile.module.css';
 
 const ProfileEditPage: React.VFC = () => {
   const dispatch = useDispatch();
-  
+
   const { user } = useSelector(selectUserData);
 
   const userDataRequest = useSelector(selectUserDataRequest);
@@ -35,6 +35,11 @@ const ProfileEditPage: React.VFC = () => {
   const onEmailChange = (evt: React.FormEvent<HTMLInputElement>) => {
     const eventTarget = evt.target as HTMLInputElement;
     dispatch(setUserEmail(eventTarget.value));
+  };
+
+  const onPasswordChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    const eventTarget = evt.target as HTMLInputElement;
+    dispatch(setUserPassword(eventTarget.value));
   };
 
   const onBlur = () => {
@@ -87,10 +92,10 @@ const ProfileEditPage: React.VFC = () => {
           type="password"
           placeholder="Пароль"
           name="password"
-          value=""
+          value={user ? user.password : ''}
           icon="EditIcon"
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          onChange={()=>{}}
+          onChange={onPasswordChange}
           onBlur={onBlur}
           onIconClick={onPasswordIconClick}
           ref={passwordRef}

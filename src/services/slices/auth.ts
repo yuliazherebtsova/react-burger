@@ -47,18 +47,21 @@ export const authSlice = createSlice({
         state.user.email = action.payload;
       }
     },
-    // setUserPassword(state, action: PayloadAction<string>) {
-    //   state.user.password = action.payload;
-    // },
+    setUserPassword(state, action: PayloadAction<string>) {
+      if (state.user) {
+        state.user.password = action.payload;
+      }
+    },
     postRegisterRequest(state) {
       state.registerRequest = true;
     },
     postRegisterSuccess(state, action: PayloadAction<TUserData>) {
-      const { name, email } = action.payload;
+      const { name, email, password } = action.payload;
       state.user = {
         ...state.user,
         name,
         email,
+        password,
       };
       state.registerFailed = false;
       state.registerRequest = false;
@@ -71,11 +74,12 @@ export const authSlice = createSlice({
       state.loginRequest = true;
     },
     postLoginSuccess(state, action: PayloadAction<TUserData>) {
-      const { name, email } = action.payload;
+      const { name, email, password } = action.payload;
       state.user = {
         ...state.user,
         name,
         email,
+        password,
       };
       state.loginFailed = false;
       state.loginRequest = false;
@@ -93,6 +97,7 @@ export const authSlice = createSlice({
         ...state.user,
         name,
         email,
+        password: ''
       };
       state.userDataFailed = false;
       state.userDataRequest = false;
@@ -134,7 +139,7 @@ export const authSlice = createSlice({
 export const {
   setUserName,
   setUserEmail,
-  // setUserPassword,
+  setUserPassword,
   postRegisterRequest,
   postRegisterSuccess,
   postRegisterFailed,

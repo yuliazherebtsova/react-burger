@@ -132,7 +132,7 @@ export default class Api implements IApi {
    * @returns промис полученный от сервера с помощью fetch
    */
   patchUserData(user: TUserData): Promise<any> {
-    const { name, email } = user;
+    const { name, email, password } = user;
     return fetch(`${this.baseUrl}/auth/user`, {
       method: 'PATCH',
       mode: 'cors',
@@ -144,6 +144,7 @@ export default class Api implements IApi {
       body: JSON.stringify({
         name,
         email,
+        password
       }),
     }).then(this.checkResponse);
   }

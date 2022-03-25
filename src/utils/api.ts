@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
+/* eslint-disable-next-line class-methods-use-this */
 import { IIngredientsData, TUserData } from 'services/types/data';
 import { BASE_URL } from './constants';
-import { getCookie } from './cookies';
+import { getCookie, setCookie } from './cookies';
 
 interface IApi {
   readonly baseUrl: string;
@@ -27,11 +29,8 @@ export default class Api implements IApi {
    * @params res - промис полученный от сервера с помощью fetch
    * @returns в случае успешного ответа возвращается json с данными, иначе - отклоненный промис
    */
-  // eslint-disable-next-line class-methods-use-this
-  private checkResponse(res: Response): Promise<any> {
-    if (res.ok) return res.json();
-    return Promise.reject(new Error(`Ошибка запроса на сервер: ${res.status}`));
-  }
+  private checkResponse = (res: Response) =>
+    res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 
   /**
    * GET запрос данных со списком ингредиентов с сервера */
@@ -71,12 +70,7 @@ export default class Api implements IApi {
     const { name, email, password } = user;
     return fetch(`${this.baseUrl}/auth/register`, {
       method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: this.headers,
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         name,
         email,
@@ -95,12 +89,7 @@ export default class Api implements IApi {
     const { email, password } = user;
     return fetch(`${this.baseUrl}/auth/login`, {
       method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: this.headers,
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         email,
         password,
@@ -116,13 +105,20 @@ export default class Api implements IApi {
    */
   getUserData(): Promise<any> {
     return fetch(`${this.baseUrl}/auth/user`, {
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: this.headers,
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-    }).then(this.checkResponse);
+    })
+      .then(this.checkResponse)
+      .catch((err) => {
+        if (err.message === 'jwt expired') {
+          this.postUpdateToken().then((res) => {
+            setCookie('accessToken', res.accessToken);
+            fetch(`${this.baseUrl}/auth/user`, {
+              headers: this.headers,
+            }).then(this.checkResponse);
+          });
+        }
+        return Promise.reject(err);
+      });
   }
 
   /**
@@ -135,19 +131,15 @@ export default class Api implements IApi {
     const { name, email, password } = user;
     return fetch(`${this.baseUrl}/auth/user`, {
       method: 'PATCH',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: this.headers,
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         name,
         email,
-        password
+        password,
       }),
     }).then(this.checkResponse);
   }
+
   /**
    * POST запрос на восстановление пароля пользователя */
 
@@ -157,17 +149,13 @@ export default class Api implements IApi {
   postForgotPassword({ email }: { email: string }): Promise<any> {
     return fetch(`${this.baseUrl}/password-reset`, {
       method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: this.headers,
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         email,
       }),
     }).then(this.checkResponse);
   }
+
   /**
    * POST запрос на обновление пароля пользователя */
 
@@ -183,14 +171,26 @@ export default class Api implements IApi {
   }): Promise<any> {
     return fetch(`${this.baseUrl}/password-reset/reset`, {
       method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: this.headers,
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         password,
+        token,
+      }),
+    }).then(this.checkResponse);
+  }
+
+  /**
+   * POST запрос на обновление токена в случае его истечения */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  postUpdateToken(): Promise<any> {
+    const token = localStorage.getItem('refreshToken');
+    return fetch(`${this.baseUrl}/auth/token`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
         token,
       }),
     }).then(this.checkResponse);

@@ -80,7 +80,9 @@ export const getUserData: AppThunk = () => (dispatch) => {
   api
     .getUserData()
     .then((res) => {
+      console.log('RES', res)
       if (res && res.success) {
+        
         dispatch(updateUserSuccess(res.user));
       } else {
         dispatch(updateUserFailed());

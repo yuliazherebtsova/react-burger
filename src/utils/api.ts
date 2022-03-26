@@ -123,25 +123,29 @@ export default class Api implements IApi {
   getUserData(): Promise<any> {
     const accessToken = getCookie('accessToken');
     this.headers.set('authorization', accessToken);
-    return fetch(`${this.baseUrl}/auth/user`, {
-      headers: this.headers,
-    })
-      .then(this.checkResponse)
-      // eslint-disable-next-line consistent-return
-      .catch((err) => {
-        if (err.message === 'jwt expired') {
-          this.postUpdateToken().then((res) => {
-            localStorage.setItem('refreshToken', res.refreshToken);
-            setCookie('accessToken', res.accessToken);
-            this.headers.set('authorization', res.accessToken);
-            fetch(`${this.baseUrl}/auth/user`, {
+    return (
+      fetch(`${this.baseUrl}/auth/user`, {
+        headers: this.headers,
+      })
+        .then(this.checkResponse)
+        .then((res) => {
+          console.log('old USER', res);
+          return res;
+        })
+        // eslint-disable-next-line consistent-return
+        .then((res) =>
+          this.postUpdateToken().then((res2) => {
+            localStorage.setItem('refreshToken', res2.refreshToken);
+            setCookie('accessToken', res2.accessToken);
+            this.headers.set('authorization', res2.accessToken);
+            return fetch(`${this.baseUrl}/auth/user`, {
               headers: this.headers,
-            }).then(this.checkResponse);
-          });
-        } else {
-          return Promise.reject(err);
-        }
-      });
+            })
+              .then(this.checkResponse)
+              .then((res3) => {console.log('new USER', res3); return res3;});
+          })
+        )
+    );
   }
 
   /**
@@ -220,7 +224,9 @@ export default class Api implements IApi {
       body: JSON.stringify({
         token,
       }),
-    }).then(this.checkResponse);
+    })
+      .then(this.checkResponse)
+      .then((res) => {console.log(res); return res});
   }
 }
 

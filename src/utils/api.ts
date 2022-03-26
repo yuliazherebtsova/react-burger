@@ -127,6 +127,7 @@ export default class Api implements IApi {
       headers: this.headers,
     })
       .then(this.checkResponse)
+      // eslint-disable-next-line consistent-return
       .catch((err) => {
         if (err.message === 'jwt expired') {
           this.postUpdateToken().then((res) => {
@@ -137,8 +138,9 @@ export default class Api implements IApi {
               headers: this.headers,
             }).then(this.checkResponse);
           });
+        } else {
+          return Promise.reject(err);
         }
-        return Promise.reject(err);
       });
   }
 
@@ -212,7 +214,6 @@ export default class Api implements IApi {
    */
   postUpdateToken(): Promise<any> {
     const token = localStorage.getItem('refreshToken');
-    console.log(token);
     return fetch(`${this.baseUrl}/auth/token`, {
       method: 'POST',
       headers: this.headers,

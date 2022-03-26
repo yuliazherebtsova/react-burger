@@ -12,6 +12,8 @@ export const selectLoginRequest = (state: TRootState) =>
 export const selectLoginFailed = (state: TRootState) => state.auth.loginFailed;
 export const selectUserDataRequest = (state: TRootState) =>
   state.auth.userDataRequest;
+  export const selectUserDataSuccess = (state: TRootState) =>
+  state.auth.userDataSuccess;
 export const selectUserDataFailed = (state: TRootState) =>
   state.auth.userDataFailed;
 export const selectForgotPasswordRequest = (state: TRootState) =>

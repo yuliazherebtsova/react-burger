@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   Button,
   EmailInput,
@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { selectUserData, selectUserDataRequest } from 'services/selectors/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { editUserData, getUserData } from 'services/thunks/auth';
+import { editUserData } from 'services/thunks/auth';
 import { setUserEmail, setUserName, setUserPassword } from 'services/slices/auth';
 import styles from './profile.module.css';
 
@@ -16,10 +16,6 @@ const ProfileEditPage: React.VFC = () => {
   const { user } = useSelector(selectUserData);
 
   const userDataRequest = useSelector(selectUserDataRequest);
-
-  useEffect(() => {
-    dispatch(getUserData());
-  }, [dispatch]);
 
   const [fieldDisabled, setDisabled] = useState(true);
 
@@ -118,7 +114,7 @@ const ProfileEditPage: React.VFC = () => {
         name="profileEditSubmitButton"
         htmlType="submit"
       >
-        {userDataRequest ? 'Обновление...' : 'Сохранить'}
+        {userDataRequest ? 'Загрузка...' : 'Сохранить'}
       </Button>
     </form>
   );

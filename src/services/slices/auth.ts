@@ -10,6 +10,7 @@ type TAuthState = {
   loginRequest: boolean;
   loginFailed: boolean;
   userDataRequest: boolean;
+  userDataSuccess: boolean;
   userDataFailed: boolean;
   forgotPasswordRequest: boolean;
   forgotPasswordFailed: boolean;
@@ -26,6 +27,7 @@ const authInitialState: TAuthState = {
   loginRequest: false,
   loginFailed: false,
   userDataRequest: false,
+  userDataSuccess: false,
   userDataFailed: false,
   forgotPasswordRequest: false,
   forgotPasswordFailed: false,
@@ -40,16 +42,19 @@ export const authSlice = createSlice({
     setUserName(state, action: PayloadAction<string>) {
       if (state.user) {
         state.user.name = action.payload;
+        state.userDataSuccess = false;
       }
     },
     setUserEmail(state, action: PayloadAction<string>) {
       if (state.user) {
         state.user.email = action.payload;
+        state.userDataSuccess = false;
       }
     },
     setUserPassword(state, action: PayloadAction<string>) {
       if (state.user) {
         state.user.password = action.payload;
+        state.userDataSuccess = false;
       }
     },
     postRegisterRequest(state) {
@@ -97,8 +102,9 @@ export const authSlice = createSlice({
         ...state.user,
         name,
         email,
-        password: ''
+        password: '',
       };
+      state.userDataSuccess = true;
       state.userDataFailed = false;
       state.userDataRequest = false;
     },

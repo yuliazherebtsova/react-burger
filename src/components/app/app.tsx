@@ -6,7 +6,7 @@
  * * 7. Убрать отладку
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import HomePage from 'pages/home';
 import LoginPage from 'pages/login';
@@ -16,34 +16,44 @@ import ForgotPasswordPage from 'pages/forgot-password';
 import ResetPasswordPage from 'pages/reset-password';
 import NotFound404 from 'pages/not-found-404';
 import ProfilePage from 'pages/profile';
+import { getUserData } from 'services/thunks/auth';
+import { useDispatch } from 'react-redux';
 
-const App: React.FC = () => (
-  <Router>
-    <AppHeader />
-    <Switch>
-      <Route path="/" exact>
-        <HomePage />
-      </Route>
-      <Route path="/login" exact>
-        <LoginPage />
-      </Route>
-      <Route path="/register" exact>
-        <RegisterPage />
-      </Route>
-      <Route path="/forgot-password" exact>
-        <ForgotPasswordPage />
-      </Route>
-      <Route path="/reset-password" exact>
-        <ResetPasswordPage />
-      </Route>
-      <Route path="/profile">
-        <ProfilePage />
-      </Route>
-      <Route>
-        <NotFound404 />
-      </Route>
-    </Switch>
-  </Router>
-);
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserData());
+  }, [dispatch]);
+  
+  return (
+    <Router>
+      <AppHeader />
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/login" exact>
+          <LoginPage />
+        </Route>
+        <Route path="/register" exact>
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password" exact>
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password" exact>
+          <ResetPasswordPage />
+        </Route>
+        <Route path="/profile">
+          <ProfilePage />
+        </Route>
+        <Route>
+          <NotFound404 />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
 
 export default App;

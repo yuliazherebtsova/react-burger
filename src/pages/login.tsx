@@ -32,10 +32,13 @@ const LoginPage: React.VFC = () => {
     setValue({ ...form, [target.name]: target.value });
   };
 
-  const onLoginFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    dispatch(signIn(form));
-  };
+  const onLoginFormSubmit = useCallback(
+    (evt: React.FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
+      dispatch(signIn(form));
+    },
+    [dispatch, form]
+  );
 
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetAuth());

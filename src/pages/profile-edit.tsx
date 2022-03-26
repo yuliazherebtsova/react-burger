@@ -7,7 +7,12 @@ import {
 import { selectUserData, selectUserDataRequest } from 'services/selectors/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { editUserData } from 'services/thunks/auth';
-import { setUserEmail, setUserName, setUserPassword } from 'services/slices/auth';
+import {
+  setUserEmail,
+  setUserName,
+  setUserPassword,
+} from 'services/slices/auth';
+import { useHistory } from 'react-router-dom';
 import styles from './profile.module.css';
 
 const ProfileEditPage: React.VFC = () => {
@@ -22,6 +27,8 @@ const ProfileEditPage: React.VFC = () => {
   const nameRef = useRef<HTMLInputElement>(null);
 
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const history = useHistory();
 
   const onNameChange = (evt: React.FormEvent<HTMLInputElement>) => {
     const eventTarget = evt.target as HTMLInputElement;
@@ -60,8 +67,20 @@ const ProfileEditPage: React.VFC = () => {
     [dispatch, user]
   );
 
+  const onEditFormReset = useCallback(
+    (evt: React.FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
+      history.replace({ pathname: '/' });
+    },
+    [history]
+  );
+
   return (
-    <form className="mt-30" onSubmit={onEditFormSubmit}>
+    <form
+      className="mt-30"
+      onSubmit={onEditFormSubmit}
+      onReset={onEditFormReset}
+    >
       <div className={`${styles.profile__field}`}>
         <Input
           type="text"

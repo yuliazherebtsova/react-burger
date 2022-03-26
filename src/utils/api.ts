@@ -98,12 +98,31 @@ export default class Api implements IApi {
   }
 
   /**
+   * POST запрос с данными пользователя на сервер выхода из системы */
+
+  /**
+   * @returns промис полученный от сервера с помощью fetch
+   */
+  postLogoutUser(): Promise<any> {
+    const token = localStorage.getItem('refreshToken');
+    return fetch(`${this.baseUrl}/auth/logout`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        token,
+      }),
+    }).then(this.checkResponse);
+  }
+
+  /**
    * GET запрос о данных пользователя */
 
   /**
    * @returns промис полученный от сервера с помощью fetch
    */
   getUserData(): Promise<any> {
+    const accessToken = getCookie('accessToken');
+    this.headers.set('authorization', accessToken);
     return fetch(`${this.baseUrl}/auth/user`, {
       headers: this.headers,
     })
@@ -111,7 +130,9 @@ export default class Api implements IApi {
       .catch((err) => {
         if (err.message === 'jwt expired') {
           this.postUpdateToken().then((res) => {
+            localStorage.setItem('refreshToken', res.refreshToken);
             setCookie('accessToken', res.accessToken);
+            this.headers.set('authorization', res.accessToken);
             fetch(`${this.baseUrl}/auth/user`, {
               headers: this.headers,
             }).then(this.checkResponse);
@@ -129,6 +150,10 @@ export default class Api implements IApi {
    */
   patchUserData(user: TUserData): Promise<any> {
     const { name, email, password } = user;
+
+    const accessToken = getCookie('accessToken');
+    this.headers.set('authorization', accessToken);
+
     return fetch(`${this.baseUrl}/auth/user`, {
       method: 'PATCH',
       headers: this.headers,
@@ -187,6 +212,7 @@ export default class Api implements IApi {
    */
   postUpdateToken(): Promise<any> {
     const token = localStorage.getItem('refreshToken');
+    console.log(token);
     return fetch(`${this.baseUrl}/auth/token`, {
       method: 'POST',
       headers: this.headers,
@@ -198,8 +224,7 @@ export default class Api implements IApi {
 }
 
 const requestHeaders: HeadersInit = new Headers();
-const accessToken = getCookie('accessToken');
-requestHeaders.set('authorization', `${accessToken}`);
+
 requestHeaders.set('Content-Type', 'application/json');
 
 export const api = new Api(BASE_URL, requestHeaders);

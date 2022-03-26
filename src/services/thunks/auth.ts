@@ -2,7 +2,7 @@
 import { AppThunk } from 'services/types';
 import { TUserData } from 'services/types/data';
 import { api } from 'utils/api';
-import { setCookie } from 'utils/cookies';
+import { deleteCookie, setCookie } from 'utils/cookies';
 import {
   postRegisterRequest,
   postRegisterSuccess,
@@ -19,6 +19,7 @@ import {
   postResetPasswordRequest,
   postResetPasswordSuccess,
   postResetPasswordFailed,
+  resetAuth,
 } from '../slices/auth';
 
 export const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
@@ -36,7 +37,7 @@ export const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(postRegisterFailed());
-      console.log(`Ошибка регистрации: ${err}`);
+      console.log(`Ошибка регистрации: ${err.message}`);
     });
 };
 
@@ -55,7 +56,22 @@ export const signIn: AppThunk = (userData: TUserData) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(postLoginFailed());
-      console.log(`Ошибка авторизации: ${err}`);
+      console.log(`Ошибка авторизации: ${err.message}`);
+    });
+};
+
+export const signOut: AppThunk = () => (dispatch) => {
+  api
+    .postLogoutUser()
+    .then((res) => {
+      if (res && res.success) {
+        localStorage.removeItem('refreshToken');
+        deleteCookie('accessToken');
+        dispatch(resetAuth());
+      }
+    })
+    .catch((err) => {
+      console.log(`Ошибка выхода из системы: ${err.message}`);
     });
 };
 
@@ -72,7 +88,7 @@ export const getUserData: AppThunk = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(updateUserFailed());
-      console.log(`Ошибка получения данных пользователя: ${err}`);
+      console.log(`Ошибка получения данных пользователя: ${err.message}`);
     });
 };
 
@@ -89,7 +105,7 @@ export const editUserData: AppThunk = (userData: TUserData) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(updateUserFailed());
-      console.log(`Ошибка обновления данных пользователя: ${err}`);
+      console.log(`Ошибка обновления данных пользователя: ${err.message}`);
     });
 };
 
@@ -108,7 +124,7 @@ export const forgotPassword: AppThunk =
       })
       .catch((err) => {
         dispatch(postForgotPasswordFailed());
-        console.log(`Ошибка восстановления пароля: ${err}`);
+        console.log(`Ошибка восстановления пароля: ${err.message}`);
       });
   };
 
@@ -127,6 +143,6 @@ export const resetPassword: AppThunk =
       })
       .catch((err) => {
         dispatch(postResetPasswordFailed());
-        console.log(`Ошибка обновления пароля: ${err}`);
+        console.log(`Ошибка обновления пароля: ${err.message}`);
       });
   };

@@ -56,12 +56,12 @@ export const authSlice = createSlice({
       state.registerRequest = true;
     },
     postRegisterSuccess(state, action: PayloadAction<TUserData>) {
-      const { name, email, password } = action.payload;
+      const { name, email } = action.payload;
       state.user = {
         ...state.user,
         name,
         email,
-        password,
+        password: '',
       };
       state.registerFailed = false;
       state.registerRequest = false;
@@ -74,12 +74,12 @@ export const authSlice = createSlice({
       state.loginRequest = true;
     },
     postLoginSuccess(state, action: PayloadAction<TUserData>) {
-      const { name, email, password } = action.payload;
+      const { name, email } = action.payload;
       state.user = {
         ...state.user,
         name,
         email,
-        password,
+        password: '',
       };
       state.loginFailed = false;
       state.loginRequest = false;

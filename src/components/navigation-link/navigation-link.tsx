@@ -9,6 +9,7 @@ import styles from './navigation-link.module.css';
 interface INavigationLinkProps {
   title: string;
   size?: string;
+  onClick?: () => void;
 }
 
 interface ITitleToPath {
@@ -23,8 +24,9 @@ const NavigationLink: React.FC<INavigationLinkProps> = ({
   title,
   size = 'default',
   children,
+  onClick,
 }) => {
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   const titleToPath: ITitleToPath = {
     Конструктор: '/',
@@ -48,13 +50,14 @@ const NavigationLink: React.FC<INavigationLinkProps> = ({
     'Лента заказов': <ListIcon type={isActive ? 'primary' : 'secondary'} />,
     'Личный кабинет': <ProfileIcon type={isActive ? 'primary' : 'secondary'} />,
   };
-
+  
   return (
     <NavLink
       to={{ pathname: titleToPath[title] }}
       exact
       className={`${styles.navigation__link} pt-4 pr-5 pb-4 pl-5`}
       activeClassName={styles.navigation__link_active}
+      onClick={onClick}
     >
       {titleToIcon[title]}
       <span className={`text text_type_main-${size} ml-2`}>{children}</span>

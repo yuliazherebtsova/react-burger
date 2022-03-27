@@ -1,9 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { selectUserData } from 'services/selectors/auth';
-import { getUserData } from 'services/thunks/auth';
 
 interface IProtectedRoute {
   path: string;
@@ -12,16 +10,6 @@ interface IProtectedRoute {
 
 const ProtectedRoute: React.FC<IProtectedRoute> = ({ children, ...rest }) => {
   const { user } = useSelector(selectUserData);
-
-  if (user) {
-    return (
-      <Redirect
-        to={{
-          pathname: '/',
-        }}
-      />
-    );
-  }
 
   return (
     <Route

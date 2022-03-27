@@ -1,18 +1,17 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import NavigationLink from 'components/navigation-link/navigation-link';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getUserData, signOut } from 'services/thunks/auth';
+import { signOut } from 'services/thunks/auth';
 import styles from './profile.module.css';
 import ProfileEditPage from './profile-edit';
 import OrdersPage from './orders';
+import NotFound404 from './not-found-404';
 
 const ProfilePage: React.VFC = () => {
   const { path } = useRouteMatch();
 
   const dispatch = useDispatch();
-
-  
 
   const onLogoutClick = useCallback(() => {
     dispatch(signOut());
@@ -53,6 +52,9 @@ const ProfilePage: React.VFC = () => {
         </Route>
         <Route path={`${path}/orders`} exact>
           <OrdersPage />
+        </Route>
+        <Route>
+          <NotFound404 />
         </Route>
       </Switch>
     </main>

@@ -2,12 +2,11 @@ import React from 'react';
 import NavigationLink from 'components/navigation-link/navigation-link';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { selectUserData, selectUserDataSuccess } from 'services/selectors/auth';
+import { selectUserData } from 'services/selectors/auth';
 import styles from './app-header.module.css';
 
 const AppHeader: React.VFC = () => {
   const { user } = useSelector(selectUserData);
-  const userDataSucccess = useSelector(selectUserDataSuccess);
 
   return (
     <header className={styles.header}>
@@ -29,7 +28,7 @@ const AppHeader: React.VFC = () => {
             </li>
             <li>
               <NavigationLink title="Личный кабинет">
-                {userDataSucccess ? user?.name : 'Личный кабинет'}
+                {user ? user?.name : 'Личный кабинет'}
               </NavigationLink>
             </li>
           </ul>

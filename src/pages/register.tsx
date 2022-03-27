@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetAuth } from 'services/slices/auth';
 import {
@@ -23,22 +23,12 @@ const RegisterPage: VFC = () => {
 
   const registerFailed = useSelector(selectRegisterFailed);
 
+  const history = useHistory();
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { state }: any = history.location;
+
   const dispatch = useDispatch();
-
-  // const onNameChange = (evt: React.FormEvent<HTMLInputElement>) => {
-  //   const eventTarget = evt.target as HTMLInputElement;
-  //   dispatch(setUserName(eventTarget.value));
-  // };
-
-  // const onEmailChange = (evt: React.FormEvent<HTMLInputElement>) => {
-  //   const eventTarget = evt.target as HTMLInputElement;
-  //   dispatch(setUserEmail(eventTarget.value));
-  // };
-
-  // const onPasswordChange = (evt: React.FormEvent<HTMLInputElement>) => {
-  //   const eventTarget = evt.target as HTMLInputElement;
-  //   dispatch(setUserPassword(eventTarget.value));
-  // };
 
   const [form, setValue] = useState({ name: '', email: '', password: '' });
 
@@ -59,9 +49,7 @@ const RegisterPage: VFC = () => {
   if (user) {
     return (
       <Redirect
-        to={{
-          pathname: '/',
-        }}
+        to={state?.from || '/'}
       />
     );
   }

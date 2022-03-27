@@ -1,9 +1,8 @@
 /**
- * * 1. Защищенные маршруты
- * * 2. Роутинг модальных окон
- * * 4. Тестирование
- * * 5. gh-pages (был вопрос в Слаке)
- * * 7. Убрать отладку
+ * * 1. Роутинг модальных окон
+ * * 2. Тестирование
+ * * 3. gh-pages (был вопрос в Слаке)
+ * * 4. Убрать отладку
  */
 
 import React, { useEffect } from 'react';
@@ -18,14 +17,19 @@ import NotFound404 from 'pages/not-found-404';
 import ProfilePage from 'pages/profile';
 import { getUserData } from 'services/thunks/auth';
 import { useDispatch } from 'react-redux';
+import ProtectedRoute from 'components/protected-route/protected-route';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
+  const init = async () => {
+    await dispatch(getUserData());
+  };
+
   useEffect(() => {
-    dispatch(getUserData());
-  }, [dispatch]);
-  
+    init();
+  }, []);
+
   return (
     <Router>
       <AppHeader />
@@ -45,9 +49,9 @@ const App: React.FC = () => {
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
         </Route>
-        <Route path="/profile">
+        <ProtectedRoute path="/profile">
           <ProfilePage />
-        </Route>
+        </ProtectedRoute>
         <Route>
           <NotFound404 />
         </Route>

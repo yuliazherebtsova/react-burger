@@ -4,11 +4,11 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import {
-  selectResetPassword,
   selectResetPasswordFailed,
   selectResetPasswordRequest,
+  selectUserData,
 } from 'services/selectors/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from 'services/thunks/auth';
@@ -17,9 +17,16 @@ import { resetAuth } from 'services/slices/auth';
 import styles from './forms.module.css';
 
 const ResetPasswordPage: React.VFC = () => {
+  const { user } = useSelector(selectUserData);
+  
   const resetPasswordRequest = useSelector(selectResetPasswordRequest);
-  const resetPasswordSuccess = useSelector(selectResetPassword);
+
   const resetPasswordFailed = useSelector(selectResetPasswordFailed);
+
+  const history = useHistory();
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { state }: any = history.location;
 
   const dispatch = useDispatch();
 
@@ -42,12 +49,10 @@ const ResetPasswordPage: React.VFC = () => {
     dispatch(resetAuth());
   }, [dispatch]);
 
-  if (resetPasswordSuccess) {
+  if (user) {
     return (
       <Redirect
-        to={{
-          pathname: '/login',
-        }}
+        to={state?.from || '/'}
       />
     );
   }

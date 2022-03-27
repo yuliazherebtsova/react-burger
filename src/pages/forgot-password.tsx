@@ -3,12 +3,13 @@ import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectForgotPassword,
   selectForgotPasswordFailed,
   selectForgotPasswordRequest,
+  selectUserData,
 } from 'services/selectors/auth';
 import { forgotPassword } from 'services/thunks/auth';
 import { resetAuth } from 'services/slices/auth';
@@ -16,11 +17,20 @@ import ErrorIndicator from 'components/error-indicator/error-indicator';
 import styles from './forms.module.css';
 
 const ForgotPasswordPage: React.VFC = () => {
+  const { user } = useSelector(selectUserData);
+  
   const forgotPasswordRequest = useSelector(selectForgotPasswordRequest);
+
   const forgotPasswordSuccess = useSelector(selectForgotPassword);
+
   const forgotPasswordFailed = useSelector(selectForgotPasswordFailed);
 
   const dispatch = useDispatch();
+
+  const history = useHistory();
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { state }: any = history.location;
 
   const [form, setValue] = useState({ email: '' });
 
@@ -40,6 +50,14 @@ const ForgotPasswordPage: React.VFC = () => {
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetAuth());
   }, [dispatch]);
+
+  if (user) {
+    return (
+      <Redirect
+        to={state?.from || '/'}
+      />
+    );
+  }
 
   if (forgotPasswordSuccess) {
     return (

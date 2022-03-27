@@ -22,13 +22,9 @@ import ProtectedRoute from 'components/protected-route/protected-route';
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
-  const init = async () => {
-    await dispatch(getUserData());
-  };
-
   useEffect(() => {
-    init();
-  }, []);
+    dispatch(getUserData());
+  });
 
   return (
     <Router>

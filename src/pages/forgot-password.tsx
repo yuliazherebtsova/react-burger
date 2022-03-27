@@ -21,7 +21,7 @@ const ForgotPasswordPage: React.VFC = () => {
   
   const forgotPasswordRequest = useSelector(selectForgotPasswordRequest);
 
-  const forgotPasswordSuccess = useSelector(selectForgotPassword);
+  const isPasswordForgotten = useSelector(selectForgotPassword);
 
   const forgotPasswordFailed = useSelector(selectForgotPasswordFailed);
 
@@ -59,11 +59,12 @@ const ForgotPasswordPage: React.VFC = () => {
     );
   }
 
-  if (forgotPasswordSuccess) {
+  if (isPasswordForgotten) {
     return (
       <Redirect
         to={{
           pathname: '/reset-password',
+          state: { from: history.location }
         }}
       />
     );

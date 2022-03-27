@@ -129,11 +129,11 @@ export default class Api implements IApi {
       fetch(`${this.baseUrl}/auth/user`, {
         headers: this.headers,
       })
-        .then(this.checkResponse)
         .then((res) => {
           console.log('old USER', res);
           return res;
         })
+        .then(this.checkResponse)
         // eslint-disable-next-line consistent-return
         .catch((err) => {
           if (err.message === 'jwt expired') {
@@ -144,11 +144,12 @@ export default class Api implements IApi {
               fetch(`${this.baseUrl}/auth/user`, {
                 headers: this.headers,
               })
-                .then(this.checkResponse)
+                
                 .then((res3) => {
                   console.log('new USER', res3);
                   return res3;
                 })
+                .then(this.checkResponse)
             });
           } 
         })

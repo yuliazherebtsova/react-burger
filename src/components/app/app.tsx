@@ -24,7 +24,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(getUserData());
-  });
+  }, [dispatch]);
 
   return (
     <Router>

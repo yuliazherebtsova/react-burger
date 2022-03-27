@@ -18,13 +18,13 @@ import styles from './forms.module.css';
 
 const ResetPasswordPage: React.VFC = () => {
   const { user } = useSelector(selectUserData);
-  
+
   const resetPasswordRequest = useSelector(selectResetPasswordRequest);
 
   const resetPasswordFailed = useSelector(selectResetPasswordFailed);
 
   const history = useHistory();
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { state }: any = history.location;
 
@@ -50,11 +50,11 @@ const ResetPasswordPage: React.VFC = () => {
   }, [dispatch]);
 
   if (user) {
-    return (
-      <Redirect
-        to={state?.from || '/'}
-      />
-    );
+    return <Redirect to={state?.from || '/'} />;
+  }
+
+  if (!user && state?.from.pathname !== '/forgot-password') {
+    return <Redirect to="/login" />;
   }
 
   return (

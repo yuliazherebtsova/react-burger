@@ -1,12 +1,11 @@
 /**
  * * 1. Роутинг модальных окон
  * * 2. Тестирование
- * * 3. gh-pages (был вопрос в Слаке)
- * * 4. Убрать отладку
+ * * 3. Убрать отладку
  */
 
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import HomePage from 'pages/home';
 import LoginPage from 'pages/login';
 import AppHeader from 'components/app-header/app-header';

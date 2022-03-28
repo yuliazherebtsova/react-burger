@@ -24,6 +24,8 @@ import {
 } from 'services/selectors/constructor';
 import { selectOrderRequest } from 'services/selectors/order';
 import appStyles from 'components/app/app.module.css';
+import { selectUserData } from 'services/selectors/auth';
+import { useHistory, useLocation } from 'react-router-dom';
 import constructorStyles from './burger-constructor.module.css';
 
 interface IBurgerConstructorProps {
@@ -52,10 +54,21 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
   onOpenModalWithIngredient,
 }) => {
   const ingredients = useSelector(selectIngredients);
+
   const bunElement = useSelector(selectBunElement);
+
   const draggableElements = useSelector(selectDraggableElements);
+
   const orderRequest = useSelector(selectOrderRequest);
+
   const totalPrice = useSelector(getTotalPrice);
+
+  const { user } = useSelector(selectUserData);
+
+  const history = useHistory();
+
+  const location = useLocation();
+
   const dispatch = useDispatch();
 
   const handleIngredientDrop = ({ id }: { id: string }): void => {
@@ -143,7 +156,14 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
   }`;
 
   const onClickToOrderButton: () => void = () => {
-    dispatch(postOrder([bunElement, ...draggableElements]));
+    if (user) {
+      dispatch(postOrder([bunElement, ...draggableElements]));
+    } else {
+      history.replace({
+        pathname: '/login',
+        state: { background: location },
+      });
+    }
   };
 
   const onClickToIngredient = useCallback(

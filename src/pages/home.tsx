@@ -23,17 +23,25 @@ import {
   selectIngredientToView,
 } from 'services/selectors/ingredients';
 import { selectOrderFailed, selectOrderNumber } from 'services/selectors/order';
+import { useHistory } from 'react-router-dom';
 import styles from './home.module.css';
 
 const HomePage: React.VFC = () => {
   const ingredients = useSelector(selectIngredients);
+
   const ingredientToView = useSelector(selectIngredientToView);
+
   const ingredientsRequest = useSelector(selectIngredientsRequest);
+
   const ingredientsFailed = useSelector(selectIngredientsFailed);
+
   const orderNumber = useSelector(selectOrderNumber);
+
   const orderFailed = useSelector(selectOrderFailed);
 
   const dispatch = useDispatch();
+
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getIngredientsData());
@@ -58,7 +66,8 @@ const HomePage: React.VFC = () => {
 
   const handleIngredientModalClose = useCallback(() => {
     dispatch(resetIngredientToView());
-  }, [dispatch]);
+    history.replace('/');
+  }, [dispatch, history]);
 
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
@@ -87,17 +96,9 @@ const HomePage: React.VFC = () => {
         </DndProvider>
         {ingredientToView && (
           <Modal
-            title="Детали ингредиента"
             onClose={handleIngredientModalClose}
           >
-            <IngredientDetails
-              image={ingredientToView.image}
-              name={ingredientToView.name}
-              fat={ingredientToView.fat}
-              carbohydrates={ingredientToView.carbohydrates}
-              calories={ingredientToView.calories}
-              proteins={ingredientToView.proteins}
-            />
+            <IngredientDetails/>
           </Modal>
         )}
         <ErrorIndicator

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type TIngredientsState = {
   ingredients: ReadonlyArray<IIngredientsData>;
-  ingredientToView: IIngredientsData | null;
+  ingredientToView: IIngredientsData | null | undefined;
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
 };

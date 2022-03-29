@@ -17,11 +17,6 @@
   border: 2px solid var(--interface-accent); */
 }
 
-.modal__title {
-  align-self: flex-start;
-  transform: translate(-50px);
-}
-
 .modal__closeIcon {
   position: absolute;
   top: 0;

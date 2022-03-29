@@ -4,10 +4,10 @@ import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {
-  getIngredientCounter,
-} from 'services/selectors/constructor';
+import { getIngredientCounter } from 'services/selectors/constructor';
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { TLocation } from 'components/app/app';
 import ingredientStyles from './burger-ingredient.module.css';
 
 interface IBurgerIngredientProps {
@@ -28,8 +28,9 @@ const BurgerIngredient: React.VFC<IBurgerIngredientProps> = ({
   name,
   onOpenModalWithIngredient,
 }) => {
-
   const ingredientCounter = useSelector(getIngredientCounter(id));
+
+  const location: TLocation = useLocation();
 
   const [{ isDragging }, dragRef, dragPreview] = useDrag(
     {
@@ -49,29 +50,36 @@ const BurgerIngredient: React.VFC<IBurgerIngredientProps> = ({
   );
 
   return (
-    <li
-      className={`${ingredientStyles.ingredient__сard} 
+    <Link to={{
+      pathname: `/ingredients/${id}`,
+      // This is the trick! This link sets
+      // the `background` in location state.
+      state: { background: location }
+    }}>
+      <li
+        className={`${ingredientStyles.ingredient__сard} 
       ${isDragging && ingredientStyles.ingredient__сard_isDragging} mb-8`}
-      onClick={onClickToIngredient}
-      onKeyPress={onClickToIngredient}
-      ref={dragRef}
-      data-id={id}
-    >
-      <DragPreviewImage src={image} connect={dragPreview} />
-      <img src={image} alt={name} />
-      {ingredientCounter !== 0 && (
-        <Counter count={ingredientCounter} size="default" />
-      )}
-      <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
-        <span className="text text_type_digits-default mr-2">{price}</span>
-        <CurrencyIcon type="primary" />
-      </div>
-      <p
-        className={`${ingredientStyles.ingredient__name} text text text_type_main-default`}
+        onClick={onClickToIngredient}
+        onKeyPress={onClickToIngredient}
+        ref={dragRef}
+        data-id={id}
       >
-        {name}
-      </p>
-    </li>
+        <DragPreviewImage src={image} connect={dragPreview} />
+        <img src={image} alt={name} />
+        {ingredientCounter !== 0 && (
+          <Counter count={ingredientCounter} size="default" />
+        )}
+        <div className={`${ingredientStyles.ingredient__price} mt-2 mb-2`}>
+          <span className="text text_type_digits-default mr-2">{price}</span>
+          <CurrencyIcon type="primary" />
+        </div>
+        <p
+          className={`${ingredientStyles.ingredient__name} text text text_type_main-default`}
+        >
+          {name}
+        </p>
+      </li>
+    </Link>
   );
 };
 

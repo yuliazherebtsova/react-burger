@@ -129,10 +129,6 @@ export default class Api implements IApi {
       fetch(`${this.baseUrl}/auth/user`, {
         headers: this.headers,
       })
-        .then((res) => {
-          console.log('old USER', res);
-          return res;
-        })
         .then(this.checkResponse)
         // eslint-disable-next-line consistent-return
         .catch((err) => {
@@ -144,11 +140,6 @@ export default class Api implements IApi {
               fetch(`${this.baseUrl}/auth/user`, {
                 headers: this.headers,
               })
-                
-                .then((res3) => {
-                  console.log('new USER', res3);
-                  return res3;
-                })
                 .then(this.checkResponse)
             });
           } 

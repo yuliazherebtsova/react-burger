@@ -3,7 +3,7 @@ import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectForgotPassword,
@@ -14,11 +14,12 @@ import {
 import { forgotPassword } from 'services/thunks/auth';
 import { resetAuth } from 'services/slices/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
+import { TLocationState } from 'components/app/app';
 import styles from './forms.module.css';
 
 const ForgotPasswordPage: React.VFC = () => {
   const { user } = useSelector(selectUserData);
-  
+
   const forgotPasswordRequest = useSelector(selectForgotPasswordRequest);
 
   const isPasswordForgotten = useSelector(selectForgotPassword);
@@ -28,9 +29,8 @@ const ForgotPasswordPage: React.VFC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { state }: any = history.location;
+
+  const { state } = useLocation<TLocationState>();
 
   const [form, setValue] = useState({ email: '' });
 
@@ -52,11 +52,7 @@ const ForgotPasswordPage: React.VFC = () => {
   }, [dispatch]);
 
   if (user) {
-    return (
-      <Redirect
-        to={state?.from || '/'}
-      />
-    );
+    return <Redirect to={state?.from || '/'} />;
   }
 
   if (isPasswordForgotten) {
@@ -64,7 +60,7 @@ const ForgotPasswordPage: React.VFC = () => {
       <Redirect
         to={{
           pathname: '/reset-password',
-          state: { from: history.location }
+          state: { from: history.location },
         }}
       />
     );

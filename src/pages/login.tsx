@@ -53,7 +53,7 @@ const LoginPage: React.VFC = () => {
   if (user) {
     return (
       <Redirect
-        // Если объект state не является undefined, вернём пользователя назад.
+        // Если объект state не undefined, вернём пользователя назад
         to={state?.from || '/'}
       />
     );

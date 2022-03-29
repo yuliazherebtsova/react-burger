@@ -15,8 +15,6 @@ const IngredientDetails: React.VFC = () => {
 
   const location: TLocation = useLocation();
 
-  console.log(ingredients)
-
   if (!ingredient) {
     const splittedUrl = location.pathname.split('/');
     const idFromUrl = splittedUrl[splittedUrl.length - 1];

@@ -23,6 +23,7 @@ import IngredientPage from 'pages/ingredient-page';
 
 export type TLocationState = {
   from?: string;
+  // eslint-disable-next-line no-use-before-define
   background?: TLocation;
 };
 

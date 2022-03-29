@@ -106,6 +106,7 @@ const BurgerIngredients: React.VFC<IBurgerIngredientsProps> = ({
       <nav>
         <ul className={ingredientsStyles.ingredients__tabContainer}>
           {Object.values(ingredientCategories).map((type, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <li key={index}>
               <Tab
                 value={type.name}
@@ -127,6 +128,7 @@ const BurgerIngredients: React.VFC<IBurgerIngredientsProps> = ({
           onScroll={handleSectionScroll}
         >
           {ingredientsByType.map(({ name, items, ref }, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <li key={index}>
               <h2 className="text text_type_main-medium mt-6 mb-6" ref={ref}>
                 {name}

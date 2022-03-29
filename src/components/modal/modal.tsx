@@ -7,11 +7,10 @@ import { portal } from '../../utils/constants';
 
 interface IModalProps {
   title?: string;
-  children: React.ReactNode;
   onClose: () => void;
 }
 
-const Modal: React.FC<IModalProps> = ({ children, title = '', onClose }) => {
+const Modal: React.FC<IModalProps> = ({ children, onClose }) => {
   useEffect(() => {
     const handleEscPress = (evt: KeyboardEvent) => {
       if (evt.key === 'Escape') onClose();
@@ -27,11 +26,6 @@ const Modal: React.FC<IModalProps> = ({ children, title = '', onClose }) => {
         <div className={modalStyles.modal__closeIcon}>
           <CloseIcon onClick={onClose} type="primary" />
         </div>
-        <h2
-          className={`${modalStyles.modal__title} text text_type_main-large pb-4`}
-        >
-          {title}
-        </h2>
         {children}
       </div>
     </>,

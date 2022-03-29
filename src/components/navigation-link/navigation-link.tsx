@@ -1,40 +1,67 @@
-import navigationStyles from './navigation-link.module.css';
+import { NavLink, useRouteMatch } from 'react-router-dom';
+import {
+  BurgerIcon,
+  ListIcon,
+  ProfileIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './navigation-link.module.css';
 
 interface INavigationLinkProps {
-  children: React.ReactNode;
   title: string;
-  icon: React.ReactNode;
-  isActive: boolean;
-  // eslint-disable-next-line no-unused-vars
-  onNavigationClick: (title: string) => void;
+  size?: string;
+  onClick?: () => void;
+}
+
+interface ITitleToPath {
+  [title: string]: string;
+}
+
+interface ITitleToIcon {
+  [title: string]: React.ReactNode;
 }
 
 const NavigationLink: React.FC<INavigationLinkProps> = ({
-  children,
   title,
-  icon,
-  isActive,
-  onNavigationClick,
+  size = 'default',
+  children,
+  onClick,
 }) => {
-  const navigationClickHandler = () => {
-    onNavigationClick(title);
+  const { url } = useRouteMatch();
+
+  const titleToPath: ITitleToPath = {
+    Конструктор: '/',
+    'Лента заказов': '/feed',
+    'Личный кабинет': '/profile',
+    Профиль: '/profile',
+    'История заказов': `${url}/orders`,
+    Выход: '/login',
+    Лого: '/',
+    'На главную': '/',
   };
 
-  const navigtionTextStyle = !isActive ? 'text_color_inactive' : '';
+  const isActive = useRouteMatch({
+    path: titleToPath[title],
+    strict: true,
+    sensitive: true,
+  })?.isExact;
 
+  const titleToIcon: ITitleToIcon = {
+    Конструктор: <BurgerIcon type={isActive ? 'primary' : 'secondary'} />,
+    'Лента заказов': <ListIcon type={isActive ? 'primary' : 'secondary'} />,
+    'Личный кабинет': <ProfileIcon type={isActive ? 'primary' : 'secondary'} />,
+  };
+  
   return (
-    <a
-      href="/#"
-      className={`${navigationStyles.navigation__link} pt-4 pr-5 pb-4 pl-5`}
-      onClick={navigationClickHandler}
+    <NavLink
+      to={{ pathname: titleToPath[title] }}
+      exact
+      className={`${styles.navigation__link} pt-4 pr-5 pb-4 pl-5`}
+      activeClassName={styles.navigation__link_active}
+      onClick={onClick}
     >
-      {icon}
-      <p
-        className={`text text text_type_main-default ml-2 ${navigtionTextStyle}`}
-      >
-        {children}
-      </p>
-    </a>
+      {titleToIcon[title]}
+      <span className={`text text_type_main-${size} ml-2`}>{children}</span>
+    </NavLink>
   );
 };
 

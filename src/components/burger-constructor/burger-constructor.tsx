@@ -23,13 +23,15 @@ import {
   selectDraggableElements,
 } from 'services/selectors/constructor';
 import { selectOrderRequest } from 'services/selectors/order';
-import appStyles from '../app/app.module.css';
+import appStyles from 'components/app/app.module.css';
+import { selectUserData } from 'services/selectors/auth';
+import { useHistory, useLocation } from 'react-router-dom';
 import constructorStyles from './burger-constructor.module.css';
 
 interface IBurgerConstructorProps {
   onOpenModalWithIngredient: (
     // eslint-disable-next-line no-unused-vars
-    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+    evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
 }
 
@@ -48,14 +50,25 @@ export interface IMoveDraggableElement {
   (uid: string, newIndex: number): void;
 }
 
-const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
+const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
   onOpenModalWithIngredient,
 }) => {
   const ingredients = useSelector(selectIngredients);
+
   const bunElement = useSelector(selectBunElement);
+
   const draggableElements = useSelector(selectDraggableElements);
+
   const orderRequest = useSelector(selectOrderRequest);
+
   const totalPrice = useSelector(getTotalPrice);
+
+  const { user } = useSelector(selectUserData);
+
+  const history = useHistory();
+
+  const location = useLocation();
+
   const dispatch = useDispatch();
 
   const handleIngredientDrop = ({ id }: { id: string }): void => {
@@ -143,11 +156,17 @@ const BurgerConstructor: React.FC<IBurgerConstructorProps> = ({
   }`;
 
   const onClickToOrderButton: () => void = () => {
-    dispatch(postOrder([bunElement, ...draggableElements]));
+    if (user) {
+      dispatch(postOrder([bunElement, ...draggableElements]));
+    } else {
+      history.replace({
+        pathname: '/login',
+      });
+    }
   };
 
   const onClickToIngredient = useCallback(
-    (evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>) =>
+    (evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) =>
       onOpenModalWithIngredient(evt),
     [onOpenModalWithIngredient]
   );

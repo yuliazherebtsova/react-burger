@@ -1,72 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NavigationLink from 'components/navigation-link/navigation-link';
-import {
-  BurgerIcon,
-  ListIcon,
-  ProfileIcon,
-  Logo,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import headerStyles from './app-header.module.css';
+import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
+import { selectUserData } from 'services/selectors/auth';
+import styles from './app-header.module.css';
 
-const AppHeader: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<string>('constructor');
-
-  const handleNavigationClick = (title: string) => {
-    setCurrentPage(title);
-  };
+const AppHeader: React.VFC = () => {
+  const { user } = useSelector(selectUserData);
 
   return (
-    <header className={headerStyles.header}>
-      <div className={`${headerStyles.header__container} pt-4 pb-4`}>
+    <header className={styles.header}>
+      <div className={`${styles.header__container} pt-4 pb-4`}>
         <nav>
-          <ul className={headerStyles.header__navigation}>
+          <ul className={styles.header__navigation}>
             <li>
-              <NavigationLink
-                title="constructor"
-                icon={
-                  <BurgerIcon
-                    type={
-                      currentPage === 'constructor' ? 'primary' : 'secondary'
-                    }
-                  />
-                }
-                isActive={currentPage === 'constructor'}
-                onNavigationClick={handleNavigationClick}
-              >
-                Конструктор
-              </NavigationLink>
+              <NavigationLink title="Конструктор">Конструктор</NavigationLink>
             </li>
             <li>
-              <NavigationLink
-                title="orderList"
-                icon={
-                  <ListIcon
-                    type={currentPage === 'orderList' ? 'primary' : 'secondary'}
-                  />
-                }
-                isActive={currentPage === 'orderList'}
-                onNavigationClick={handleNavigationClick}
-              >
+              <NavigationLink title="Лента заказов">
                 Лента заказов
               </NavigationLink>
             </li>
-            <li className={headerStyles.header__logo}>
-              <a href="/#">
+            <li className={styles.header__logo}>
+              <NavigationLink title="Лого">
                 <Logo />
-              </a>
+              </NavigationLink>
             </li>
             <li>
-              <NavigationLink
-                title="profile"
-                icon={
-                  <ProfileIcon
-                    type={currentPage === 'profile' ? 'primary' : 'secondary'}
-                  />
-                }
-                isActive={currentPage === 'profile'}
-                onNavigationClick={handleNavigationClick}
-              >
-                Личный кабинет
+              <NavigationLink title="Личный кабинет">
+                {user ? user?.name : 'Личный кабинет'}
               </NavigationLink>
             </li>
           </ul>

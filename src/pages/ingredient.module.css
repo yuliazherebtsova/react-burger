@@ -1,0 +1,8 @@
+.indredient__container {
+  height: 100vh;
+  max-height: calc(100vh - 200px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+

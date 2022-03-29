@@ -14,3 +14,9 @@ export interface IIngredientsData {
   readonly image_large: string;
   readonly __v: number;
 }
+
+export type TUserData = {
+  name: string;
+  email: string;
+  password: string;
+};

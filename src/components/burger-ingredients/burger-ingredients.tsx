@@ -4,13 +4,13 @@ import { useSelector } from 'services/types/hooks';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import { selectIngredients } from 'services/selectors/ingredients';
+import appStyles from 'components/app/app.module.css';
 import ingredientsStyles from './burger-ingredients.module.css';
-import appStyles from '../app/app.module.css';
 
 interface IBurgerIngredientsProps {
   onOpenModalWithIngredient: (
     // eslint-disable-next-line no-unused-vars
-    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+    evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
 }
 
@@ -25,7 +25,7 @@ interface IIngredientCategories {
   main: IIngredientCategory;
 }
 
-const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
+const BurgerIngredients: React.VFC<IBurgerIngredientsProps> = ({
   onOpenModalWithIngredient,
 }) => {
   const ingredients = useSelector(selectIngredients);
@@ -106,6 +106,7 @@ const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
       <nav>
         <ul className={ingredientsStyles.ingredients__tabContainer}>
           {Object.values(ingredientCategories).map((type, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <li key={index}>
               <Tab
                 value={type.name}
@@ -127,6 +128,7 @@ const BurgerIngredients: React.FC<IBurgerIngredientsProps> = ({
           onScroll={handleSectionScroll}
         >
           {ingredientsByType.map(({ name, items, ref }, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <li key={index}>
               <h2 className="text text_type_main-medium mt-6 mb-6" ref={ref}>
                 {name}

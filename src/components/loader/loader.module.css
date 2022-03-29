@@ -1,0 +1,41 @@
+.loader {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 48%;
+  left: 48%;
+  margin: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--header-background);
+}
+
+.loader:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(
+    var(--interface-accent),
+    var(--main-background) 60%
+  );
+  animation: spin 0.9s infinite linear;
+}
+
+.loader:after {
+  content: '';
+  position: absolute;
+  width: 95%;
+  height: 95%;
+  top: 2.5%;
+  left: 2.5%;
+  background-color: var(--main-background);
+  border-radius: 50%;
+  box-shadow: inset 0 0 5px var(--header-background);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

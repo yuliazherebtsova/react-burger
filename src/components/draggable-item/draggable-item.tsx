@@ -20,13 +20,13 @@ interface IDraggableItemProps {
   price: number;
   onClickToIngredient: (
     // eslint-disable-next-line no-unused-vars
-    evt: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+    evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
   findDraggableElement: IFindDraggableElement;
   moveDraggableElement: IMoveDraggableElement;
 }
 
-const DraggableItem: React.FC<IDraggableItemProps> = ({
+const DraggableItem: React.VFC<IDraggableItemProps> = ({
   id,
   uid,
   name,

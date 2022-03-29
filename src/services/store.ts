@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import orderReducer from './slices/order';
 import ingredientsReducer from './slices/ingredients';
 import constructorReducer from './slices/constructor';
-import authReducer from './slices/auth';
+import authReducer from './slices/auth'
 
 /**
  * Инициализируем хранилище с помощью  redux-toolkit, 

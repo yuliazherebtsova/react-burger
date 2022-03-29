@@ -25,7 +25,7 @@ import {
 import { selectOrderRequest } from 'services/selectors/order';
 import appStyles from 'components/app/app.module.css';
 import { selectUserData } from 'services/selectors/auth';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import constructorStyles from './burger-constructor.module.css';
 
 interface IBurgerConstructorProps {
@@ -66,8 +66,6 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
   const { user } = useSelector(selectUserData);
 
   const history = useHistory();
-
-  const location = useLocation();
 
   const dispatch = useDispatch();
 

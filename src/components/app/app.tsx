@@ -19,6 +19,7 @@ import Modal from 'components/modal/modal';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import { resetIngredientToView } from 'services/slices/ingredients';
 import IngredientPage from 'pages/ingredient-page';
+import FeedPage from 'pages/feed';
 
 export type TLocationState = {
   from?: string;
@@ -66,6 +67,9 @@ const App: React.VFC = () => {
       <Switch location={background || location}>
         <Route path="/" exact>
           <HomePage />
+        </Route>
+        <Route path="/feed" exact>
+          <FeedPage />
         </Route>
         <Route path="/login" exact>
           <LoginPage />

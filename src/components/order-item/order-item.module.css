@@ -1,0 +1,45 @@
+.orderItem__container {
+  max-width: 844px;
+  max-height: 246px;
+  background: var(--order-item-background);
+  border-radius: 40px;
+  list-style: none;
+}
+
+.orderItem__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderItem__createdAt {
+}
+
+.orderItem__title {
+}
+
+.orderItem__status {
+}
+
+.orderItem__status_progress {
+  color: var(--order-item-status-progress);
+}
+
+.orderItem__status_cancel {
+  color: var(--order-item-status-cancel);
+}
+
+.orderItem__details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderItem__images {
+}
+
+.orderItem__price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderItem__totalPrice {
+}

@@ -1,0 +1,9 @@
+.feedPage {
+  position: relative;
+  margin: 0 auto;
+  max-width: var(--max-content-width-desktop);
+  background-color: var(--main-background);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 40px;
+}

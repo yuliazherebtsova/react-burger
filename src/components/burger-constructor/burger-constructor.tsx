@@ -161,7 +161,6 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
     } else {
       history.replace({
         pathname: '/login',
-        state: { background: location },
       });
     }
   };

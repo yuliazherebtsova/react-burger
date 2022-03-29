@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 /**
  * * 
  */
@@ -40,7 +39,7 @@ const App: React.VFC = () => {
 
   const history = useHistory();
 
-  let location: TLocation = useLocation();
+  const location: TLocation = useLocation();
 
   // This piece of state is set when one of the
   // gallery links is clicked. The `background` state
@@ -50,7 +49,7 @@ const App: React.VFC = () => {
   // we show the gallery in the background, behind
   // the modal.
   // https://v5.reactrouter.com/web/example/modal-gallery
-  let background = location?.state && location.state.background;
+  const background = location?.state && location.state.background;
 
   useEffect(() => {
     dispatch(getUserData());
@@ -83,9 +82,9 @@ const App: React.VFC = () => {
         <ProtectedRoute path="/profile">
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path="/ingredients/:id" exact>
+        <Route path="/ingredients/:id" exact>
           <IngredientPage />
-        </ProtectedRoute>
+        </Route>
         <Route>
           <NotFound404 />
         </Route>

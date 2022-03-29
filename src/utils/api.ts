@@ -225,10 +225,6 @@ export default class Api implements IApi {
       }),
     })
       .then(this.checkResponse)
-      .then((res) => {
-        console.log(res);
-        return res;
-      });
   }
 }
 

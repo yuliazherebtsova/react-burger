@@ -86,13 +86,15 @@ const OrderItem: React.VFC<IOrderData> = ({
                 />
               </li>
             ))}
-          <li
-            className={`text text text_type_digits-default ${styles.orderItem__imagesCount}`}
-          >{ingredientImages.length - 5 > 0} && {`+${ingredientImages.length - 5}`</li>
+          {ingredientImages.length - 5 > 0 && (
+            <li
+              className={`text text text_type_digits-default ${styles.orderItem__imagesCount}`}
+            >{`+${ingredientImages.length - 5}`}</li>
+          )}
         </ul>
         <div className={styles.orderItem__price}>
           <span
-            className={`${styles.orderItem__totalPrice} text text text_type_digits-default pr-2`}
+            className="text text text_type_digits-default pr-2"
           >
             {420}
           </span>

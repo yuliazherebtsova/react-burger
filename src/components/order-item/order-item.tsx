@@ -39,13 +39,13 @@ const OrderItem: React.VFC<IOrderData> = ({
 
   const statusToText: IStatusToText = {
     created: 'Создан',
-    progress: 'Готовится',
+    pending: 'Готовится',
     done: 'Выполнен',
   };
 
   const statusToColor: IStatusToColor = {
     created: `${styles.orderItem__status_created}`,
-    progress: `${styles.orderItem__status_progress}`,
+    pending: `${styles.orderItem__status_progress}`,
     done: `${styles.orderItem__status_done}`,
   };
 
@@ -75,17 +75,20 @@ const OrderItem: React.VFC<IOrderData> = ({
       </p>
       <div className={styles.orderItem__details}>
         <ul className={styles.orderItem__images}>
-          {ingredientImages.map((image?: string, index?: number) => (
-            <li key={index}>
-              <div className={styles.orderItem__imageOverlay}>
+          {ingredientImages
+            .slice(0, 6)
+            .map((image?: string, index?: number) => (
+              <li key={index} className={styles.orderItem__imageOverlay}>
                 <img
                   src={image}
                   alt={name}
                   className={styles.orderItem__image}
                 />
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
+          <li
+            className={`text text text_type_digits-default ${styles.orderItem__imagesCount}`}
+          >{ingredientImages.length - 5 > 0} && {`+${ingredientImages.length - 5}`</li>
         </ul>
         <div className={styles.orderItem__price}>
           <span

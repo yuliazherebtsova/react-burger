@@ -39,6 +39,9 @@ const FeedPage: React.VFC = () => {
         onErrorModalClose={handleErrorModalClose}
       >
         <OrderItem {...orders[0]}/>
+        <OrderItem {...orders[1]}/>
+        <OrderItem {...orders[2]}/>
+        <OrderItem {...orders[3]}/>
       </ErrorIndicator>
     </main>
   );

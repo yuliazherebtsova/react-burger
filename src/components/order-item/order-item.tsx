@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import {
-  CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
-import { IOrderData } from 'services/types/data';
+/* eslint-disable react/no-array-index-key */
+import React, { useCallback, useEffect } from 'react';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { IIngredientsData, IOrderData } from 'services/types/data';
 import getHowLongAgoDate from 'utils/date-time';
 import { selectIngredients } from 'services/selectors/ingredients';
+import getIngredientsData from 'services/thunks/ingredients';
 import styles from './order-item.module.css';
 
 interface IStatusToText {
@@ -23,12 +23,20 @@ const OrderItem: React.VFC<IOrderData> = ({
   number,
   createdAt,
 }) => {
+  const dispatch = useDispatch();
+
   const ingredientsData = useSelector(selectIngredients);
 
-  const ingredientImages = {
-    
-  }
-  
+  const ingredientImages = Array.from(
+    new Set(
+      ingredients.map(
+        (id: string) =>
+          ingredientsData.find((item: IIngredientsData) => item._id === id)
+            ?.image_mobile
+      )
+    )
+  );
+
   const statusToText: IStatusToText = {
     created: 'Создан',
     progress: 'Готовится',
@@ -41,6 +49,10 @@ const OrderItem: React.VFC<IOrderData> = ({
     done: `${styles.orderItem__status_done}`,
   };
 
+  useEffect(() => {
+    dispatch(getIngredientsData());
+  }, [dispatch]);
+
   return (
     <li className={`${styles.orderItem__container} p-6`}>
       <div className={styles.orderItem__header}>
@@ -52,17 +64,29 @@ const OrderItem: React.VFC<IOrderData> = ({
         </span>
       </div>
       <h2
-        className={`${styles.orderItem__title} text text_type_main-medium pt-6`}
+        className={`${styles.orderItem__title} text text_type_main-medium pt-6 pb-6`}
       >
         {name}
       </h2>
       <p
-        className={`${styles.orderItem__status} ${statusToColor[status]} text text_type_main-default pt-2 pb-6`}
+        className={`${styles.orderItem__status} ${statusToColor[status]} text text_type_main-default pb-6`}
       >
         {statusToText[status]}
       </p>
       <div className={styles.orderItem__details}>
-        <ul className={styles.orderItem__images}>{ingredients[0]}</ul>
+        <ul className={styles.orderItem__images}>
+          {ingredientImages.map((image?: string, index?: number) => (
+            <li key={index}>
+              <div className={styles.orderItem__imageOverlay}>
+                <img
+                  src={image}
+                  alt={name}
+                  className={styles.orderItem__image}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
         <div className={styles.orderItem__price}>
           <span
             className={`${styles.orderItem__totalPrice} text text text_type_digits-default pr-2`}

@@ -37,6 +37,10 @@ const OrderItem: React.VFC<IOrderData> = ({
     )
   );
 
+  const visibleIconsCount = 6;
+
+  const hiddenIconsCount = ingredientImages.length - visibleIconsCount;
+
   const statusToText: IStatusToText = {
     created: 'Создан',
     pending: 'Готовится',
@@ -76,7 +80,7 @@ const OrderItem: React.VFC<IOrderData> = ({
       <div className={styles.orderItem__details}>
         <ul className={styles.orderItem__images}>
           {ingredientImages
-            .slice(0, 6)
+            .slice(0, visibleIconsCount)
             .map((image?: string, index?: number) => (
               <li key={index} className={styles.orderItem__imageOverlay}>
                 <img
@@ -86,18 +90,14 @@ const OrderItem: React.VFC<IOrderData> = ({
                 />
               </li>
             ))}
-          {ingredientImages.length - 5 > 0 && (
+          {hiddenIconsCount > 0 && (
             <li
               className={`text text text_type_digits-default ${styles.orderItem__imagesCount}`}
-            >{`+${ingredientImages.length - 5}`}</li>
+            >{`+${hiddenIconsCount}`}</li>
           )}
         </ul>
         <div className={styles.orderItem__price}>
-          <span
-            className="text text text_type_digits-default pr-2"
-          >
-            {420}
-          </span>
+          <span className="text text text_type_digits-default pr-2">{420}</span>
           <CurrencyIcon type="primary" />
         </div>
       </div>

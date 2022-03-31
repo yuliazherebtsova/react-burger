@@ -1,30 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { useSelector, useDispatch } from 'services/types/hooks';
-import {
-  selectIngredients,
-  selectIngredientsFailed,
-  selectIngredientsRequest,
-  selectIngredientToView,
-} from 'services/selectors/ingredients';
-import { useHistory } from 'react-router-dom';
 import { selectOrders } from 'services/selectors/orders';
-import getOrdersData from 'services/thunks/orders';
 import { resetOrders } from 'services/slices/orders';
-import OrderItem from 'components/order-item/order-item';
+import OrdersList from 'components/orders-list/orders-list';
 import styles from './feed.module.css';
 
 const FeedPage: React.VFC = () => {
   const orders = useSelector(selectOrders);
 
   const dispatch = useDispatch();
-
-  const history = useHistory();
-
-  useEffect(() => {
-    dispatch(getOrdersData());
-  }, [dispatch]);
-
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetOrders());
   }, [dispatch]);
@@ -38,10 +23,7 @@ const FeedPage: React.VFC = () => {
         errorMessage="Пожалуйста, повторите попытку позднее"
         onErrorModalClose={handleErrorModalClose}
       >
-        <OrderItem {...orders[0]}/>
-        <OrderItem {...orders[1]}/>
-        <OrderItem {...orders[2]}/>
-        <OrderItem {...orders[3]}/>
+        <OrdersList/>
       </ErrorIndicator>
     </main>
   );

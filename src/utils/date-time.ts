@@ -16,9 +16,7 @@ function getHowLongAgoDate(dateString: string): string {
     return `Сегодня, ${formatter.format(otherDate)}`;
   }
   if (
-    otherDate.getDate() === todayDate.getDate() - 1 &&
-    otherDate.getMonth() === todayDate.getMonth() &&
-    otherDate.getFullYear() === todayDate.getFullYear()
+    diffDays < 2
   ) {
     return `Вчера, ${formatter.format(otherDate)}`;
   }

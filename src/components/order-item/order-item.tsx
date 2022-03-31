@@ -1,11 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { IIngredientsData, IOrderData } from 'services/types/data';
 import getHowLongAgoDate from 'utils/date-time';
 import { selectIngredients } from 'services/selectors/ingredients';
-import getIngredientsData from 'services/thunks/ingredients';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { TLocation } from 'components/app/app';
 import styles from './order-item.module.css';
 
 interface IStatusToText {
@@ -34,8 +35,6 @@ const OrderItem: React.VFC<IOrderData> = ({
     pending: `${styles.orderItem__status_progress}`,
     done: `${styles.orderItem__status_done}`,
   };
-
-  const dispatch = useDispatch();
 
   const ingredientsData = useSelector(selectIngredients);
 
@@ -68,12 +67,12 @@ const OrderItem: React.VFC<IOrderData> = ({
       return 0;
     });
 
-  useEffect(() => {
-    dispatch(getIngredientsData());
-  }, [dispatch]);
+  const { pathname }: TLocation = useLocation();
+
+  const isProfilePage = pathname === '/profile/orders';
 
   return (
-    <li className={`${styles.orderItem__container} p-6`}>
+    <li className={`${styles.orderItem__container} p-6 mb-6`}>
       <div className={styles.orderItem__header}>
         <span className="text text text_type_digits-default">{`#${number}`}</span>
         <span
@@ -87,11 +86,13 @@ const OrderItem: React.VFC<IOrderData> = ({
       >
         {name}
       </h2>
-      <p
-        className={`${styles.orderItem__status} ${statusToColor[status]} text text_type_main-default pb-6`}
-      >
-        {statusToText[status]}
-      </p>
+      {isProfilePage && (
+        <p
+          className={`${styles.orderItem__status} ${statusToColor[status]} text text_type_main-default pb-6`}
+        >
+          {statusToText[status]}
+        </p>
+      )}
       <div className={styles.orderItem__details}>
         <ul className={styles.orderItem__images}>
           {ingredientImages

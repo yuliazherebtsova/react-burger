@@ -1,14 +1,12 @@
 /**
- * * 1. Откорректировать функцию подсчета времени
- * * 2. Подсчет цены заказа
- * * 3. Статистика заказов (компонент)
- * * 4. Страница информации о заказе (компонент)
- * * 5. История заказов (компонент)
- * * 6. Модальное окно со информацией о заказе
- * * 7. Веб-сокет с авторизацией
- * * 8. Роутинг страницы информации о заказе
- * * 9. Лента заказов (компонент)
- * * 10. Защищенные маршруты
+ * * 1. Статистика заказов (компонент)
+ * * 2. Страница информации о заказе (компонент)
+ * * 3. История заказов (компонент)
+ * * 4. Модальное окно со информацией о заказе
+ * * 5. Веб-сокет с авторизацией
+ * * 6. Роутинг страницы информации о заказе
+ * * 7. Лента заказов (компонент)
+ * * 8. Защищенные маршруты
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -29,6 +27,8 @@ import IngredientDetails from 'components/ingredient-details/ingredient-details'
 import { resetIngredientToView } from 'services/slices/ingredients';
 import IngredientPage from 'pages/ingredient-page';
 import FeedPage from 'pages/feed';
+import getOrdersData from 'services/thunks/orders';
+import getIngredientsData from 'services/thunks/ingredients';
 
 export type TLocationState = {
   from?: string;
@@ -63,6 +63,8 @@ const App: React.VFC = () => {
 
   useEffect(() => {
     dispatch(getUserData());
+    dispatch(getOrdersData());
+    dispatch(getIngredientsData());
   }, [dispatch]);
 
   const handleIngredientModalClose = useCallback(() => {

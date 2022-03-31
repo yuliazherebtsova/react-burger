@@ -1,20 +1,28 @@
 function getHowLongAgoDate(dateString: string): string {
   const oneDay = 24 * 60 * 60 * 1000;
-  const today = new Date();
-  const date = new Date(dateString);
+  const todayDate = new Date();
+  const otherDate = new Date(dateString);
   const formatter = new Intl.DateTimeFormat([], { timeStyle: 'long' });
 
   const diffDays = Math.round(
-    Math.abs((today.valueOf() - date.valueOf()) / oneDay)
+    Math.abs((todayDate.valueOf() - otherDate.valueOf()) / oneDay)
   );
 
-  if (diffDays < 1) {
-    return `Сегодня, ${formatter.format(date)}`;
+  if (
+    otherDate.getDate() === todayDate.getDate() &&
+    otherDate.getMonth() === todayDate.getMonth() &&
+    otherDate.getFullYear() === todayDate.getFullYear()
+  ) {
+    return `Сегодня, ${formatter.format(otherDate)}`;
   }
-  if (diffDays >= 1 && diffDays < 2) {
-    return `Вчера, ${formatter.format(date)}`;
+  if (
+    otherDate.getDate() === todayDate.getDate() - 1 &&
+    otherDate.getMonth() === todayDate.getMonth() &&
+    otherDate.getFullYear() === todayDate.getFullYear()
+  ) {
+    return `Вчера, ${formatter.format(otherDate)}`;
   }
-  return `${diffDays} дн. назад, ${formatter.format(date)}`;
+  return `${diffDays} дн. назад, ${formatter.format(otherDate)}`;
 }
 
 export default getHowLongAgoDate;

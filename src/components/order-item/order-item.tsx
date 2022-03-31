@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { IIngredientsData, IOrderData } from 'services/types/data';
@@ -23,6 +23,18 @@ const OrderItem: React.VFC<IOrderData> = ({
   number,
   createdAt,
 }) => {
+  const statusToText: IStatusToText = {
+    created: 'Создан',
+    pending: 'Готовится',
+    done: 'Выполнен',
+  };
+
+  const statusToColor: IStatusToColor = {
+    created: `${styles.orderItem__status_created}`,
+    pending: `${styles.orderItem__status_progress}`,
+    done: `${styles.orderItem__status_done}`,
+  };
+
   const dispatch = useDispatch();
 
   const ingredientsData = useSelector(selectIngredients);
@@ -35,23 +47,26 @@ const OrderItem: React.VFC<IOrderData> = ({
             ?.image_mobile
       )
     )
-  );
+  ).sort();
 
   const visibleIconsCount = 6;
 
-  const hiddenIconsCount = ingredientImages.length - visibleIconsCount;
+  const hiddenIconsCount = ingredientImages.length - visibleIconsCount + 1;
 
-  const statusToText: IStatusToText = {
-    created: 'Создан',
-    pending: 'Готовится',
-    done: 'Выполнен',
-  };
-
-  const statusToColor: IStatusToColor = {
-    created: `${styles.orderItem__status_created}`,
-    pending: `${styles.orderItem__status_progress}`,
-    done: `${styles.orderItem__status_done}`,
-  };
+  const orderPrice = ingredients
+    .map((id) => {
+      const ingredient = ingredientsData.find((item) => item._id === id);
+      if (ingredient?.type === 'bun') {
+        return ingredient.price * 2;
+      }
+      return ingredient?.price;
+    })
+    .reduce((acc, price) => {
+      if (acc && price) {
+        return acc + price;
+      }
+      return 0;
+    });
 
   useEffect(() => {
     dispatch(getIngredientsData());
@@ -97,7 +112,9 @@ const OrderItem: React.VFC<IOrderData> = ({
           )}
         </ul>
         <div className={styles.orderItem__price}>
-          <span className="text text text_type_digits-default pr-2">{420}</span>
+          <span className="text text text_type_digits-default pr-2">
+            {orderPrice}
+          </span>
           <CurrencyIcon type="primary" />
         </div>
       </div>

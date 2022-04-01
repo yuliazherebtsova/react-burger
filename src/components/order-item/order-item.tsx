@@ -9,11 +9,11 @@ import { useLocation } from 'react-router-dom';
 import { TLocation } from 'components/app/app';
 import styles from './order-item.module.css';
 
-interface IStatusToText {
+export interface IStatusToText {
   [title: string]: string;
 }
 
-interface IStatusToColor {
+export interface IStatusToColor {
   [title: string]: string;
 }
 

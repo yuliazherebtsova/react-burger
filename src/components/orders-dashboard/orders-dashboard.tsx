@@ -57,7 +57,7 @@ const OrdersDashboard: React.VFC = () => {
         <h2 className="text text_type_main-medium">Выполнено за сегодня:</h2>
         <span className="text text text_type_digits-large">{total}</span>
       </div>
-      <div className={`${styles.dashboard__totalToday} mt-10`}>
+      <div className={`${styles.dashboard__totalToday} mt-5`}>
         <h2 className="text text_type_main-medium">В работе:</h2>
         <span className="text text text_type_digits-large">{totalToday}</span>
       </div>

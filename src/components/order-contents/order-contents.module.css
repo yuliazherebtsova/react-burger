@@ -1,1 +1,62 @@
-export {}
+.orderContents__container {
+  background: var(--order-item-background);
+  border-radius: 40px;
+  list-style: none;
+}
+
+.orderContents__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderContents__status_progress {
+  color: var(--order-item-status-progress);
+}
+
+.orderContents__status_cancel {
+  color: var(--order-item-status-cancel);
+}
+
+.orderContents__details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.orderContents__images {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+}
+
+.orderContents__imagesCount {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 264px;
+}
+
+.orderContents__imageOverlay {
+  position: relative;
+  background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  z-index: 5;
+}
+
+.orderContents__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.orderContents__price {
+  display: flex;
+  align-items: center;
+  align-self: center;
+}

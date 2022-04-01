@@ -32,6 +32,13 @@
   list-style: none;
 }
 
+.orderItem__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .orderItem__imagesCount {
   content: '';
   position: absolute;
@@ -84,13 +91,6 @@
   border-radius: 50%;
   background: #131316;
   z-index: -1;
-}
-
-.orderItem__image {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 .orderItem__price {

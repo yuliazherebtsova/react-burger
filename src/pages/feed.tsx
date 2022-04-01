@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'services/types/hooks';
 import { selectOrders } from 'services/selectors/orders';
 import { resetOrders } from 'services/slices/orders';
 import OrdersList from 'components/orders-list/orders-list';
+import OrdersDashboard from 'components/orders-dashboard/orders-dashboard';
 import styles from './feed.module.css';
 
 const FeedPage: React.VFC = () => {
@@ -24,6 +25,7 @@ const FeedPage: React.VFC = () => {
         onErrorModalClose={handleErrorModalClose}
       >
         <OrdersList/>
+        <OrdersDashboard/>
       </ErrorIndicator>
     </main>
   );

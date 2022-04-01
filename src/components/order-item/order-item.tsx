@@ -72,7 +72,7 @@ const OrderItem: React.VFC<IOrderData> = ({
   const isProfilePage = pathname === '/profile/orders';
 
   return (
-    <li className={`${styles.orderItem__container} p-6 mb-6`}>
+    <li className={`${styles.orderItem__container} p-6 mr-2 mb-6`}>
       <div className={styles.orderItem__header}>
         <span className="text text text_type_digits-default">{`#${number}`}</span>
         <span

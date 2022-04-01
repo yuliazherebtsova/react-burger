@@ -10,8 +10,12 @@ import styles from './orders-dashboard.module.css';
 
 const OrdersDashboard: React.VFC = () => {
   const orders = useSelector(selectOrders);
+
   const total = useSelector(selectTotalOrders);
+
   const totalToday = useSelector(selectTotalTodayOrders);
+
+  const visibleOrdersCount = 10;
 
   return (
     <section className={`${styles.dashboard} pt-20 pl-4`}>
@@ -22,6 +26,7 @@ const OrdersDashboard: React.VFC = () => {
         >
           {orders
             .filter((order) => order.status === 'done')
+            .slice(0, visibleOrdersCount)
             .map((order) => (
               <li
                 key={order._id}
@@ -37,6 +42,7 @@ const OrdersDashboard: React.VFC = () => {
         <ul className={`${styles.dashboard__list}`}>
           {orders
             .filter((order) => order.status === 'pending')
+            .slice(0, visibleOrdersCount)
             .map((order) => (
               <li
                 key={order._id}

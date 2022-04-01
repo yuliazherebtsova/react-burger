@@ -5,6 +5,7 @@
  * * 4. Роутинг страницы информации о заказе
  * * 5. Защищенные маршруты
  * * 6. Страница с историей заказов (profile)
+ * * 7. Тренажер
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -23,7 +24,7 @@ import ProtectedRoute from 'components/protected-route/protected-route';
 import Modal from 'components/modal/modal';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import { resetIngredientToView } from 'services/slices/ingredients';
-import IngredientPage from 'pages/ingredient-page';
+import IngredientPage from 'pages/ingredient';
 import FeedPage from 'pages/feed';
 import getOrdersData from 'services/thunks/orders';
 import getIngredientsData from 'services/thunks/ingredients';

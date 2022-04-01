@@ -18,8 +18,8 @@ const OrdersDashboard: React.VFC = () => {
   const visibleOrdersCount = 10;
 
   return (
-    <section className={`${styles.dashboard} pt-20 pl-4`}>
-      <div className="mt-4">
+    <section className={`${styles.dashboard}`}>
+      <div>
         <h2 className="text text_type_main-medium mb-6">Готовы:</h2>
         <ul
           className={`${styles.dashboard__list} ${styles.dashboard__list_done}`}
@@ -37,7 +37,7 @@ const OrdersDashboard: React.VFC = () => {
             ))}
         </ul>
       </div>
-      <div className="mt-4">
+      <div>
         <h2 className="text text_type_main-medium mb-6">В работе:</h2>
         <ul className={`${styles.dashboard__list}`}>
           {orders

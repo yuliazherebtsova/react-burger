@@ -1,5 +1,6 @@
 .dashboard {
   display: grid;
+  grid-column: 2;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 260px);
   column-gap: 36px;
@@ -20,7 +21,7 @@
 }
 
 .dashboard__number {
-  align-self: flex-start;
+  align-self: start;
   display: block;
 }
 

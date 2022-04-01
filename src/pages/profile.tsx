@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { getUserData, signOut } from 'services/thunks/auth';
 import styles from './profile.module.css';
 import ProfileEditPage from './profile-edit';
-import OrdersPage from './orders';
 import NotFound404 from './not-found-404';
+import OrdersHistoryPage from './orders-history';
 
 const ProfilePage: React.VFC = () => {
   const { path } = useRouteMatch();
@@ -55,7 +55,7 @@ const ProfilePage: React.VFC = () => {
           <ProfileEditPage />
         </Route>
         <Route path={`${path}/orders`} exact>
-          <OrdersPage />
+          <OrdersHistoryPage />
         </Route>
         <Route>
           <NotFound404 />

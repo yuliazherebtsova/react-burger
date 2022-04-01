@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Modal from 'components/modal/modal';
@@ -13,7 +13,6 @@ import {
   setIngredientToView,
 } from 'services/slices/ingredients';
 import { resetOrder } from 'services/slices/order';
-import getIngredientsData from 'services/thunks/ingredients';
 import { IIngredientsData } from 'services/types/data';
 import { useSelector, useDispatch } from 'services/types/hooks';
 import {
@@ -42,10 +41,6 @@ const HomePage: React.VFC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
-
-  useEffect(() => {
-    dispatch(getIngredientsData());
-  }, [dispatch]);
 
   const handleIngredientModalOpen = useCallback(
     (evt) => {

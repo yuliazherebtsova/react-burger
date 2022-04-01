@@ -20,10 +20,6 @@ const IngredientPage: React.VFC = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getIngredientsData());
-  }, [dispatch]);
-
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
   }, [dispatch]);

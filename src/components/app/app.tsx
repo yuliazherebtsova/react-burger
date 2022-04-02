@@ -1,11 +1,9 @@
 /**
  * * 1. Элемент заказа (строка+количество)
  * * 2. Роутинг страницы информации о заказе
- * * 3. Открытие модального окна в составе заказа
- * * 4. Перенести модальные окна в app
- * * 5. Веб-сокет с авторизацией
- * * 6. Защищенные маршруты
- * * 7. Тренажер
+ * * 4. Веб-сокет с авторизацией
+ * * 5. Защищенные маршруты
+ * * 6. Тренажер
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -28,7 +26,6 @@ import IngredientPage from 'pages/ingredient';
 import FeedPage from 'pages/feed';
 import getOrdersData from 'services/thunks/orders';
 import getIngredientsData from 'services/thunks/ingredients';
-import Order from 'services/slices/order';
 import OrderContents from 'components/order-contents/order-contents';
 
 export type TLocationState = {
@@ -101,6 +98,9 @@ const App: React.VFC = () => {
         <Route path="/ingredients/:id" exact>
           <IngredientPage />
         </Route>
+        <Route path="/feed/:id" exact>
+          <OrderContents />
+        </Route>
         <Route>
           <NotFound404 />
         </Route>
@@ -113,7 +113,7 @@ const App: React.VFC = () => {
         </Route>
       )}
       {background && (
-        <Route path="/orders:id">
+        <Route path="/profile/orders:id">
           <Modal onClose={handleIngredientModalClose}>
             <OrderContents />
           </Modal>

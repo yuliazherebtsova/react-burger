@@ -1,10 +1,10 @@
 /**
- * * 1. Страница информации о заказе (компонент)
- * * 2. Модальное информации о заказе
- * * 3. Веб-сокет с авторизацией
- * * 4. Роутинг страницы информации о заказе
- * * 5. Защищенные маршруты
- * * 6. Страница с историей заказов (profile)
+ * * 1. Элемент заказа (строка+количество)
+ * * 2. Роутинг страницы информации о заказе
+ * * 3. Открытие модального окна в составе заказа
+ * * 4. Перенести модальные окна в app
+ * * 5. Веб-сокет с авторизацией
+ * * 6. Защищенные маршруты
  * * 7. Тренажер
  */
 
@@ -28,6 +28,8 @@ import IngredientPage from 'pages/ingredient';
 import FeedPage from 'pages/feed';
 import getOrdersData from 'services/thunks/orders';
 import getIngredientsData from 'services/thunks/ingredients';
+import Order from 'services/slices/order';
+import OrderContents from 'components/order-contents/order-contents';
 
 export type TLocationState = {
   from?: string;
@@ -107,6 +109,13 @@ const App: React.VFC = () => {
         <Route path="/ingredients:id">
           <Modal onClose={handleIngredientModalClose}>
             <IngredientDetails />
+          </Modal>
+        </Route>
+      )}
+      {background && (
+        <Route path="/orders:id">
+          <Modal onClose={handleIngredientModalClose}>
+            <OrderContents />
           </Modal>
         </Route>
       )}

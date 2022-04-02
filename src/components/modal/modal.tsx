@@ -22,7 +22,7 @@ const Modal: React.FC<IModalProps> = ({ children, onClose }) => {
   return ReactDOM.createPortal(
     <>
       <ModalOverlay onClose={onClose} />
-      <div className={`${modalStyles.modal} pt-15 pr-30 pb-15 pl-30`}>
+      <div className={`${modalStyles.modal} p-10`}>
         <div className={modalStyles.modal__closeIcon}>
           <CloseIcon onClick={onClose} type="primary" />
         </div>

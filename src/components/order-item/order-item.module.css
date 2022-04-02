@@ -2,6 +2,7 @@
   background: var(--order-item-background);
   border-radius: 40px;
   list-style: none;
+  cursor: pointer;
 }
 
 .orderItem__header {

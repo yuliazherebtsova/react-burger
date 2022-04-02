@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type TOrdersState = {
   wsConnected: boolean;
   orders: Array<IOrderData>;
+  orderToView: IOrderData | null | undefined;
   total: number;
   totalToday: number;
   error?: Event;
@@ -12,6 +13,7 @@ export type TOrdersState = {
 const ordersInitialState: TOrdersState = {
   wsConnected: false,
   orders: [],
+  orderToView: null,
   total: 0,
   totalToday: 0,
 };
@@ -37,6 +39,12 @@ const ordersSlice = createSlice({
       state.total = action.payload.total;
       state.totalToday = action.payload.totalToday;
     },
+    setOrderToView(state, action: PayloadAction<IOrderData>) {
+      state.orderToView = action.payload;
+    },
+    resetOrderToView(state) {
+      state.orderToView = null;
+    },
     resetOrders() {
       return ordersInitialState;
     },
@@ -49,6 +57,8 @@ export const {
   getOrdersWsError,
   getOrdersWsClosed,
   getOrders,
+  setOrderToView,
+  resetOrderToView,
   resetOrders,
 } = ordersSlice.actions;
 

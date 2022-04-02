@@ -12,9 +12,9 @@
   max-height: 718px;
   background: var(--modal-background);
   border-radius: 40px;
-  /* background: var(--modal-background);
+  z-index: 10;
   box-shadow: rgba(76, 76, 255, 0.5) -5px 5px 150px 50px; 
-  border: 2px solid var(--interface-accent); */
+  border: 2px solid var(--interface-accent);
 }
 
 .modal__closeIcon {
@@ -24,6 +24,6 @@
   margin: 0;
   padding: 0;
   z-index: 1;
-  transform: translate(-40px, 65px);
+  transform: translate(-30px, 50px);
   cursor: pointer;
 }

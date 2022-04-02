@@ -7,9 +7,9 @@ const OrderDetails: React.VFC = () => {
   const orderNumber = useSelector(selectOrderNumber);
 
   return (
-    <div className={orderStyles.order}>
+    <div className={`${orderStyles.order} pr-15 pl-15`}>
       <div
-        className={`${orderStyles.order__number} text text_type_digits-large pt-15 pb-8`}
+        className={`${orderStyles.order__number} text text_type_digits-large pt-10 pb-8`}
       >
         {orderNumber}
       </div>

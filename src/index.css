@@ -8,12 +8,12 @@
   --max-content-width-desktop: 1240px;
   --main-background: #131316;
   --header-background: #1c1c21;
-  --modal-background: #1c1c21;
+  --modal-background: #16161a; 
   --interface-accent: #4c4cff;
   --interface-error: #ee3737;
   --link-text-color-primary: #F2F2F3;
   --link-text-color-secondary: #8585AD;
   --order-item-status-progress: #00CCCC;
   --order-item-status-cancel: #ee3737;
-  --order-item-background: #1c1c21;
+  --order-item-background: #16161a;
 }

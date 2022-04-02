@@ -18,7 +18,7 @@ const OrdersDashboard: React.VFC = () => {
   const visibleOrdersCount = 10;
 
   return (
-    <section className={`${styles.dashboard}`}>
+    <section className={`${styles.dashboard} mt-25`}>
       <div>
         <h2 className="text text_type_main-medium mb-6">Готовы:</h2>
         <ul

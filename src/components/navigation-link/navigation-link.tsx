@@ -41,7 +41,7 @@ const NavigationLink: React.FC<INavigationLinkProps> = ({
 
   const isActive = useRouteMatch({
     path: titleToPath[title],
-    strict: true,
+    strict: false,
     sensitive: true,
   })?.isExact;
 
@@ -50,7 +50,7 @@ const NavigationLink: React.FC<INavigationLinkProps> = ({
     'Лента заказов': <ListIcon type={isActive ? 'primary' : 'secondary'} />,
     'Личный кабинет': <ProfileIcon type={isActive ? 'primary' : 'secondary'} />,
   };
-  
+
   return (
     <NavLink
       to={{ pathname: titleToPath[title] }}

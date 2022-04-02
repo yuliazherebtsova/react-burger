@@ -24,7 +24,7 @@ const IngredientDetails: React.VFC = () => {
   }
 
   return (
-    <div className={ingredientDetailsStyles.ingredient}>
+    <div className={`${ingredientDetailsStyles.ingredient} pr-15 pl-15`}>
       <h2
         className={`${ingredientDetailsStyles.ingredient__title} text text_type_main-large pb-4`}
       >

@@ -17,18 +17,9 @@
   color: var(--order-item-status-cancel);
 }
 
-.orderContents__details {
+.orderContents__ingredients {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.orderContents__images {
-  position: relative;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
+  flex-direction: column;
   list-style: none;
 }
 
@@ -53,6 +44,12 @@
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.orderContents__details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .orderContents__price {

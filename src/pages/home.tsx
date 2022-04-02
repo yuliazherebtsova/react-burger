@@ -90,10 +90,8 @@ const HomePage: React.VFC = () => {
           />
         </DndProvider>
         {ingredientToView && (
-          <Modal
-            onClose={handleIngredientModalClose}
-          >
-            <IngredientDetails/>
+          <Modal onClose={handleIngredientModalClose}>
+            <IngredientDetails />
           </Modal>
         )}
         <ErrorIndicator

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -12,7 +12,7 @@ import {
   selectUserData,
 } from 'services/selectors/auth';
 import { resetAuth } from 'services/slices/auth';
-import { signIn } from 'services/thunks/auth';
+import { getUserData, signIn } from 'services/thunks/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import formStyles from './forms.module.css';
 
@@ -31,6 +31,10 @@ const LoginPage: React.VFC = () => {
   const dispatch = useDispatch();
 
   const [form, setValue] = useState({ email: '', password: '' });
+
+  useEffect(() => {
+    dispatch(getUserData());
+  }, [dispatch]);
 
   const onChange = (evt: React.FormEvent<HTMLInputElement>) => {
     const target = evt.target as HTMLInputElement;

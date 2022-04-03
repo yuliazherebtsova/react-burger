@@ -10,10 +10,10 @@ import {
   selectOrders,
   selectOrderToView,
 } from 'services/selectors/orders';
-import { IIngredientsData, IOrderData } from 'services/types/data';
 import getHowLongAgoDate from 'utils/date-time';
 import { selectIngredients } from 'services/selectors/ingredients';
 import appStyles from 'components/app/app.module.css';
+import { IOrderData } from 'services/types/data';
 import styles from './order-contents.module.css';
 
 export interface IStatusToText {
@@ -56,33 +56,6 @@ const OrderContents: React.VFC = () => {
 
   const statusText = order ? statusToText[order.status] : '';
 
-  const getIngredientFreq2 = Array.from(
-    new Set(
-      order?.ingredients.map((ingredientId: string) =>
-        ingredientsData.filter(
-          (item: IIngredientsData) => item._id === ingredientId
-        )
-      )
-    )
-  ).sort();
-
-  // const countIngredientFreqs = () => {
-  //   const freqDict: TfreqDict = {};
-  //   const arrToSort: [string, number][] = [];
-  //   order?.ingredients.forEach((id) => {
-  //     if (!freqDict[id]) {
-  //       freqDict[id] = 1;
-  //     } else {
-  //       freqDict[id] += 1;
-  //     }
-  //   });
-  //   Object.keys(freqDict).forEach((key) =>
-  //     arrToSort.push([key, freqDict[key]])
-  //   );
-  //   //return arrToSort.sort((x, y) => y[1] - x[1]);
-  //   return freqDict;
-  // };
-
   const getIngredientbyFreq = () => {
     type TfreqDict = {
       [name: string]: number;
@@ -99,18 +72,22 @@ const OrderContents: React.VFC = () => {
       const ingredient = ingredientsData.find((item) => item._id === id);
       if (ingredient?.type === 'bun') {
         return {
-          ...ingredient,
+          id: ingredient!._id,
+          image: ingredient!.image_mobile,
+          name: ingredient!.name,
+          price: ingredient!.price,
           count: 2,
         };
       }
       return {
-        ...ingredient,
-        count: ingredient ? freqDict[ingredient._id] : 0,
+        id: ingredient!._id,
+        image: ingredient!.image_mobile,
+        name: ingredient!.name,
+        price: ingredient!.price,
+        count: freqDict[ingredient!._id],
       };
     });
   };
-
-  console.log(getIngredientbyFreq());
 
   return (
     <li className={`${styles.orderContents__container}`}>
@@ -130,10 +107,30 @@ const OrderContents: React.VFC = () => {
       >
         Состав:
       </h2>
-      <ul className={`${styles.orderContents__ingredients} ${appStyles.scroll} mb-10`}>
+      <ul
+        className={`${styles.orderContents__ingredients} ${appStyles.scroll} mb-10`}
+      >
         {getIngredientbyFreq().map((ingredient) => (
-          <li key={ingredient._id}>
-            <img src={ingredient.image_mobile} alt={ingredient.name} />
+          <li
+            className={`${styles.orderContents__ingredient}`}
+            key={ingredient.id}
+          >
+            <div className={styles.orderContents__imageOverlay}>
+              <img
+                src={ingredient.image}
+                alt={ingredient.name}
+                className={styles.orderContents__image}
+              />
+            </div>
+            <span className="text text_type_main-default ml-4">
+              {ingredient.name}
+            </span>
+            <div className={`${styles.orderContents__price} mr-6`}>
+              <span className="text text text_type_digits-default mr-2 ml-6">
+                {`${ingredient.count} x ${ingredient.price}`}
+              </span>
+              <CurrencyIcon type="primary" />
+            </div>
           </li>
         ))}
       </ul>

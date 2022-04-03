@@ -20,6 +20,7 @@
 }
 
 .orderContents__ingredients {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-width: 640px;
@@ -29,11 +30,11 @@
   list-style: none;
 }
 
-.orderContents__imagesCount {
-  content: '';
-  position: absolute;
-  top: 18px;
-  left: 264px;
+.orderContents__ingredient {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .orderContents__imageOverlay {
@@ -42,7 +43,19 @@
   border-radius: 50%;
   width: 64px;
   height: 64px;
-  z-index: 5;
+  z-index: 1;
+}
+
+.orderContents__imageOverlay::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #131316;
+  z-index: -1;
 }
 
 .orderContents__image {
@@ -62,4 +75,6 @@
   display: flex;
   align-items: center;
   align-self: center;
+  justify-self: flex-end;
+  margin-left: auto;
 }

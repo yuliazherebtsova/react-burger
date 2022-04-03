@@ -9,7 +9,6 @@
   align-items: center;
   box-sizing: border-box;
   max-width: 720px;
-  max-height: 718px;
   background: var(--modal-background);
   border-radius: 40px;
   z-index: 10;

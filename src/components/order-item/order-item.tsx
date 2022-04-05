@@ -83,8 +83,6 @@ const OrderItem: React.VFC<IOrderItemProps> = ({
     [onOpenModal]
   );
 
-  console.log(`${pathname}/${id}`)
-
   return (
     <Link
       to={{

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback } from 'react';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { resetIngredients } from 'services/slices/ingredients';
@@ -9,12 +8,9 @@ import {
   selectIngredientsRequest,
 } from 'services/selectors/ingredients';
 import OrdersList from 'components/orders-list/orders-list';
-import { selectOrders, selectOrderToView } from 'services/selectors/orders';
-import Modal from 'components/modal/modal';
-import { resetOrderToView, setOrderToView } from 'services/slices/orders';
-import { useHistory } from 'react-router-dom';
+import { selectOrders } from 'services/selectors/orders';
+import { setOrderToView } from 'services/slices/orders';
 import { IOrderData } from 'services/types/data';
-import OrderContents from 'components/order-contents/order-contents';
 import styles from './orders-history.module.css';
 
 const OrdersHistoryPage: React.VFC = () => {
@@ -26,11 +22,7 @@ const OrdersHistoryPage: React.VFC = () => {
 
   const ingredientsFailed = useSelector(selectIngredientsFailed);
 
-  const orderToView = useSelector(selectOrderToView);
-
   const dispatch = useDispatch();
-
-  const history = useHistory();
 
   const handleOrderModalOpen = useCallback(
     (evt) => {
@@ -43,11 +35,6 @@ const OrdersHistoryPage: React.VFC = () => {
     },
     [dispatch, orders]
   );
-
-  const handleOrderModalClose = useCallback(() => {
-    dispatch(resetOrderToView());
-    history.replace('/profile/orders');
-  }, [dispatch, history]);
 
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
@@ -63,11 +50,6 @@ const OrdersHistoryPage: React.VFC = () => {
         onErrorModalClose={handleErrorModalClose}
       >
         <OrdersList onOpenModalWithOrder={handleOrderModalOpen}/>
-        {orderToView && (
-          <Modal onClose={handleOrderModalClose}>
-            <OrderContents />
-          </Modal>
-        )}
       </ErrorIndicator>
     </section>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback } from 'react';
 import { useDispatch } from 'services/types/hooks';
 import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
@@ -10,6 +11,8 @@ import {
   IFindDraggableElement,
   IMoveDraggableElement,
 } from 'components/burger-constructor/burger-constructor';
+import { Link, useLocation } from 'react-router-dom';
+import { TLocation } from 'components/app/app';
 import draggableItemStyles from './draggable-item.module.css';
 
 interface IDraggableItemProps {
@@ -19,7 +22,6 @@ interface IDraggableItemProps {
   name: string;
   price: number;
   onClickToIngredient: (
-    // eslint-disable-next-line no-unused-vars
     evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
   findDraggableElement: IFindDraggableElement;
@@ -37,6 +39,8 @@ const DraggableItem: React.VFC<IDraggableItemProps> = ({
   moveDraggableElement,
 }) => {
   const dispatch = useDispatch();
+
+  const location: TLocation = useLocation();
 
   const originalIndex = findDraggableElement(uid).draggableElementIndex;
 
@@ -73,7 +77,7 @@ const DraggableItem: React.VFC<IDraggableItemProps> = ({
   const handleIngredientDelete = useCallback(() => {
     dispatch(deleteElement(uid));
   }, [uid, dispatch]);
-
+  
   return (
     <li
       className={`${draggableItemStyles.draggableElement} 

@@ -1,4 +1,5 @@
 .indredient__container {
+  padding-top: 80px;
   height: 100vh;
   max-height: calc(100vh - 450px);
   display: flex;

@@ -19,9 +19,14 @@ import {
 import { selectOrderRequest } from 'services/selectors/order';
 import appStyles from 'components/app/app.module.css';
 import { selectUserData } from 'services/selectors/auth';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { uuidv4 } from 'modules/common/utils';
-import { Button, ConstructorElement, CurrencyIcon } from 'modules/common/components';
+import {
+  Button,
+  ConstructorElement,
+  CurrencyIcon,
+} from 'modules/common/components';
+import { TLocation } from 'components/app/app';
 import constructorStyles from './burger-constructor.module.css';
 
 interface IBurgerConstructorProps {
@@ -61,6 +66,8 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
   const { user } = useSelector(selectUserData);
 
   const history = useHistory();
+
+  const location: TLocation = useLocation();
 
   const dispatch = useDispatch();
 
@@ -158,30 +165,31 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
     }
   };
 
-  const onClickToIngredient = useCallback(
-    (evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) =>
-      onOpenModalWithIngredient(evt),
-    [onOpenModalWithIngredient]
-  );
-
   return (
     <section className="pt-25 pb-2 pl-4">
       <ul className={constructorElementsClass} ref={dropTarget}>
         {bunElement.type === 'bun' && (
-          <li
-            className={`${constructorStyles.constructor__bunElement} mr-4 mb-4`}
-            onClick={onClickToIngredient}
-            onKeyPress={onClickToIngredient}
-            data-id={bunElement._id}
+          <Link
+            to={{
+              pathname: `/ingredients/${bunElement._id}`,
+              state: { background: location },
+            }}
           >
-            <ConstructorElement
-              type="top"
-              text={`${bunElement.name} (верх)`}
-              price={bunElement.price}
-              thumbnail={bunElement.image}
-              isLocked
-            />
-          </li>
+            <li
+              className={`${constructorStyles.constructor__bunElement} mr-4 mb-4`}
+              onClick={onOpenModalWithIngredient}
+              onKeyPress={onOpenModalWithIngredient}
+              data-id={bunElement._id}
+            >
+              <ConstructorElement
+                type="top"
+                text={`${bunElement.name} (верх)`}
+                price={bunElement.price}
+                thumbnail={bunElement.image}
+                isLocked
+              />
+            </li>
+          </Link>
         )}
         <ul
           className={`${constructorStyles.constructor__nonBunElements} ${appStyles.scroll}`}
@@ -196,34 +204,48 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
             </p>
           )}
           {draggableElements.map((item) => (
-            <DraggableItem
-              key={item.uid}
-              id={item._id}
-              uid={item.uid}
-              name={item.name}
-              price={item.price}
-              image={item.image}
-              onClickToIngredient={onClickToIngredient}
-              findDraggableElement={findDraggableElement}
-              moveDraggableElement={moveDraggableElement}
-            />
+            <Link
+              to={{
+                pathname: `/ingredients/${item._id}`,
+                state: { background: location },
+              }}
+            >
+              <DraggableItem
+                key={item.uid}
+                id={item._id}
+                uid={item.uid}
+                name={item.name}
+                price={item.price}
+                image={item.image}
+                onClickToIngredient={onOpenModalWithIngredient}
+                findDraggableElement={findDraggableElement}
+                moveDraggableElement={moveDraggableElement}
+              />
+            </Link>
           ))}
         </ul>
         {bunElement.type === 'bun' && (
-          <li
-            className={`${constructorStyles.constructor__bunElement} mt-4 mr-4`}
-            onClick={onClickToIngredient}
-            onKeyPress={onClickToIngredient}
-            data-id={bunElement._id}
+          <Link
+            to={{
+              pathname: `/ingredients/${bunElement._id}`,
+              state: { background: location },
+            }}
           >
-            <ConstructorElement
-              type="bottom"
-              text={`${bunElement.name} (низ)`}
-              price={bunElement.price}
-              thumbnail={bunElement.image}
-              isLocked
-            />
-          </li>
+            <li
+              className={`${constructorStyles.constructor__bunElement} mt-4 mr-4`}
+              onClick={onOpenModalWithIngredient}
+              onKeyPress={onOpenModalWithIngredient}
+              data-id={bunElement._id}
+            >
+              <ConstructorElement
+                type="bottom"
+                text={`${bunElement.name} (низ)`}
+                price={bunElement.price}
+                thumbnail={bunElement.image}
+                isLocked
+              />
+            </li>
+          </Link>
         )}
       </ul>
       <div

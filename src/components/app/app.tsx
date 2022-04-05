@@ -1,8 +1,10 @@
+/* eslint-disable no-use-before-define */
 /**
- * * 1. Роутинг страницы информации о заказе
+ * * 1. Роутинг страницы информации о заказе (profile/orders/)
  * * 2. Защищенные маршруты
  * * 3..Тренажер (веб-сокет)
  * * 4. Веб-сокет с авторизацией
+ * * 5. Клик по модальному окну в конструкторе
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -16,7 +18,7 @@ import ResetPasswordPage from 'pages/reset-password';
 import NotFound404 from 'pages/not-found-404';
 import ProfilePage from 'pages/profile';
 import { getUserData } from 'services/thunks/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from 'components/protected-route/protected-route';
 import Modal from 'components/modal/modal';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
@@ -27,10 +29,14 @@ import getOrdersData from 'services/thunks/orders';
 import getIngredientsData from 'services/thunks/ingredients';
 import OrderContentsPage from 'pages/order-contents';
 import OrderContents from 'components/order-contents/order-contents';
+import { selectIngredientToView } from 'services/selectors/ingredients';
+import { selectOrderToView } from 'services/selectors/orders';
+import { resetOrderToView } from 'services/slices/orders';
 
 export type TLocationState = {
-  from?: string;
-  // eslint-disable-next-line no-use-before-define
+  from?: { 
+    pathname?: string 
+  };
   background?: TLocation;
 };
 
@@ -44,6 +50,10 @@ export type TLocation = {
 
 const App: React.VFC = () => {
   const dispatch = useDispatch();
+
+  const ingredientToView = useSelector(selectIngredientToView);
+
+  const orderToView = useSelector(selectOrderToView);
 
   const history = useHistory();
 
@@ -68,6 +78,11 @@ const App: React.VFC = () => {
   const handleIngredientModalClose = useCallback(() => {
     dispatch(resetIngredientToView());
     history.replace('/');
+  }, [dispatch, history]);
+
+  const handleOrderModalClose = useCallback(() => {
+    dispatch(resetOrderToView());
+    history.goBack();
   }, [dispatch, history]);
 
   return (
@@ -101,27 +116,30 @@ const App: React.VFC = () => {
         <Route path="/feed/:id" exact>
           <OrderContentsPage />
         </Route>
+        <Route path="/profile/orders/:id" exact>
+          <OrderContentsPage />
+        </Route>
         <Route>
           <NotFound404 />
         </Route>
       </Switch>
-      {background && (
+      {ingredientToView && background && (
         <Route path="/ingredients/:id">
           <Modal onClose={handleIngredientModalClose}>
             <IngredientDetails />
           </Modal>
         </Route>
       )}
-      {background && (
-        <Route path="/profile/orders:id">
-          <Modal onClose={handleIngredientModalClose}>
+      {orderToView && background && (
+        <Route path="/profile/orders/:id">
+          <Modal onClose={handleOrderModalClose}>
             <OrderContents />
           </Modal>
         </Route>
       )}
-      {background && (
+      {orderToView && background && (
         <Route path="/feed/:id">
-          <Modal onClose={handleIngredientModalClose}>
+          <Modal onClose={handleOrderModalClose}>
             <OrderContents />
           </Modal>
         </Route>

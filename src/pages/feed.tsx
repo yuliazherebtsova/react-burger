@@ -1,23 +1,16 @@
 import React, { useCallback } from 'react';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { useSelector, useDispatch } from 'services/types/hooks';
-import { selectOrders, selectOrderToView } from 'services/selectors/orders';
+import { selectOrders } from 'services/selectors/orders';
 import OrdersList from 'components/orders-list/orders-list';
 import OrdersDashboard from 'components/orders-dashboard/orders-dashboard';
-import { useHistory } from 'react-router-dom';
 import { IOrderData } from 'services/types/data';
-import OrderContents from 'components/order-contents/order-contents';
-import Modal from 'components/modal/modal';
 import { resetIngredients } from 'services/slices/ingredients';
-import { resetOrderToView, setOrderToView } from 'services/slices/orders';
+import { setOrderToView } from 'services/slices/orders';
 import styles from './feed.module.css';
 
 const FeedPage: React.VFC = () => {
   const orders = useSelector(selectOrders);
-
-  const orderToView = useSelector(selectOrderToView);
-
-  const history = useHistory();
 
   const dispatch = useDispatch();
   
@@ -33,11 +26,6 @@ const FeedPage: React.VFC = () => {
     [dispatch, orders]
   );
 
-  const handleOrderModalClose = useCallback(() => {
-    dispatch(resetOrderToView());
-    history.replace('/feed');
-  }, [dispatch, history]);
-
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
   }, [dispatch]);
@@ -52,11 +40,6 @@ const FeedPage: React.VFC = () => {
         onErrorModalClose={handleErrorModalClose}
       >
         <OrdersList onOpenModalWithOrder={handleOrderModalOpen}/>
-        {orderToView && (
-          <Modal onClose={handleOrderModalClose}>
-            <OrderContents />
-          </Modal>
-        )}
         <OrdersDashboard/>
       </ErrorIndicator>
     </main>

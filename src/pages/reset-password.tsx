@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import {
   selectResetPasswordFailed,
   selectResetPasswordRequest,
@@ -10,6 +10,7 @@ import { resetPassword } from 'services/thunks/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { resetAuth } from 'services/slices/auth';
 import { Button, Input, PasswordInput } from 'modules/common/components';
+import { TLocationState } from 'components/app/app';
 import styles from './forms.module.css';
 
 const ResetPasswordPage: React.VFC = () => {
@@ -19,10 +20,7 @@ const ResetPasswordPage: React.VFC = () => {
 
   const resetPasswordFailed = useSelector(selectResetPasswordFailed);
 
-  const history = useHistory();
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { state }: any = history.location;
+  const { state } = useLocation<TLocationState>();
 
   const dispatch = useDispatch();
 
@@ -49,7 +47,7 @@ const ResetPasswordPage: React.VFC = () => {
     return <Redirect to={state?.from || '/'} />;
   }
 
-  if (!user && state?.from.pathname !== '/forgot-password') {
+  if (!user && state.from?.pathname !== '/forgot-password') {
     return <Redirect to="/login" />;
   }
 

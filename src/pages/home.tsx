@@ -5,10 +5,8 @@ import Modal from 'components/modal/modal';
 import BurgerIngredients from 'components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from 'components/burger-constructor/burger-constructor';
 import OrderDetails from 'components/order-details/order-details';
-import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import {
-  resetIngredientToView,
   resetIngredients,
   setIngredientToView,
 } from 'services/slices/ingredients';
@@ -19,16 +17,12 @@ import {
   selectIngredients,
   selectIngredientsFailed,
   selectIngredientsRequest,
-  selectIngredientToView,
 } from 'services/selectors/ingredients';
 import { selectOrderFailed, selectOrderNumber } from 'services/selectors/order';
-import { useHistory } from 'react-router-dom';
 import styles from './home.module.css';
 
 const HomePage: React.VFC = () => {
   const ingredients = useSelector(selectIngredients);
-
-  const ingredientToView = useSelector(selectIngredientToView);
 
   const ingredientsRequest = useSelector(selectIngredientsRequest);
 
@@ -40,10 +34,9 @@ const HomePage: React.VFC = () => {
 
   const dispatch = useDispatch();
 
-  const history = useHistory();
-
   const handleIngredientModalOpen = useCallback(
     (evt) => {
+      console.log('handleIngredientModalOpen')
       const eventTarget = evt.target as HTMLDivElement;
       if (!eventTarget.closest('.constructor-element__action')) {
         // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап
@@ -59,16 +52,11 @@ const HomePage: React.VFC = () => {
     [dispatch, ingredients]
   );
 
-  const handleIngredientModalClose = useCallback(() => {
-    dispatch(resetIngredientToView());
-    history.replace('/');
-  }, [dispatch, history]);
-
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());
   }, [dispatch]);
 
-  const handleOrderModalClose = useCallback(() => {
+  const handleOrderDetailsModalClose = useCallback(() => {
     dispatch(resetOrder());
   }, [dispatch]);
 
@@ -89,18 +77,13 @@ const HomePage: React.VFC = () => {
             onOpenModalWithIngredient={handleIngredientModalOpen}
           />
         </DndProvider>
-        {ingredientToView && (
-          <Modal onClose={handleIngredientModalClose}>
-            <IngredientDetails />
-          </Modal>
-        )}
         <ErrorIndicator
           hasError={orderFailed}
           hasData={Boolean(orderNumber)}
-          onErrorModalClose={handleOrderModalClose}
+          onErrorModalClose={handleErrorModalClose}
           errorMessage="Пожалуйста, повторите попытку позднее"
         >
-          <Modal onClose={handleOrderModalClose}>
+          <Modal onClose={handleOrderDetailsModalClose}>
             <OrderDetails />
           </Modal>
         </ErrorIndicator>

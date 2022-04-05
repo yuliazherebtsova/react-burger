@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetAuth } from 'services/slices/auth';
 import {
@@ -14,6 +14,7 @@ import {
 } from 'services/selectors/auth';
 import { signUp } from 'services/thunks/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
+import { TLocationState } from 'components/app/app';
 import styles from './forms.module.css';
 
 const RegisterPage: VFC = () => {
@@ -22,11 +23,8 @@ const RegisterPage: VFC = () => {
   const registerRequest = useSelector(selectRegisterRequest);
 
   const registerFailed = useSelector(selectRegisterFailed);
-
-  const history = useHistory();
   
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { state }: any = history.location;
+  const { state } = useLocation<TLocationState>();
 
   const dispatch = useDispatch();
 

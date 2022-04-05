@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useSelector } from 'services/types/hooks';
@@ -10,7 +11,6 @@ import styles from './orders-list.module.css';
 
 interface IOrderListProps {
   onOpenModalWithOrder: (
-    // eslint-disable-next-line no-unused-vars
     evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
 }

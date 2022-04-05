@@ -68,23 +68,24 @@ const OrderContents: React.VFC = () => {
         freqDict[id] += 1;
       }
     });
+
     return Array.from(new Set(order?.ingredients)).map((id) => {
       const ingredient = ingredientsData.find((item) => item._id === id);
       if (ingredient?.type === 'bun') {
         return {
-          id: ingredient!._id,
-          image: ingredient!.image_mobile,
-          name: ingredient!.name,
-          price: ingredient!.price,
+          id: ingredient?._id,
+          image: ingredient?.image_mobile,
+          name: ingredient?.name,
+          price: ingredient?.price,
           count: 2,
         };
       }
       return {
-        id: ingredient!._id,
-        image: ingredient!.image_mobile,
-        name: ingredient!.name,
-        price: ingredient!.price,
-        count: freqDict[ingredient!._id],
+        id: ingredient?._id,
+        image: ingredient?.image_mobile,
+        name: ingredient?.name,
+        price: ingredient?.price,
+        count: ingredient?._id ? freqDict[ingredient._id] : 0,
       };
     });
   };
@@ -113,7 +114,7 @@ const OrderContents: React.VFC = () => {
         {getIngredientbyFreq().map((ingredient) => (
           <li
             className={`${styles.orderContents__ingredient}`}
-            key={ingredient.id}
+            key={ingredient?.id}
           >
             <div className={styles.orderContents__imageOverlay}>
               <img

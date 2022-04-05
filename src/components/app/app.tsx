@@ -25,6 +25,7 @@ import IngredientPage from 'pages/ingredient';
 import FeedPage from 'pages/feed';
 import getOrdersData from 'services/thunks/orders';
 import getIngredientsData from 'services/thunks/ingredients';
+import OrderContentsPage from 'pages/order-contents';
 import OrderContents from 'components/order-contents/order-contents';
 
 export type TLocationState = {
@@ -98,14 +99,14 @@ const App: React.VFC = () => {
           <IngredientPage />
         </Route>
         <Route path="/feed/:id" exact>
-          <OrderContents />
+          <OrderContentsPage />
         </Route>
         <Route>
           <NotFound404 />
         </Route>
       </Switch>
       {background && (
-        <Route path="/ingredients:id">
+        <Route path="/ingredients/:id">
           <Modal onClose={handleIngredientModalClose}>
             <IngredientDetails />
           </Modal>
@@ -113,6 +114,13 @@ const App: React.VFC = () => {
       )}
       {background && (
         <Route path="/profile/orders:id">
+          <Modal onClose={handleIngredientModalClose}>
+            <OrderContents />
+          </Modal>
+        </Route>
+      )}
+      {background && (
+        <Route path="/feed/:id">
           <Modal onClose={handleIngredientModalClose}>
             <OrderContents />
           </Modal>

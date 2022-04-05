@@ -1,7 +1,6 @@
 .orderContents__container {
   width: 100%;
   height: 100%;
-  background: var(--order-item-background);
   border-radius: 40px;
   list-style: none;
 }

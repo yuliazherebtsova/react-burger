@@ -83,10 +83,12 @@ const OrderItem: React.VFC<IOrderItemProps> = ({
     [onOpenModal]
   );
 
+  console.log(`${pathname}/${id}`)
+
   return (
     <Link
       to={{
-        pathname: `/${pathname}/${id}`,
+        pathname: `${pathname}/${id}`,
         // This is the trick! This link sets
         // the `background` in location state.
         state: { background: location },

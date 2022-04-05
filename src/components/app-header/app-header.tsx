@@ -1,8 +1,8 @@
 import React from 'react';
 import NavigationLink from 'components/navigation-link/navigation-link';
-import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 import { selectUserData } from 'services/selectors/auth';
+import { Logo } from 'modules/common/components';
 import styles from './app-header.module.css';
 
 const AppHeader: React.VFC = () => {

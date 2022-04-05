@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOverlay from '../modal-overlay/modal-overlay';
+import { CloseIcon } from 'modules/common/components';
+import { portal } from 'utils/constants';
+import ModalOverlay from 'components/modal-overlay/modal-overlay';
 import modalStyles from './modal.module.css';
-import { portal } from '../../utils/constants';
 
 interface IModalProps {
   title?: string;

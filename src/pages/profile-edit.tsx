@@ -1,9 +1,4 @@
 import React, { useCallback, useRef, useState } from 'react';
-import {
-  Button,
-  EmailInput,
-  Input,
-} from '@ya.praktikum/react-developer-burger-ui-components';
 import { selectUserData, selectUserDataRequest } from 'services/selectors/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { editUserData } from 'services/thunks/auth';
@@ -13,6 +8,7 @@ import {
   setUserPassword,
 } from 'services/slices/auth';
 import { useHistory } from 'react-router-dom';
+import { Button, EmailInput, Input } from 'modules/common/components';
 import styles from './profile.module.css';
 
 const ProfileEditPage: React.VFC = () => {

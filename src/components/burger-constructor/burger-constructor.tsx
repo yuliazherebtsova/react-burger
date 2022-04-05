@@ -3,17 +3,11 @@ import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'services/types/hooks';
 import { useDrop } from 'react-dnd';
 import {
-  ConstructorElement,
-  CurrencyIcon,
-  Button,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import {
   addBunElement,
   addNonBunElement,
   udpadeElementsOrder,
 } from 'services/slices/constructor';
 import postOrder from 'services/thunks/order';
-import { v4 as uuidv4 } from 'uuid';
 import DraggableItem from 'components/draggable-item/draggable-item';
 import { IIngredientsData } from 'services/types/data';
 import { selectIngredients } from 'services/selectors/ingredients';
@@ -26,11 +20,12 @@ import { selectOrderRequest } from 'services/selectors/order';
 import appStyles from 'components/app/app.module.css';
 import { selectUserData } from 'services/selectors/auth';
 import { useHistory } from 'react-router-dom';
+import { uuidv4 } from 'modules/common/utils';
+import { Button, ConstructorElement, CurrencyIcon } from 'modules/common/components';
 import constructorStyles from './burger-constructor.module.css';
 
 interface IBurgerConstructorProps {
   onOpenModalWithIngredient: (
-    // eslint-disable-next-line no-unused-vars
     evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
 }

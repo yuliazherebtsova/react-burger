@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { TLocation } from 'components/app/app';
@@ -14,6 +13,7 @@ import getHowLongAgoDate from 'utils/date-time';
 import { selectIngredients } from 'services/selectors/ingredients';
 import appStyles from 'components/app/app.module.css';
 import { IOrderData } from 'services/types/data';
+import { CurrencyIcon } from 'modules/common/components';
 import styles from './order-contents.module.css';
 
 export interface IStatusToText {

@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback } from 'react';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IIngredientsData } from 'services/types/data';
 import getHowLongAgoDate from 'utils/date-time';
 import { selectIngredients } from 'services/selectors/ingredients';
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { TLocation } from 'components/app/app';
 import { getOrderPrice } from 'services/selectors/orders';
+import { CurrencyIcon } from 'modules/common/components';
 import styles from './order-item.module.css';
 
 interface IOrderItemProps {
@@ -18,7 +19,6 @@ interface IOrderItemProps {
   number: number;
   createdAt: string;
   onOpenModal: (
-    // eslint-disable-next-line no-unused-vars
     evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
 }

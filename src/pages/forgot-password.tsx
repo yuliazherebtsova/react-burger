@@ -1,8 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Button,
-  Input,
-} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -15,6 +11,7 @@ import { forgotPassword } from 'services/thunks/auth';
 import { resetAuth } from 'services/slices/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { TLocationState } from 'components/app/app';
+import { Button, Input } from 'modules/common/components';
 import styles from './forms.module.css';
 
 const ForgotPasswordPage: React.VFC = () => {

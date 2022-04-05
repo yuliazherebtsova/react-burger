@@ -1,9 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Button,
-  Input,
-  PasswordInput,
-} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import {
   selectResetPasswordFailed,
@@ -14,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from 'services/thunks/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { resetAuth } from 'services/slices/auth';
+import { Button, Input, PasswordInput } from 'modules/common/components';
 import styles from './forms.module.css';
 
 const ResetPasswordPage: React.VFC = () => {

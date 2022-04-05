@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback } from 'react';
 import { useSelector } from 'services/types/hooks';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredient from 'components/burger-ingredient/burger-ingredient';
 import { selectIngredients } from 'services/selectors/ingredients';
 import appStyles from 'components/app/app.module.css';
+import { Tab } from 'modules/common/components';
 import ingredientsStyles from './burger-ingredients.module.css';
 
 interface IBurgerIngredientsProps {

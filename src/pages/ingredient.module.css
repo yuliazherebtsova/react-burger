@@ -1,9 +1,8 @@
 .indredient__container {
-  padding-top: 80px;
+  padding-top: 30px;
   height: 100vh;
-  max-height: calc(100vh - 450px);
+  max-height: calc(100vh - 520px);
   display: flex;
   justify-content: center;
   align-items: center;
 }
-

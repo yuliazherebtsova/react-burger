@@ -11,8 +11,6 @@ import {
   IFindDraggableElement,
   IMoveDraggableElement,
 } from 'components/burger-constructor/burger-constructor';
-import { Link, useLocation } from 'react-router-dom';
-import { TLocation } from 'components/app/app';
 import draggableItemStyles from './draggable-item.module.css';
 
 interface IDraggableItemProps {
@@ -39,8 +37,6 @@ const DraggableItem: React.VFC<IDraggableItemProps> = ({
   moveDraggableElement,
 }) => {
   const dispatch = useDispatch();
-
-  const location: TLocation = useLocation();
 
   const originalIndex = findDraggableElement(uid).draggableElementIndex;
 

@@ -15,9 +15,7 @@ function getHowLongAgoDate(dateString: string): string {
   ) {
     return `Сегодня, ${formatter.format(otherDate)}`;
   }
-  if (
-    diffDays < 2
-  ) {
+  if (diffDays < 2) {
     return `Вчера, ${formatter.format(otherDate)}`;
   }
   return `${diffDays} дн. назад, ${formatter.format(otherDate)}`;

@@ -1,10 +1,7 @@
 /* eslint-disable no-use-before-define */
 /**
- * * 1. Роутинг страницы информации о заказе (profile/orders/)
- * * 2. Защищенные маршруты
- * * 3..Тренажер (веб-сокет)
- * * 4. Веб-сокет с авторизацией
- * * 5. Клик по модальному окну в конструкторе
+ * * 1.Тренажер (веб-сокет)
+ * * 2. Веб-сокет с авторизацией
  */
 
 import React, { useCallback, useEffect } from 'react';
@@ -107,9 +104,9 @@ const App: React.VFC = () => {
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
         </Route>
-        <Route path="/profile/orders/:id" exact>
+        <ProtectedRoute path="/profile/orders/:id" exact>
           <OrderContentsPage />
-        </Route>
+        </ProtectedRoute>
         <ProtectedRoute path="/profile">
           <ProfilePage />
         </ProtectedRoute>

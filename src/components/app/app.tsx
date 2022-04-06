@@ -107,6 +107,9 @@ const App: React.VFC = () => {
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
         </Route>
+        <Route path="/profile/orders/:id" exact>
+          <OrderContentsPage />
+        </Route>
         <ProtectedRoute path="/profile">
           <ProfilePage />
         </ProtectedRoute>
@@ -114,9 +117,6 @@ const App: React.VFC = () => {
           <IngredientPage />
         </Route>
         <Route path="/feed/:id" exact>
-          <OrderContentsPage />
-        </Route>
-        <Route path="/profile/orders/:id" exact>
           <OrderContentsPage />
         </Route>
         <Route>

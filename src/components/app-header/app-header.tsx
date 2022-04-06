@@ -21,7 +21,7 @@ const AppHeader: React.VFC = () => {
                 Лента заказов
               </NavigationLink>
             </li>
-            <li className={styles.header__logo}>
+            <li className={`${styles.header__logo} ml-25`}>
               <NavigationLink title="Лого">
                 <Logo />
               </NavigationLink>

@@ -48,6 +48,7 @@ const OrderContents: React.VFC = () => {
     const splittedUrl = location.pathname.split('/');
     const idFromUrl = splittedUrl[splittedUrl.length - 1];
     order = orders.find((item: IOrderData) => item._id === idFromUrl);
+    console.log(order)
   }
 
   const orderPrice = useSelector(getOrderPrice(order!.ingredients));
@@ -113,8 +114,8 @@ const OrderContents: React.VFC = () => {
       >
         {getIngredientbyFreq().map((ingredient) => (
           <li
-            className={`${styles.orderContents__ingredient}`}
-            key={ingredient?.id}
+            className={`${styles.orderContents__ingredient} mb-4`}
+            key={ingredient.id}
           >
             <div className={styles.orderContents__imageOverlay}>
               <img

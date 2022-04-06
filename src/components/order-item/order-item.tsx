@@ -83,6 +83,8 @@ const OrderItem: React.VFC<IOrderItemProps> = ({
     [onOpenModal]
   );
 
+  console.log(pathname, location)
+
   return (
     <Link
       to={{
@@ -145,7 +147,7 @@ const OrderItem: React.VFC<IOrderItemProps> = ({
             <span className="text text text_type_digits-default pr-2">
               {orderPrice}
             </span>
-            <CurrencyIcon type="primary" />
+            <CurrencyIcon type="primary"/>
           </div>
         </div>
       </li>

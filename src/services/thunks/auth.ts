@@ -84,6 +84,7 @@ export const getUserData: AppThunk = () => (dispatch) => {
         dispatch(updateUserSuccess(res.user));
       } else {
         dispatch(updateUserFailed());
+        getUserData();
       }
     })
     .catch((err) => {

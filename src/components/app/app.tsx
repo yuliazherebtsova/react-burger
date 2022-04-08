@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /**
- * * 1.Тренажер (веб-сокет)
- * * 2. Веб-сокет с авторизацией
+ * * 2.Тренажер (веб-сокет, 2-я часть)
+ * * 3. Веб-сокет с авторизацией
  */
 
 import React, { useCallback, useEffect } from 'react';

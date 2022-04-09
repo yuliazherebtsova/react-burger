@@ -23,6 +23,8 @@ import OrderContents from 'components/order-contents/order-contents';
 import { selectIngredientToView } from 'services/selectors/ingredients';
 import { selectOrderToView } from 'services/selectors/orders';
 import {
+  getAllOrdersWsStart,
+  getOrdersWsClosed,
   resetOrderToView,
 } from 'services/slices/orders';
 
@@ -65,6 +67,10 @@ const App: React.VFC = () => {
   useEffect(() => {
     dispatch(getUserData());
     dispatch(getIngredientsData());
+    dispatch(getAllOrdersWsStart());
+    return () => {
+      dispatch(getOrdersWsClosed());
+    };
   }, [dispatch]);
 
   const handleIngredientModalClose = useCallback(() => {

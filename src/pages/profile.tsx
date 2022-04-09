@@ -58,7 +58,7 @@ const ProfilePage: React.VFC = () => {
           <OrdersHistoryPage />
         </Route>
         <Route>
-          <NotFound404 />
+          <NotFound404/>
         </Route>
       </Switch>
     </main>

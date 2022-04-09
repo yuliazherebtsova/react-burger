@@ -1,9 +1,4 @@
 /* eslint-disable no-use-before-define */
-/**
- * * 2.Тренажер (веб-сокет, 2-я часть)
- * * 3. Веб-сокет с авторизацией
- */
-
 import React, { useCallback, useEffect } from 'react';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import HomePage from 'pages/home';
@@ -22,17 +17,18 @@ import IngredientDetails from 'components/ingredient-details/ingredient-details'
 import { resetIngredientToView } from 'services/slices/ingredients';
 import IngredientPage from 'pages/ingredient';
 import FeedPage from 'pages/feed';
-import getOrdersData from 'services/thunks/orders';
 import getIngredientsData from 'services/thunks/ingredients';
 import OrderContentsPage from 'pages/order-contents';
 import OrderContents from 'components/order-contents/order-contents';
 import { selectIngredientToView } from 'services/selectors/ingredients';
 import { selectOrderToView } from 'services/selectors/orders';
-import { resetOrderToView } from 'services/slices/orders';
+import {
+  resetOrderToView,
+} from 'services/slices/orders';
 
 export type TLocationState = {
-  from?: { 
-    pathname?: string 
+  from?: {
+    pathname?: string;
   };
   background?: TLocation;
 };
@@ -68,7 +64,6 @@ const App: React.VFC = () => {
 
   useEffect(() => {
     dispatch(getUserData());
-    dispatch(getOrdersData());
     dispatch(getIngredientsData());
   }, [dispatch]);
 

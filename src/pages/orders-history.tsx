@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { resetIngredients } from 'services/slices/ingredients';
 import { useSelector, useDispatch } from 'services/types/hooks';
@@ -9,7 +9,11 @@ import {
 } from 'services/selectors/ingredients';
 import OrdersList from 'components/orders-list/orders-list';
 import { selectOrders } from 'services/selectors/orders';
-import { setOrderToView } from 'services/slices/orders';
+import {
+  getOrdersWsClosed,
+  getUserOrdersWsStart,
+  setOrderToView,
+} from 'services/slices/orders';
 import { IOrderData } from 'services/types/data';
 import styles from './orders-history.module.css';
 
@@ -23,6 +27,13 @@ const OrdersHistoryPage: React.VFC = () => {
   const ingredientsFailed = useSelector(selectIngredientsFailed);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserOrdersWsStart());
+    return () => {
+      dispatch(getOrdersWsClosed());
+    };
+  }, [dispatch]);
 
   const handleOrderModalOpen = useCallback(
     (evt) => {
@@ -49,7 +60,7 @@ const OrdersHistoryPage: React.VFC = () => {
         errorMessage="Пожалуйста, повторите попытку позднее"
         onErrorModalClose={handleErrorModalClose}
       >
-        <OrdersList onOpenModalWithOrder={handleOrderModalOpen}/>
+        <OrdersList onOpenModalWithOrder={handleOrderModalOpen} />
       </ErrorIndicator>
     </section>
   );

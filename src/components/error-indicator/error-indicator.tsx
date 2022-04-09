@@ -20,7 +20,8 @@ const ErrorIndicator: React.FC<IErrorIndicatorProps> = ({
   <>
     {isLoading && <Loader />}
     {hasError && (
-      <Modal title="Произошла ошибка" onClose={onErrorModalClose}>
+      <Modal onClose={onErrorModalClose}>
+        <h1 className="text text_type_main-large">Произошла ошибка</h1>
         <p className="text text_type_main-medium text_color_inactive pt-10">
           {errorMessage}
         </p>

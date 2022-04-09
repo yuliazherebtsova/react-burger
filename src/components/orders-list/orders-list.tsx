@@ -16,11 +16,18 @@ interface IOrderListProps {
 }
 
 const OrdersList: React.VFC<IOrderListProps> = ({ onOpenModalWithOrder }) => {
-  const orders = useSelector(selectOrders);
-
   const { pathname }: TLocation = useLocation();
 
   const isFeedPage = pathname === '/feed';
+
+  const isProfilePage = pathname === '/profile/orders';
+
+  let orders = useSelector(selectOrders);
+
+  // разворачиваем массив, т.к. заказы пользователя приходят с сервера в обратном хронологическом порядке
+  if (isProfilePage) {
+    orders = [...orders].reverse();
+  }
 
   return (
     <section>

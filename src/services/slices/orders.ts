@@ -3,15 +3,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type TOrdersState = {
   wsConnected: boolean;
+  wsError: boolean;
   orders: Array<IOrderData>;
   orderToView: IOrderData | null | undefined;
   total: number;
   totalToday: number;
-  error?: Event;
 };
 
 const ordersInitialState: TOrdersState = {
   wsConnected: false,
+  wsError: false,
   orders: [],
   orderToView: null,
   total: 0,
@@ -22,17 +23,21 @@ const ordersSlice = createSlice({
   name: 'orders',
   initialState: ordersInitialState,
   reducers: {
-    getOrdersWsStart(state) {
+    getAllOrdersWsStart(state) {
+      return state;
+    },
+    getUserOrdersWsStart(state) {
       return state;
     },
     getOrdersWsSuccess(state) {
-      return state;
+      state.wsConnected = true;
     },
     getOrdersWsError(state) {
-      return state;
+      state.wsConnected = false;
+      state.wsError = true;
     },
     getOrdersWsClosed(state) {
-      return state;
+      state.wsConnected = false;
     },
     getOrders(state, action: PayloadAction<IOrdersData>) {
       state.orders = action.payload.orders;
@@ -52,7 +57,8 @@ const ordersSlice = createSlice({
 });
 
 export const {
-  getOrdersWsStart,
+  getAllOrdersWsStart,
+  getUserOrdersWsStart,
   getOrdersWsSuccess,
   getOrdersWsError,
   getOrdersWsClosed,

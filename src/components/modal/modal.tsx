@@ -6,7 +6,6 @@ import ModalOverlay from 'components/modal-overlay/modal-overlay';
 import modalStyles from './modal.module.css';
 
 interface IModalProps {
-  title?: string;
   onClose: () => void;
 }
 

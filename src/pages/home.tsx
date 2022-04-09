@@ -36,7 +36,6 @@ const HomePage: React.VFC = () => {
 
   const handleIngredientModalOpen = useCallback(
     (evt) => {
-      console.log('handleIngredientModalOpen')
       const eventTarget = evt.target as HTMLDivElement;
       if (!eventTarget.closest('.constructor-element__action')) {
         // если в конструкторе нажата кнопка "Удалить ингредиент", не открывать попап

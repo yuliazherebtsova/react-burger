@@ -1,19 +1,38 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { useSelector, useDispatch } from 'services/types/hooks';
-import { selectOrders } from 'services/selectors/orders';
+import {
+  selectOrders,
+  selectWsConnected,
+  selectWsError,
+} from 'services/selectors/orders';
 import OrdersList from 'components/orders-list/orders-list';
 import OrdersDashboard from 'components/orders-dashboard/orders-dashboard';
 import { IOrderData } from 'services/types/data';
-import { resetIngredients } from 'services/slices/ingredients';
-import { setOrderToView } from 'services/slices/orders';
+import {
+  getAllOrdersWsStart,
+  getOrdersWsClosed,
+  resetOrders,
+  setOrderToView,
+} from 'services/slices/orders';
 import styles from './feed.module.css';
 
 const FeedPage: React.VFC = () => {
   const orders = useSelector(selectOrders);
 
   const dispatch = useDispatch();
-  
+
+  const ordersConnected = useSelector(selectWsConnected);
+
+  const ordersFailed = useSelector(selectWsError);
+
+  useEffect(() => {
+    dispatch(getAllOrdersWsStart());
+    return () => {
+      dispatch(getOrdersWsClosed());
+    };
+  }, [dispatch]);
+
   const handleOrderModalOpen = useCallback(
     (evt) => {
       const eventTarget = evt.target as HTMLDivElement;
@@ -27,20 +46,20 @@ const FeedPage: React.VFC = () => {
   );
 
   const handleErrorModalClose = useCallback(() => {
-    dispatch(resetIngredients());
+    dispatch(resetOrders());
   }, [dispatch]);
 
   return (
     <main className={styles.feedPage}>
       <ErrorIndicator
-        isLoading={false}
-        hasError={false}
+        isLoading={!ordersConnected && !ordersFailed}
+        hasError={ordersFailed}
         hasData={Boolean(orders?.length)}
         errorMessage="Пожалуйста, повторите попытку позднее"
         onErrorModalClose={handleErrorModalClose}
       >
-        <OrdersList onOpenModalWithOrder={handleOrderModalOpen}/>
-        <OrdersDashboard/>
+        <OrdersList onOpenModalWithOrder={handleOrderModalOpen} />
+        <OrdersDashboard />
       </ErrorIndicator>
     </main>
   );

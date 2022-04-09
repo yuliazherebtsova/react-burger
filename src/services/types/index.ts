@@ -13,3 +13,13 @@ export type AppThunk<TReturn = void> = ActionCreator<
 
 // Типизация метода dispatch для проверки на валидность отправляемого экшена
 export type AppDispatch = typeof store.dispatch;
+
+
+export type TWsOrdersActions = {
+  wsAllOrdersInit: string,
+  wsUserOrdersInit: string,
+  onOpen: string,
+  onClose: string,
+  onError: string,
+  onMessage: string,
+};

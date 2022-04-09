@@ -48,7 +48,6 @@ const OrderContents: React.VFC = () => {
     const splittedUrl = location.pathname.split('/');
     const idFromUrl = splittedUrl[splittedUrl.length - 1];
     order = orders.find((item: IOrderData) => item._id === idFromUrl);
-    console.log(order)
   }
 
   const orderPrice = useSelector(getOrderPrice(order!.ingredients));

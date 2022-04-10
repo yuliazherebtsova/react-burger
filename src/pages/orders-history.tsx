@@ -1,30 +1,28 @@
 import React, { useCallback, useEffect } from 'react';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
-import { resetIngredients } from 'services/slices/ingredients';
 import { useSelector, useDispatch } from 'services/types/hooks';
-import {
-  selectIngredients,
-  selectIngredientsFailed,
-  selectIngredientsRequest,
-} from 'services/selectors/ingredients';
 import OrdersList from 'components/orders-list/orders-list';
-import { selectOrders } from 'services/selectors/orders';
+import {
+  selectOrders,
+  selectWsConnected,
+  selectWsError,
+} from 'services/selectors/orders';
 import {
   getOrdersWsClosed,
   getUserOrdersWsStart,
+  resetOrders,
   setOrderToView,
 } from 'services/slices/orders';
 import { IOrderData } from 'services/types/data';
 import styles from './orders-history.module.css';
 
 const OrdersHistoryPage: React.VFC = () => {
-  const ingredients = useSelector(selectIngredients);
 
   const orders = useSelector(selectOrders);
 
-  const ingredientsRequest = useSelector(selectIngredientsRequest);
+  const ordersConnected = useSelector(selectWsConnected);
 
-  const ingredientsFailed = useSelector(selectIngredientsFailed);
+  const ordersFailed = useSelector(selectWsError);
 
   const dispatch = useDispatch();
 
@@ -48,15 +46,15 @@ const OrdersHistoryPage: React.VFC = () => {
   );
 
   const handleErrorModalClose = useCallback(() => {
-    dispatch(resetIngredients());
+    dispatch(resetOrders());
   }, [dispatch]);
 
   return (
     <section className={styles.ordersHistory__container}>
       <ErrorIndicator
-        isLoading={ingredientsRequest}
-        hasError={ingredientsFailed}
-        hasData={Boolean(ingredients?.length)}
+        isLoading={!ordersConnected && !ordersFailed}
+        hasError={ordersFailed}
+        hasData={Boolean(orders?.length)}
         errorMessage="Пожалуйста, повторите попытку позднее"
         onErrorModalClose={handleErrorModalClose}
       >

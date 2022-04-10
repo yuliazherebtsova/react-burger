@@ -47,7 +47,6 @@ const LoginPage: React.VFC = () => {
     dispatch(resetAuth());
   }, [dispatch]);
 
-
   if (user) {
     return (
       <Redirect

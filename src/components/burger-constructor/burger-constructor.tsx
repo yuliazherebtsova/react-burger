@@ -209,6 +209,7 @@ const BurgerConstructor: React.VFC<IBurgerConstructorProps> = ({
                 pathname: `/ingredients/${item._id}`,
                 state: { background: location },
               }}
+              key={item._id}
             >
               <DraggableItem
                 key={item.uid}

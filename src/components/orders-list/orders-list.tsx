@@ -30,7 +30,7 @@ const OrdersList: React.VFC<IOrderListProps> = ({ onOpenModalWithOrder }) => {
   }
 
   return (
-    <section>
+    <>
       <h1 className="text text_type_main-large mt-10 mb-5">
         {isFeedPage && 'Лента заказов'}
       </h1>
@@ -48,7 +48,7 @@ const OrdersList: React.VFC<IOrderListProps> = ({ onOpenModalWithOrder }) => {
           />
         ))}
       </ul>
-    </section>
+    </>
   );
 };
 

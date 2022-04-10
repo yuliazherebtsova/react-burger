@@ -2,8 +2,6 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { TLocation } from 'components/app/app';
 import {
   getOrderPrice,
   selectOrders,
@@ -14,6 +12,7 @@ import { selectIngredients } from 'services/selectors/ingredients';
 import appStyles from 'components/app/app.module.css';
 import { IOrderData } from 'services/types/data';
 import { CurrencyIcon } from 'modules/common/components';
+import { useParams } from 'react-router-dom';
 import styles from './order-contents.module.css';
 
 export interface IStatusToText {
@@ -40,14 +39,12 @@ const OrderContents: React.VFC = () => {
 
   const ingredientsData = useSelector(selectIngredients);
 
-  const location: TLocation = useLocation();
-
   let order = useSelector(selectOrderToView);
 
+  const { id }: { id: string } = useParams();
+
   if (!order) {
-    const splittedUrl = location.pathname.split('/');
-    const idFromUrl = splittedUrl[splittedUrl.length - 1];
-    order = orders.find((item: IOrderData) => item._id === idFromUrl);
+    order = orders.find((item: IOrderData) => item._id === id);
   }
 
   const orderPrice = useSelector(getOrderPrice(order!.ingredients));
@@ -61,16 +58,16 @@ const OrderContents: React.VFC = () => {
       [name: string]: number;
     };
     const freqDict: TfreqDict = {};
-    order?.ingredients.forEach((id) => {
-      if (!freqDict[id]) {
-        freqDict[id] = 1;
+    order?.ingredients.forEach((orderId) => {
+      if (!freqDict[orderId]) {
+        freqDict[orderId] = 1;
       } else {
-        freqDict[id] += 1;
+        freqDict[orderId] += 1;
       }
     });
 
-    return Array.from(new Set(order?.ingredients)).map((id) => {
-      const ingredient = ingredientsData.find((item) => item._id === id);
+    return Array.from(new Set(order?.ingredients)).map((orderId) => {
+      const ingredient = ingredientsData.find((item) => item._id === orderId);
       if (ingredient?.type === 'bun') {
         return {
           id: ingredient?._id,

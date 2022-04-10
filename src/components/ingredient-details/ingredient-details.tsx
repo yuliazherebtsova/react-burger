@@ -1,6 +1,5 @@
-import { TLocation } from 'components/app/app';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   selectIngredients,
   selectIngredientToView,
@@ -13,14 +12,10 @@ const IngredientDetails: React.VFC = () => {
 
   let ingredient = useSelector(selectIngredientToView);
 
-  const location: TLocation = useLocation();
+  const { id }: { id: string } = useParams();
 
   if (!ingredient) {
-    const splittedUrl = location.pathname.split('/');
-    const idFromUrl = splittedUrl[splittedUrl.length - 1];
-    ingredient = ingredients.find(
-      (item: IIngredientsData) => item._id === idFromUrl
-    );
+    ingredient = ingredients.find((item: IIngredientsData) => item._id === id);
   }
 
   return (
@@ -79,4 +74,3 @@ const IngredientDetails: React.VFC = () => {
 };
 
 export default IngredientDetails;
-

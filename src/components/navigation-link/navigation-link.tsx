@@ -59,8 +59,10 @@ const NavigationLink: React.FC<INavigationLinkProps> = ({
       activeClassName={styles.navigation__link_active}
       onClick={onClick}
     >
-      {titleToIcon[title]}
-      <span className={`text text_type_main-${size} ml-2`}>{children}</span>
+      <>
+        {titleToIcon[title]}
+        <span className={`text text_type_main-${size} ml-2`}>{children}</span>
+      </>
     </NavLink>
   );
 };

@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
 import { resetIngredients } from 'services/slices/ingredients';
-import getIngredientsData from 'services/thunks/ingredients';
 import { useSelector, useDispatch } from 'services/types/hooks';
 import {
   selectIngredients,
@@ -19,10 +18,6 @@ const IngredientPage: React.VFC = () => {
   const ingredientsFailed = useSelector(selectIngredientsFailed);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredientsData());
-  }, [dispatch]);
 
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetIngredients());

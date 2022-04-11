@@ -1,0 +1,9 @@
+.orders__list {
+  position: relative;
+  max-height: calc(100vh - 230px);
+  height: 100vh;
+  grid-column: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  list-style: none;
+}

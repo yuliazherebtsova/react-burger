@@ -1,0 +1,9 @@
+.order__container {
+  padding-top: 80px;
+  display: flex;
+  height: 100vh;
+  max-height: calc(100vh - 450px);
+  max-width: 640px;
+  margin: 0 auto;
+}
+

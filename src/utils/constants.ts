@@ -1,3 +1,5 @@
 export const BASE_URL = 'https://norma.nomoreparties.space/api';
-// параметры для работы с api сервера
+// урл для работы с REST API сервера
+export const WS_URL_ORDERS = 'wss://norma.nomoreparties.space';
+// урл для подключения к серверу по WebSocket
 export const portal = document.getElementById('react-portal') as HTMLDivElement;

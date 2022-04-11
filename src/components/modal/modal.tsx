@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOverlay from '../modal-overlay/modal-overlay';
+import { CloseIcon } from 'modules/common/components';
+import { portal } from 'utils/constants';
+import ModalOverlay from 'components/modal-overlay/modal-overlay';
 import modalStyles from './modal.module.css';
-import { portal } from '../../utils/constants';
 
 interface IModalProps {
-  title?: string;
   onClose: () => void;
 }
 
@@ -22,7 +21,7 @@ const Modal: React.FC<IModalProps> = ({ children, onClose }) => {
   return ReactDOM.createPortal(
     <>
       <ModalOverlay onClose={onClose} />
-      <div className={`${modalStyles.modal} pt-15 pr-30 pb-15 pl-30`}>
+      <div className={`${modalStyles.modal} p-10`}>
         <div className={modalStyles.modal__closeIcon}>
           <CloseIcon onClick={onClose} type="primary" />
         </div>

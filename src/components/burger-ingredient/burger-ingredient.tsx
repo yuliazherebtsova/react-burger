@@ -50,12 +50,14 @@ const BurgerIngredient: React.VFC<IBurgerIngredientProps> = ({
   );
 
   return (
-    <Link to={{
-      pathname: `/ingredients/${id}`,
-      // This is the trick! This link sets
-      // the `background` in location state.
-      state: { background: location }
-    }}>
+    <Link
+      to={{
+        pathname: `/ingredients/${id}`,
+        // This is the trick! This link sets
+        // the `background` in location state.
+        state: { background: location },
+      }}
+    >
       <li
         className={`${ingredientStyles.ingredient__сard} 
       ${isDragging && ingredientStyles.ingredient__сard_isDragging} mb-8`}

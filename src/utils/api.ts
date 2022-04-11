@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable-next-line class-methods-use-this */
@@ -125,26 +126,24 @@ export default class Api implements IApi {
   getUserData(): Promise<any> {
     const accessToken = getCookie('accessToken');
     this.headers.set('authorization', accessToken);
-    return (
-      fetch(`${this.baseUrl}/auth/user`, {
-        headers: this.headers,
-      })
-        .then(this.checkResponse)
-        // eslint-disable-next-line consistent-return
-        .catch((err) => {
-          if (err.message === 'jwt expired') {
-            return this.postUpdateToken().then((res2) => {
-              localStorage.setItem('refreshToken', res2.refreshToken);
-              setCookie('accessToken', res2.accessToken);
-              this.headers.set('authorization', res2.accessToken);
-              fetch(`${this.baseUrl}/auth/user`, {
-                headers: this.headers,
-              })
-                .then(this.checkResponse)
-            });
-          } 
-        })
-    );
+    return fetch(`${this.baseUrl}/auth/user`, {
+      headers: this.headers,
+    })
+      .then(this.checkResponse)
+      .catch((err) => {
+        if (err.message === 'jwt expired') {
+          return this.postUpdateToken().then((res) => {
+            localStorage.setItem('refreshToken', res.refreshToken);
+            setCookie('accessToken', res.accessToken);
+            this.headers.set('authorization', res.accessToken);
+            fetch(`${this.baseUrl}/auth/user`, {
+              headers: this.headers,
+            })
+              .then(this.checkResponse)
+          });
+        }
+        return Promise.reject(err);
+      });
   }
 
   /**
@@ -223,8 +222,7 @@ export default class Api implements IApi {
       body: JSON.stringify({
         token,
       }),
-    })
-      .then(this.checkResponse)
+    }).then(this.checkResponse);
   }
 }
 

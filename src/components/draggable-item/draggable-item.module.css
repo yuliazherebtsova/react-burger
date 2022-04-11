@@ -1,10 +1,11 @@
 .draggableElement {
   display: flex;
   align-items: center;
+  width: 100%;
   cursor: pointer;
 }
 
-.draggableElement:last-of-type {
+a:last-of-type .draggableElement:last-of-type {
   margin-bottom: 0;
 }
 

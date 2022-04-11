@@ -1,0 +1,79 @@
+.orderContents__container {
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  list-style: none;
+}
+
+.orderContents__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderContents__status_progress {
+  color: var(--order-item-status-progress);
+}
+
+.orderContents__status_cancel {
+  color: var(--order-item-status-cancel);
+}
+
+.orderContents__ingredients {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 640px;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  list-style: none;
+}
+
+.orderContents__ingredient {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.orderContents__imageOverlay {
+  position: relative;
+  background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  z-index: 1;
+}
+
+.orderContents__imageOverlay::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #131316;
+  z-index: -1;
+}
+
+.orderContents__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.orderContents__details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.orderContents__price {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-self: flex-end;
+  margin-left: auto;
+}

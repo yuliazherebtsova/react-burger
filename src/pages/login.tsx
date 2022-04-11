@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectLoginFailed,
@@ -14,6 +14,7 @@ import {
 import { resetAuth } from 'services/slices/auth';
 import { signIn } from 'services/thunks/auth';
 import ErrorIndicator from 'components/error-indicator/error-indicator';
+import { TLocationState } from 'components/app/app';
 import formStyles from './forms.module.css';
 
 const LoginPage: React.VFC = () => {
@@ -22,11 +23,8 @@ const LoginPage: React.VFC = () => {
   const loginRequest = useSelector(selectLoginRequest);
 
   const loginFailed = useSelector(selectLoginFailed);
-
-  const history = useHistory();
   
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { state }: any = history.location;
+  const { state } = useLocation<TLocationState>();
 
   const dispatch = useDispatch();
 
@@ -48,7 +46,6 @@ const LoginPage: React.VFC = () => {
   const handleErrorModalClose = useCallback(() => {
     dispatch(resetAuth());
   }, [dispatch]);
-
 
   if (user) {
     return (

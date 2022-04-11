@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback } from 'react';
 import { useDispatch } from 'services/types/hooks';
 import { useDrag, DragPreviewImage, useDrop } from 'react-dnd';
@@ -19,7 +20,6 @@ interface IDraggableItemProps {
   name: string;
   price: number;
   onClickToIngredient: (
-    // eslint-disable-next-line no-unused-vars
     evt: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
   ) => void;
   findDraggableElement: IFindDraggableElement;
@@ -73,7 +73,7 @@ const DraggableItem: React.VFC<IDraggableItemProps> = ({
   const handleIngredientDelete = useCallback(() => {
     dispatch(deleteElement(uid));
   }, [uid, dispatch]);
-
+  
   return (
     <li
       className={`${draggableItemStyles.draggableElement} 

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { selectUserData } from 'services/selectors/auth';
 
-const ProtectedRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
+const ProtectedRoute: React.FC<RouteProps & {children: React.ReactNode}> = ({ children, ...rest }) => {
   const { user } = useSelector(selectUserData);
 
   return (

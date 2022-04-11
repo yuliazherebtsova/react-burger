@@ -1,27 +1,29 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useSelector } from 'react-redux';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { Redirect, Route, RouteProps, useLocation } from 'react-router-dom';
 import { selectUserData } from 'services/selectors/auth';
 
-const ProtectedRoute: React.FC<RouteProps & {children: React.ReactNode}> = ({ children, ...rest }) => {
+const ProtectedRoute: React.FC<RouteProps & { children: React.ReactNode }> = ({
+  children,
+  ...rest
+}) => {
   const { user } = useSelector(selectUserData);
 
+  const location = useLocation<{ from: { pathname: string } }>();
+
   return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        user ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
+    <Route {...rest}>
+      {user ? (
+        children 
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: location },
+          }}
+        />
+      )}
+    </Route>
   );
 };
 

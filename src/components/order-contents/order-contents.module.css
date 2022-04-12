@@ -20,8 +20,6 @@
 
 .orderContents__ingredients {
   position: relative;
-  display: flex;
-  flex-direction: column;
   min-width: 640px;
   max-height: 320px;
   overflow-y: auto;

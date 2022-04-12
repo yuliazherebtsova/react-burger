@@ -5,6 +5,11 @@
   align-items: center;
   list-style: none;
   cursor: pointer;
+  transition: transform .5s ease;
+}
+
+.ingredient__сard:hover {
+  transform: scale(1.02);
 }
 
 .ingredient__сard_isDragging {

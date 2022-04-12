@@ -134,7 +134,7 @@ export default class Api implements IApi {
         if (err.message === 'jwt expired') {
           return this.postUpdateToken().then((res) => {
             localStorage.setItem('refreshToken', res.refreshToken);
-            setCookie('accessToken', res.accessToken);
+            setCookie('accessToken', res.accessToken, { path: '/' });
             this.headers.set('authorization', res.accessToken);
             fetch(`${this.baseUrl}/auth/user`, {
               headers: this.headers,

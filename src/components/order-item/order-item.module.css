@@ -1,8 +1,14 @@
 .orderItem__container {
+  margin: 16px;
   background: var(--order-item-background);
   border-radius: 40px;
   list-style: none;
   cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.orderItem__container:hover {
+  transform: scale(1.01);
 }
 
 .orderItem__header {

@@ -52,5 +52,5 @@ export function setCookie(
 
 // Удаление данных из куки по имени
 export function deleteCookie(name: string): void {
-  setCookie(name, '', { expires: -1 });
+  setCookie(name, '', { expires: -1, path: '/' });
 }

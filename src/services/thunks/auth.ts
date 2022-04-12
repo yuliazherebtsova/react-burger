@@ -29,7 +29,7 @@ export const signUp: AppThunk = (userData: TUserData) => (dispatch) => {
     .then((res) => {
       if (res && res.success) {
         localStorage.setItem('refreshToken', res.refreshToken);
-        setCookie('accessToken', res.accessToken);
+        setCookie('accessToken', res.accessToken, { path: '/' });
         dispatch(postRegisterSuccess(res.user));
       } else {
         dispatch(postRegisterFailed());
@@ -48,7 +48,7 @@ export const signIn: AppThunk = (userData: TUserData) => (dispatch) => {
     .then((res) => {
       if (res && res.success) {
         localStorage.setItem('refreshToken', res.refreshToken);
-        setCookie('accessToken', res.accessToken);
+        setCookie('accessToken', res.accessToken, { path: '/' });
         dispatch(postLoginSuccess(res.user));
       } else {
         dispatch(postLoginFailed());
